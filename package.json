@@ -4,7 +4,7 @@
   "description": "strategy game",
   "main": "index.html",
   "scripts": {
-    "start": "parcel index.html --open",
+    "start": "parcel index.html --port 8000",
     "build": "parcel build index.html"
   },
   "repository": "https://github.com/peacefullatom/galaxy.git",
