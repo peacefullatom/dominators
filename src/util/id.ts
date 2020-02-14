@@ -1,4 +1,5 @@
 import { idSource } from './id.const';
+import RandomValue from './randomValue';
 
 const ID = (): string => {
   const id: string[] = [];
@@ -7,8 +8,7 @@ const ID = (): string => {
     .sort(() => (Math.random() > 0.5 ? -1 : +1));
 
   for (let i = 0; i < 6; i++) {
-    const position = Math.floor(Math.random() * template.length);
-    id.push(template[position]);
+    id.push(RandomValue(template));
   }
 
   return id.join('');
