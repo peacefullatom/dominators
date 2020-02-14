@@ -1,8 +1,8 @@
-export const planetSizeMin = 0.4;
-export const planetSizeMax = 4;
+export const planetSizeMin = 1;
+export const planetSizeMax = 7;
 
 export const planetAbundanceMin = 1;
-export const planetAbundanceMax = 13;
+export const planetAbundanceMax = 12;
 
-export const planetGrowthRateMin = 0.1;
-export const planetGrowthRateMax = 3;
+export const planetGrowthRateMin = 1;
+export const planetGrowthRateMax = 30;
