@@ -1,5 +1,3 @@
-import { atmosphereType } from '../common/atmosphere.types';
-import { temperatureType } from '../common/temperature.types';
 import { TGovernor } from '../planetarySystem/governor/governor.types';
 
 /** species  */
@@ -9,19 +7,19 @@ export type TSpecies = {
   /** name of the species */
   name: string;
   /** list of suitable atmospheres */
-  atmosphere: atmosphereType[];
+  atmosphere: number[];
   /** range of suitable temperatures */
-  temperature: temperatureType[];
+  temperature: number[];
   /** non aerobics can live in any atmosphere */
   nonAerobic: boolean;
   /** underground dwellers can live in any temperature */
   undergroundDwellers: boolean;
   /** link to the governor appointed to lead construction */
-  construction: TGovernor;
+  construction?: TGovernor;
   /** link to the governor appointed to lead espionage */
-  espionage: TGovernor;
+  espionage?: TGovernor;
   /** link to the governor appointed to lead battles */
-  fleet: TGovernor;
+  fleet?: TGovernor;
   /** link to the governor appointed to lead research */
-  research: TGovernor;
+  research?: TGovernor;
 };
