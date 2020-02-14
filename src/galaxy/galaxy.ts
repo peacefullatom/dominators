@@ -8,8 +8,8 @@ import Species from './species/species';
 const Galaxy = (): TGalaxy => ({
   id: ID(),
   name: RandomValue(galaxyName),
-  planetarySystems: Array.from({ length: 2 }, () => PlanetarySystem()),
-  species: Array.from({ length: 2 }, () => Species()),
+  planetarySystems: Array.from({ length: 100 }, () => PlanetarySystem()),
+  species: Array.from({ length: 10 }, () => Species()),
 });
 
 export default Galaxy;
