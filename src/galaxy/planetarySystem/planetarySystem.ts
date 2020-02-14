@@ -1,7 +1,7 @@
 import ID from '../../util/id';
 import Name from '../../util/name';
 import RandomNumber from '../../util/randomNumber';
-import Governor from './governor/governor';
+import { TSpecies } from '../species/species.types';
 import Planet from './planet/planet';
 import {
   planetarySystemName,
@@ -14,27 +14,29 @@ import { TPlanetarySystem } from './planetarySystem.types';
 import Portal from './portal/portal';
 import Star from './star/star';
 
-const PlanetarySystem = (): TPlanetarySystem => {
+const PlanetarySystem = (speciesData: TSpecies[]): TPlanetarySystem => {
   const name = Name(planetarySystemName);
-  return {
-    id: ID(),
-    name,
-    governor: Governor(),
-    planets: Array.from(
-      { length: RandomNumber(planetarySystemSizeMax, planetarySystemSizeMin) },
-      (value, index) => Planet(index, name)
-    ),
-    portals: Array.from(
-      {
-        length: RandomNumber(
-          planetarySystemPortalsMax,
-          planetarySystemPortalsMin
-        ),
-      },
-      value => Portal(``, ``)
-    ),
-    star: Star(name),
-  };
+  const species = Array.from(
+    { length: speciesData.length },
+    (value, index) => ({
+      discovered: false,
+      speciesId: speciesData[index].id,
+    })
+  );
+  const planets = Array.from(
+    { length: RandomNumber(planetarySystemSizeMax, planetarySystemSizeMin) },
+    (value, index) => Planet(index, name)
+  );
+  const portals = Array.from(
+    {
+      length: RandomNumber(
+        planetarySystemPortalsMax,
+        planetarySystemPortalsMin
+      ),
+    },
+    value => Portal(``, ``)
+  );
+  return { id: ID(), name, species, planets, portals, star: Star(name) };
 };
 
 export default PlanetarySystem;

@@ -14,12 +14,15 @@ new Promise<TGalaxy>(resolve => {
     .map(s => s.portals.length)
     .reduce((total, num) => total + num);
 
+  (document as any).galaxy = galaxy;
+
   const app = document.getElementById('app');
 
   if (app) {
     app.innerHTML = `Galaxy v 1.0.0<br>`;
     app.innerHTML += `Generation time: ${end.getTime() -
       start.getTime()}ms<br>`;
+    app.innerHTML += `Galaxy name: ${galaxy.name}<br>`;
     app.innerHTML += `Planetary systems: ${galaxy.planetarySystems.length}<br>`;
     app.innerHTML += `Planets: ${planets}<br>`;
     app.innerHTML += `Portals: ${portals}<br>`;
