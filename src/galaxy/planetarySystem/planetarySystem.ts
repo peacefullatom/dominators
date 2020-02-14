@@ -14,8 +14,21 @@ import { TPlanetarySystem } from './planetarySystem.types';
 import Portal from './portal/portal';
 import Star from './star/star';
 
-const PlanetarySystem = (speciesData: TSpecies[]): TPlanetarySystem => {
-  const name = Name(planetarySystemName);
+const generateName = (usedNames: string[]): string => {
+  let name = Name(planetarySystemName);
+  if (usedNames.indexOf(name) !== -1) {
+    while (usedNames.indexOf(name) === -1) {
+      name = Name(planetarySystemName);
+    }
+  }
+  return name;
+};
+
+const PlanetarySystem = (
+  speciesData: TSpecies[],
+  usedNames: string[]
+): TPlanetarySystem => {
+  const name = generateName(usedNames);
   const species = Array.from(
     { length: speciesData.length },
     (value, index) => ({
