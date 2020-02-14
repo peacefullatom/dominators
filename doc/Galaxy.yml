@@ -1,0 +1,155 @@
+Galaxy:
+  Description: the galaxy structure
+  Type: object
+  ID:
+    Description: id of the galaxy
+    Type: string
+  Name:
+    Description: name of the galaxy
+    Type: string
+  Planetary system:
+    Description: list of planetary systems available
+    Type: array
+    ID:
+      Description: id of the planetary system
+      Type: string
+    Name:
+      Description: name of the planetary system
+      Type: string
+    Discovered:
+      Description: list of species who have visited this planetary system
+      Type: string[]
+    Governor:
+      Description: description of the local governor
+      Type: object
+      ID:
+        Description: id of the governor
+        Type: string
+      Avatar:
+        Description: image of the governor
+        Type: string
+      Construction:
+        Description: construction management skill
+        Type: number
+      Espionage:
+        Description: level of espionage
+        Type: number
+      Fleet:
+        Description: fleet management skill
+        Type: number
+      Research:
+        Description: research management skill
+        Type: number
+    Star:
+      Description: the star of the planetary system
+      Type: object
+      ID:
+        Description: id of the star
+        Type: string
+      Class:
+        Description: spectral class of the star
+        Type: number
+    Planets:
+      Description: planets list
+      Type: array
+      ID:
+        Description: id of the planet
+        Type: string
+      Name:
+        Description: name of the planet
+        Type: string
+      HomePlanet:
+        Description: home planet of species
+        Type: boolean
+      Species:
+        Description: id of the owner species of the planet
+        Type: string
+      Size:
+        Description: size of the planet
+        Type: number
+      Abundance:
+        Description: the abundance of the planet
+        Type: number
+        Perks: affects the growth rate and rate of generation of
+          construction point
+      Atmosphere:
+        Description: planets atmosphere
+        Type: number[]
+        Perks: affects the growth rate
+      Temperature:
+        Description: average temperature on the planet
+        Type: number[]
+        Perks: affects the growth rate
+      Population:
+        Description: the current amount of the species on the planet
+        Type: number
+      InitialPopulation:
+        Description: the initial maximum amount of the species on the planet
+        Type: number
+      MaximumPopulation:
+        Description: the current maximum population of the species on the planet
+        Type: number
+      GrowthRate:
+        Description: current rate of increase of population per cycle
+        Type: number
+      InitialGrowthRate:
+        Description: initial rate of increase of population per cycle
+        Type: number
+      EspionagePoints:
+        Description: amount of espionage points per cycle
+        Type: number
+      ConstructionPoints:
+        Description: amount of construction points per cycle
+        Type: number
+      ResearchPoints:
+        Description: amount of research points per cycle
+        Type: number
+      Facilities:
+        Description: list of facilities on the planet
+        Type: number
+    Portals:
+      Description: portals list
+      Type: array
+      Portal:
+        Description: wormhole to another planetary system
+        ID:
+          Description: id of the portal
+          Type: string
+        Name:
+          Description: name of the connected planetary system
+          Type: string
+  Species:
+    Description: list of the species in the galaxy
+    Type: array
+    ID:
+      Description: id of the species
+      Type: string
+    Name:
+      Description: name of the species
+      Type: string
+    Atmosphere:
+      Description: list of suitable atmospheres
+      Type: number
+    Temperature:
+      Description: range of suitable temperatures
+      Type: number
+    Non Aerobics:
+      Description: don't need an atmosphere
+      Type: bool
+      Perks: cancels an Atmosphere penalty
+    Underground Dwellers:
+      Description: can live underground
+      Type: bool
+      Perks: cancels a Temperature penalty
+    Construction:
+      Description: global modifier of construction points generated per cycle (link to the governor)
+      Type: object
+    Espionage:
+      Description: global modifier of espionage points generated per cycle (link to the governor)
+      Type: object
+    Fleet:
+      Description: global modifier of fleet mastery points that is used during the combat (link to the governor)
+      Type: object
+    Research:
+      Description: global modifier of research points generated per cycle (link to the governor)
+      Type: object
