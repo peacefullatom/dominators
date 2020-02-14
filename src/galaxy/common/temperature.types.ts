@@ -1,13 +1,14 @@
-/** types of temperature ranges */
-export const enum temperatureType {
-  /** very cold */
-  VeryCold,
-  /** cold */
-  Cold,
-  /** neutral (sol) */
-  Neutral,
-  /** hot */
-  Hot,
-  /** very hot */
-  VeryHot,
-}
+import {
+  temperatureCold,
+  temperatureHot,
+  temperatureNeutral,
+  temperatureVeryCold,
+  temperatureVeryHot,
+} from './temperature.const';
+
+export type TTemperatureType =
+  | typeof temperatureVeryCold
+  | typeof temperatureCold
+  | typeof temperatureNeutral
+  | typeof temperatureHot
+  | typeof temperatureVeryHot;
