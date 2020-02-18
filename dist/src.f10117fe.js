@@ -172,30 +172,7 @@ var ID = function ID() {
 };
 
 exports.default = ID;
-},{"./id.const":"src/util/id.const.ts","./randomValue":"src/util/randomValue.ts"}],"src/util/generateEntities.ts":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-/** generate data from source */
-
-var GenerateEntities = function GenerateEntities(type, length, options) {
-  if (options instanceof Array && options.length) {
-    return options.map(function (source) {
-      return new type(source);
-    });
-  }
-
-  return Array.from({
-    length: length
-  }, function () {
-    return new type();
-  });
-};
-
-exports.default = GenerateEntities;
-},{}],"src/util/randomNumber.ts":[function(require,module,exports) {
+},{"./id.const":"src/util/id.const.ts","./randomValue":"src/util/randomValue.ts"}],"src/util/randomNumber.ts":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -208,48 +185,7 @@ var RandomNumber = function RandomNumber(to, from) {
 };
 
 exports.default = RandomNumber;
-},{}],"src/galaxy/system/governor/governor.ts":[function(require,module,exports) {
-"use strict";
-
-var __importDefault = this && this.__importDefault || function (mod) {
-  return mod && mod.__esModule ? mod : {
-    "default": mod
-  };
-};
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var id_1 = __importDefault(require("../../../util/id"));
-/** minimum/default skill level */
-
-/** maximum skill level */
-
-
-exports.governorSkillLevelDefault = 0.02;
-exports.governorSkillLevelMaximum = 0.25;
-
-var Governor =
-/** @class */
-function () {
-  function Governor(options) {
-    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p;
-
-    this.id = (_b = (_a = options) === null || _a === void 0 ? void 0 : _a.id, _b !== null && _b !== void 0 ? _b : id_1.default());
-    this.avatar = (_d = (_c = options) === null || _c === void 0 ? void 0 : _c.avatar, _d !== null && _d !== void 0 ? _d : "");
-    this.construction = (_f = (_e = options) === null || _e === void 0 ? void 0 : _e.construction, _f !== null && _f !== void 0 ? _f : exports.governorSkillLevelDefault);
-    this.espionage = (_h = (_g = options) === null || _g === void 0 ? void 0 : _g.espionage, _h !== null && _h !== void 0 ? _h : exports.governorSkillLevelDefault);
-    this.fleet = (_k = (_j = options) === null || _j === void 0 ? void 0 : _j.fleet, _k !== null && _k !== void 0 ? _k : exports.governorSkillLevelDefault);
-    this.population = (_m = (_l = options) === null || _l === void 0 ? void 0 : _l.population, _m !== null && _m !== void 0 ? _m : exports.governorSkillLevelDefault);
-    this.research = (_p = (_o = options) === null || _o === void 0 ? void 0 : _o.research, _p !== null && _p !== void 0 ? _p : exports.governorSkillLevelDefault);
-  }
-
-  return Governor;
-}();
-
-exports.default = Governor;
-},{"../../../util/id":"src/util/id.ts"}],"src/galaxy/atmosphere/atmosphere.ts":[function(require,module,exports) {
+},{}],"src/galaxy/atmosphere/atmosphere.ts":[function(require,module,exports) {
 "use strict";
 
 var __spreadArrays = this && this.__spreadArrays || function () {
@@ -383,7 +319,107 @@ function () {
 }();
 
 exports.default = Temperature;
-},{"../../util/id":"src/util/id.ts","../../util/randomValue":"src/util/randomValue.ts"}],"src/galaxy/system/planet/facilities/facility/facility.ts":[function(require,module,exports) {
+},{"../../util/id":"src/util/id.ts","../../util/randomValue":"src/util/randomValue.ts"}],"src/galaxy/species/species.ts":[function(require,module,exports) {
+"use strict";
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var id_1 = __importDefault(require("../../util/id"));
+
+var atmosphere_1 = __importDefault(require("../atmosphere/atmosphere"));
+
+var temperature_1 = __importDefault(require("../temperature/temperature"));
+
+var Species =
+/** @class */
+function () {
+  function Species(options) {
+    var _a, _b, _c, _d, _e, _f, _g, _h;
+
+    this.id = (_b = (_a = options) === null || _a === void 0 ? void 0 : _a.id, _b !== null && _b !== void 0 ? _b : id_1.default());
+    this.name = (_d = (_c = options) === null || _c === void 0 ? void 0 : _c.name, _d !== null && _d !== void 0 ? _d : "");
+    this.flag = (_f = (_e = options) === null || _e === void 0 ? void 0 : _e.flag, _f !== null && _f !== void 0 ? _f : "");
+    this.atmosphere = new atmosphere_1.default((_g = options) === null || _g === void 0 ? void 0 : _g.atmosphere);
+    this.temperature = new temperature_1.default((_h = options) === null || _h === void 0 ? void 0 : _h.temperature);
+  }
+
+  return Species;
+}();
+
+exports.default = Species;
+},{"../../util/id":"src/util/id.ts","../atmosphere/atmosphere":"src/galaxy/atmosphere/atmosphere.ts","../temperature/temperature":"src/galaxy/temperature/temperature.ts"}],"src/util/generateEntities.ts":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+/** generate data from source */
+
+var GenerateEntities = function GenerateEntities(type, length, options) {
+  if (options instanceof Array && options.length) {
+    return options.map(function (source) {
+      return new type(source);
+    });
+  }
+
+  return Array.from({
+    length: length
+  }, function () {
+    return new type();
+  });
+};
+
+exports.default = GenerateEntities;
+},{}],"src/galaxy/system/governor/governor.ts":[function(require,module,exports) {
+"use strict";
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var id_1 = __importDefault(require("../../../util/id"));
+/** minimum/default skill level */
+
+/** maximum skill level */
+
+
+exports.governorSkillLevelDefault = 0.02;
+exports.governorSkillLevelMaximum = 0.25;
+
+var Governor =
+/** @class */
+function () {
+  function Governor(options) {
+    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p;
+
+    this.id = (_b = (_a = options) === null || _a === void 0 ? void 0 : _a.id, _b !== null && _b !== void 0 ? _b : id_1.default());
+    this.avatar = (_d = (_c = options) === null || _c === void 0 ? void 0 : _c.avatar, _d !== null && _d !== void 0 ? _d : "");
+    this.construction = (_f = (_e = options) === null || _e === void 0 ? void 0 : _e.construction, _f !== null && _f !== void 0 ? _f : exports.governorSkillLevelDefault);
+    this.espionage = (_h = (_g = options) === null || _g === void 0 ? void 0 : _g.espionage, _h !== null && _h !== void 0 ? _h : exports.governorSkillLevelDefault);
+    this.fleet = (_k = (_j = options) === null || _j === void 0 ? void 0 : _j.fleet, _k !== null && _k !== void 0 ? _k : exports.governorSkillLevelDefault);
+    this.population = (_m = (_l = options) === null || _l === void 0 ? void 0 : _l.population, _m !== null && _m !== void 0 ? _m : exports.governorSkillLevelDefault);
+    this.research = (_p = (_o = options) === null || _o === void 0 ? void 0 : _o.research, _p !== null && _p !== void 0 ? _p : exports.governorSkillLevelDefault);
+  }
+
+  return Governor;
+}();
+
+exports.default = Governor;
+},{"../../../util/id":"src/util/id.ts"}],"src/galaxy/system/planet/facilities/facility/facility.ts":[function(require,module,exports) {
 "use strict";
 
 var __importDefault = this && this.__importDefault || function (mod) {
@@ -714,22 +750,26 @@ Object.defineProperty(exports, "__esModule", {
 
 var id_1 = __importDefault(require("../util/id"));
 
+var species_1 = __importDefault(require("./species/species"));
+
 var system_1 = __importDefault(require("./system/system"));
 
 var Galaxy =
 /** @class */
 function () {
   function Galaxy(options) {
-    var _a, _b, _c, _d;
+    var _a, _b, _c, _d, _e, _f, _g, _h;
 
     this.id = (_b = (_a = options) === null || _a === void 0 ? void 0 : _a.id, _b !== null && _b !== void 0 ? _b : id_1.default());
     this.systemsCount = (_d = (_c = options) === null || _c === void 0 ? void 0 : _c.systemsCount, _d !== null && _d !== void 0 ? _d : 10);
-    this.systems = this.generateSystems();
+    this.systems = this.generateSystems((_e = options) === null || _e === void 0 ? void 0 : _e.systems);
+    this.speciesCount = (_g = (_f = options) === null || _f === void 0 ? void 0 : _f.speciesCount, _g !== null && _g !== void 0 ? _g : 3);
+    this.species = this.generateSpecies((_h = options) === null || _h === void 0 ? void 0 : _h.species);
   }
 
   Galaxy.prototype.generateSystems = function (options) {
-    if (options && options.systems && options.systems.length) {
-      return options.systems.map(function (source) {
+    if (options instanceof Array && options.length) {
+      return options.map(function (source) {
         return new system_1.default(source);
       });
     }
@@ -741,11 +781,25 @@ function () {
     });
   };
 
+  Galaxy.prototype.generateSpecies = function (options) {
+    if (options instanceof Array && options.length) {
+      return options.map(function (source) {
+        return new species_1.default(source);
+      });
+    }
+
+    return Array.from({
+      length: this.speciesCount
+    }, function () {
+      return new species_1.default();
+    });
+  };
+
   return Galaxy;
 }();
 
 exports.default = Galaxy;
-},{"../util/id":"src/util/id.ts","./system/system":"src/galaxy/system/system.ts"}],"src/index.ts":[function(require,module,exports) {
+},{"../util/id":"src/util/id.ts","./species/species":"src/galaxy/species/species.ts","./system/system":"src/galaxy/system/system.ts"}],"src/index.ts":[function(require,module,exports) {
 "use strict";
 
 var __importDefault = this && this.__importDefault || function (mod) {
