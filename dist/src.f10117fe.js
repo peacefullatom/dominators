@@ -338,17 +338,23 @@ var atmosphere_1 = __importDefault(require("../atmosphere/atmosphere"));
 
 var temperature_1 = __importDefault(require("../temperature/temperature"));
 
+exports.speciesRelationsTypeNeutral = 0;
+exports.speciesRelationsTypeAllies = 1;
+exports.speciesRelationsTypeWar = 2;
+/** species data */
+
 var Species =
 /** @class */
 function () {
   function Species(options) {
-    var _a, _b, _c, _d, _e, _f, _g, _h;
+    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k;
 
     this.id = (_b = (_a = options) === null || _a === void 0 ? void 0 : _a.id, _b !== null && _b !== void 0 ? _b : id_1.default());
     this.name = (_d = (_c = options) === null || _c === void 0 ? void 0 : _c.name, _d !== null && _d !== void 0 ? _d : "");
     this.flag = (_f = (_e = options) === null || _e === void 0 ? void 0 : _e.flag, _f !== null && _f !== void 0 ? _f : "");
     this.atmosphere = new atmosphere_1.default((_g = options) === null || _g === void 0 ? void 0 : _g.atmosphere);
     this.temperature = new temperature_1.default((_h = options) === null || _h === void 0 ? void 0 : _h.temperature);
+    this.relations = (_k = (_j = options) === null || _j === void 0 ? void 0 : _j.relations, _k !== null && _k !== void 0 ? _k : {});
   }
 
   return Species;
@@ -378,48 +384,7 @@ var GenerateEntities = function GenerateEntities(type, length, options) {
 };
 
 exports.default = GenerateEntities;
-},{}],"src/galaxy/system/governor/governor.ts":[function(require,module,exports) {
-"use strict";
-
-var __importDefault = this && this.__importDefault || function (mod) {
-  return mod && mod.__esModule ? mod : {
-    "default": mod
-  };
-};
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var id_1 = __importDefault(require("../../../util/id"));
-/** minimum/default skill level */
-
-/** maximum skill level */
-
-
-exports.governorSkillLevelDefault = 0.02;
-exports.governorSkillLevelMaximum = 0.25;
-
-var Governor =
-/** @class */
-function () {
-  function Governor(options) {
-    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p;
-
-    this.id = (_b = (_a = options) === null || _a === void 0 ? void 0 : _a.id, _b !== null && _b !== void 0 ? _b : id_1.default());
-    this.avatar = (_d = (_c = options) === null || _c === void 0 ? void 0 : _c.avatar, _d !== null && _d !== void 0 ? _d : "");
-    this.construction = (_f = (_e = options) === null || _e === void 0 ? void 0 : _e.construction, _f !== null && _f !== void 0 ? _f : exports.governorSkillLevelDefault);
-    this.espionage = (_h = (_g = options) === null || _g === void 0 ? void 0 : _g.espionage, _h !== null && _h !== void 0 ? _h : exports.governorSkillLevelDefault);
-    this.fleet = (_k = (_j = options) === null || _j === void 0 ? void 0 : _j.fleet, _k !== null && _k !== void 0 ? _k : exports.governorSkillLevelDefault);
-    this.population = (_m = (_l = options) === null || _l === void 0 ? void 0 : _l.population, _m !== null && _m !== void 0 ? _m : exports.governorSkillLevelDefault);
-    this.research = (_p = (_o = options) === null || _o === void 0 ? void 0 : _o.research, _p !== null && _p !== void 0 ? _p : exports.governorSkillLevelDefault);
-  }
-
-  return Governor;
-}();
-
-exports.default = Governor;
-},{"../../../util/id":"src/util/id.ts"}],"src/galaxy/system/planet/facilities/facility/facility.ts":[function(require,module,exports) {
+},{}],"src/galaxy/system/planet/facilities/facility/facility.ts":[function(require,module,exports) {
 "use strict";
 
 var __importDefault = this && this.__importDefault || function (mod) {
@@ -635,24 +600,27 @@ var Planet =
 /** @class */
 function () {
   function Planet(options) {
-    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x, _y;
+    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x, _y, _z, _0, _1, _2, _3;
 
     this.id = (_b = (_a = options) === null || _a === void 0 ? void 0 : _a.id, _b !== null && _b !== void 0 ? _b : id_1.default());
-    this.abundance = (_d = (_c = options) === null || _c === void 0 ? void 0 : _c.abundance, _d !== null && _d !== void 0 ? _d : randomNumber_1.default(12, 1));
-    this.size = (_f = (_e = options) === null || _e === void 0 ? void 0 : _e.size, _f !== null && _f !== void 0 ? _f : randomNumber_1.default(7, 1));
-    this.atmosphere = new atmosphere_1.default((_g = options) === null || _g === void 0 ? void 0 : _g.atmosphere);
-    this.temperature = new temperature_1.default((_h = options) === null || _h === void 0 ? void 0 : _h.temperature);
-    this.constructionPoints = (_k = (_j = options) === null || _j === void 0 ? void 0 : _j.constructionPoints, _k !== null && _k !== void 0 ? _k : 0);
-    this.espionagePoints = (_m = (_l = options) === null || _l === void 0 ? void 0 : _l.espionagePoints, _m !== null && _m !== void 0 ? _m : 0);
-    this.researchPoints = (_p = (_o = options) === null || _o === void 0 ? void 0 : _o.researchPoints, _p !== null && _p !== void 0 ? _p : 0);
-    this.populationPoints = (_r = (_q = options) === null || _q === void 0 ? void 0 : _q.populationPoints, _r !== null && _r !== void 0 ? _r : 0);
-    this.populationMaximumInitial = (_t = (_s = options) === null || _s === void 0 ? void 0 : _s.populationMaximumInitial, _t !== null && _t !== void 0 ? _t : Math.floor(this.size + this.size * (this.abundance / 10)));
-    this.populationMaximum = (_v = (_u = options) === null || _u === void 0 ? void 0 : _u.populationMaximum, _v !== null && _v !== void 0 ? _v : this.populationMaximumInitial);
-    this.population = (_x = (_w = options) === null || _w === void 0 ? void 0 : _w.population, _x !== null && _x !== void 0 ? _x : 0);
+    this.name = (_d = (_c = options) === null || _c === void 0 ? void 0 : _c.name, _d !== null && _d !== void 0 ? _d : "");
+    this.populated = (_f = (_e = options) === null || _e === void 0 ? void 0 : _e.populated, _f !== null && _f !== void 0 ? _f : false);
+    this.abundance = (_h = (_g = options) === null || _g === void 0 ? void 0 : _g.abundance, _h !== null && _h !== void 0 ? _h : randomNumber_1.default(12, 1));
+    this.size = (_k = (_j = options) === null || _j === void 0 ? void 0 : _j.size, _k !== null && _k !== void 0 ? _k : randomNumber_1.default(7, 1));
+    this.atmosphere = new atmosphere_1.default((_l = options) === null || _l === void 0 ? void 0 : _l.atmosphere);
+    this.temperature = new temperature_1.default((_m = options) === null || _m === void 0 ? void 0 : _m.temperature);
+    this.constructionPoints = (_p = (_o = options) === null || _o === void 0 ? void 0 : _o.constructionPoints, _p !== null && _p !== void 0 ? _p : 0);
+    this.espionagePoints = (_r = (_q = options) === null || _q === void 0 ? void 0 : _q.espionagePoints, _r !== null && _r !== void 0 ? _r : 0);
+    this.researchPoints = (_t = (_s = options) === null || _s === void 0 ? void 0 : _s.researchPoints, _t !== null && _t !== void 0 ? _t : 0);
+    this.populationPoints = (_v = (_u = options) === null || _u === void 0 ? void 0 : _u.populationPoints, _v !== null && _v !== void 0 ? _v : 0);
+    this.populationMaximumInitial = (_x = (_w = options) === null || _w === void 0 ? void 0 : _w.populationMaximumInitial, _x !== null && _x !== void 0 ? _x : Math.floor(this.size + this.size * (this.abundance / 10)));
+    this.populationMaximum = (_z = (_y = options) === null || _y === void 0 ? void 0 : _y.populationMaximum, _z !== null && _z !== void 0 ? _z : this.populationMaximumInitial);
+    this.population = (_1 = (_0 = options) === null || _0 === void 0 ? void 0 : _0.population, _1 !== null && _1 !== void 0 ? _1 : 0);
     this.defensePointsMaximumInitial = 0;
     this.defensePointsMaximum = 0;
     this.defensePoints = 0;
-    this.facilities = new facilities_1.default((_y = options) === null || _y === void 0 ? void 0 : _y.facilities);
+    this.facilities = new facilities_1.default((_2 = options) === null || _2 === void 0 ? void 0 : _2.facilities);
+    this.species = (_3 = options) === null || _3 === void 0 ? void 0 : _3.species;
   }
 
   return Planet;
@@ -708,8 +676,6 @@ var id_1 = __importDefault(require("../../util/id"));
 
 var randomNumber_1 = __importDefault(require("../../util/randomNumber"));
 
-var governor_1 = __importDefault(require("./governor/governor"));
-
 var planet_1 = __importDefault(require("./planet/planet"));
 
 var wormhole_1 = __importDefault(require("./wormhole/wormhole"));
@@ -724,18 +690,35 @@ function () {
 
     this.id = (_b = (_a = options) === null || _a === void 0 ? void 0 : _a.id, _b !== null && _b !== void 0 ? _b : id_1.default());
     this.populated = (_d = (_c = options) === null || _c === void 0 ? void 0 : _c.populated, _d !== null && _d !== void 0 ? _d : false);
-    this.governor = (_f = (_e = options) === null || _e === void 0 ? void 0 : _e.governor, _f !== null && _f !== void 0 ? _f : new governor_1.default());
-    this.planetsCount = (_h = (_g = options) === null || _g === void 0 ? void 0 : _g.planetsCount, _h !== null && _h !== void 0 ? _h : randomNumber_1.default(7, 2));
-    this.planets = generateEntities_1.default(planet_1.default, this.planetsCount, (_j = options) === null || _j === void 0 ? void 0 : _j.planets);
-    this.wormholesCount = (_l = (_k = options) === null || _k === void 0 ? void 0 : _k.wormholesCount, _l !== null && _l !== void 0 ? _l : randomNumber_1.default(4, 1));
-    this.wormholes = generateEntities_1.default(wormhole_1.default, this.wormholesCount, (_m = options) === null || _m === void 0 ? void 0 : _m.wormholes);
+    this.planetsCount = (_f = (_e = options) === null || _e === void 0 ? void 0 : _e.planetsCount, _f !== null && _f !== void 0 ? _f : randomNumber_1.default(7, 2));
+    this.planets = generateEntities_1.default(planet_1.default, this.planetsCount, (_g = options) === null || _g === void 0 ? void 0 : _g.planets);
+    this.wormholesCount = (_j = (_h = options) === null || _h === void 0 ? void 0 : _h.wormholesCount, _j !== null && _j !== void 0 ? _j : randomNumber_1.default(4, 1));
+    this.wormholes = generateEntities_1.default(wormhole_1.default, this.wormholesCount, (_k = options) === null || _k === void 0 ? void 0 : _k.wormholes);
+    this.species = (_m = (_l = options) === null || _l === void 0 ? void 0 : _l.species, _m !== null && _m !== void 0 ? _m : []);
+    this.setup();
   }
+  /** setup system after creation */
+
+
+  System.prototype.setup = function () {
+    this.populated = !!this.species.some(function (s) {
+      return s.populated;
+    });
+  };
+  /** populate system at the start */
+
+
+  System.prototype.populate = function () {};
+  /** user colonizes system */
+
+
+  System.prototype.colonize = function () {};
 
   return System;
 }();
 
 exports.default = System;
-},{"../../util/generateEntities":"src/util/generateEntities.ts","../../util/id":"src/util/id.ts","../../util/randomNumber":"src/util/randomNumber.ts","./governor/governor":"src/galaxy/system/governor/governor.ts","./planet/planet":"src/galaxy/system/planet/planet.ts","./wormhole/wormhole":"src/galaxy/system/wormhole/wormhole.ts"}],"src/galaxy/galaxy.ts":[function(require,module,exports) {
+},{"../../util/generateEntities":"src/util/generateEntities.ts","../../util/id":"src/util/id.ts","../../util/randomNumber":"src/util/randomNumber.ts","./planet/planet":"src/galaxy/system/planet/planet.ts","./wormhole/wormhole":"src/galaxy/system/wormhole/wormhole.ts"}],"src/galaxy/galaxy.ts":[function(require,module,exports) {
 "use strict";
 
 var __importDefault = this && this.__importDefault || function (mod) {
@@ -744,13 +727,23 @@ var __importDefault = this && this.__importDefault || function (mod) {
   };
 };
 
+var __importStar = this && this.__importStar || function (mod) {
+  if (mod && mod.__esModule) return mod;
+  var result = {};
+  if (mod != null) for (var k in mod) {
+    if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+  }
+  result["default"] = mod;
+  return result;
+};
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
 var id_1 = __importDefault(require("../util/id"));
 
-var species_1 = __importDefault(require("./species/species"));
+var species_1 = __importStar(require("./species/species"));
 
 var system_1 = __importDefault(require("./system/system"));
 
@@ -788,11 +781,26 @@ function () {
       });
     }
 
-    return Array.from({
+    var species = Array.from({
       length: this.speciesCount
     }, function () {
       return new species_1.default();
     });
+    species.forEach(function (s) {
+      species.forEach(function (d) {
+        if (s.id !== d.id) {
+          s.relations[d.id] = {
+            activities: {
+              research: false,
+              routeSharing: false,
+              trade: false
+            },
+            relations: species_1.speciesRelationsTypeNeutral
+          };
+        }
+      });
+    });
+    return species;
   };
 
   return Galaxy;

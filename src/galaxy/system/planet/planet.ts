@@ -1,6 +1,7 @@
 import ID from '../../../util/id';
 import RandomNumber from '../../../util/randomNumber';
 import Atmosphere from '../../atmosphere/atmosphere';
+import Species from '../../species/species';
 import Temperature from '../../temperature/temperature';
 import Facilities from './facilities/facilities';
 
@@ -8,6 +9,10 @@ import Facilities from './facilities/facilities';
 export type TPlanet = {
   /** planet id */
   id: string;
+  /** planet name */
+  name: string;
+  /** planet populated */
+  populated: boolean;
   /** level of abundance */
   abundance: number;
   /** size of planet */
@@ -38,6 +43,8 @@ export type TPlanet = {
   defensePoints: number;
   /** list of facilities */
   facilities: Facilities;
+  /** current planet occupants */
+  species?: Species;
 };
 
 /** planet options */
@@ -46,6 +53,8 @@ export type TPlanetOptions = Partial<TPlanet> | Planet;
 /** planet data */
 export default class Planet implements TPlanet {
   id: string;
+  name: string;
+  populated: boolean;
   abundance: number;
   size: number;
   atmosphere: Atmosphere;
@@ -61,9 +70,12 @@ export default class Planet implements TPlanet {
   defensePointsMaximum: number;
   defensePoints: number;
   facilities: Facilities;
+  species?: Species;
 
   constructor(options?: TPlanetOptions) {
     this.id = options?.id ?? ID();
+    this.name = options?.name ?? ``;
+    this.populated = options?.populated ?? false;
     this.abundance = options?.abundance ?? RandomNumber(12, 1);
     this.size = options?.size ?? RandomNumber(7, 1);
     this.atmosphere = new Atmosphere(options?.atmosphere);
@@ -82,5 +94,6 @@ export default class Planet implements TPlanet {
     this.defensePointsMaximum = 0;
     this.defensePoints = 0;
     this.facilities = new Facilities(options?.facilities);
+    this.species = options?.species;
   }
 }

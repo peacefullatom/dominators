@@ -5,14 +5,26 @@ import Governor from './governor/governor';
 import Planet from './planet/planet';
 import Wormhole from './wormhole/wormhole';
 
+/** species options description */
+export type TSystemSpecies = {
+  /** species id */
+  speciesId: string;
+  /** governor of the species */
+  governor: Governor;
+  /** species discovered system */
+  discovered: boolean;
+  /** species can observe system */
+  observable: boolean;
+  /** species populated system */
+  populated: boolean;
+};
+
 /** system description */
 export type TSystem = {
   /** system id */
   id: string;
   /** specifies if system is populated */
   populated: boolean;
-  /** governor of the system */
-  governor: Governor;
   /** number of planets */
   planetsCount: number;
   /** planets list */
@@ -21,6 +33,8 @@ export type TSystem = {
   wormholesCount: number;
   /** wormholes list */
   wormholes: Wormhole[];
+  /** species options */
+  species: TSystemSpecies[];
 };
 
 /** system options */
@@ -30,16 +44,15 @@ export type TSystemOptions = Partial<TSystem> | System;
 export default class System implements TSystem {
   id: string;
   populated: boolean;
-  governor: Governor;
   planetsCount: number;
   planets: Planet[];
   wormholesCount: number;
   wormholes: Wormhole[];
+  species: TSystemSpecies[];
 
   constructor(options?: TSystemOptions) {
     this.id = options?.id ?? ID();
     this.populated = options?.populated ?? false;
-    this.governor = options?.governor ?? new Governor();
     this.planetsCount = options?.planetsCount ?? RandomNumber(7, 2);
     this.planets = GenerateEntities(
       Planet,
@@ -52,5 +65,18 @@ export default class System implements TSystem {
       this.wormholesCount,
       options?.wormholes
     );
+    this.species = options?.species ?? [];
+    this.setup();
   }
+
+  /** setup system after creation */
+  setup(): void {
+    this.populated = !!this.species.some(s => s.populated);
+  }
+
+  /** populate system at the start */
+  populate(): void {}
+
+  /** user colonizes system */
+  colonize(): void {}
 }

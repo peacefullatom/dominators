@@ -1,5 +1,5 @@
 import ID from '../util/id';
-import Species from './species/species';
+import Species, { speciesRelationsTypeNeutral } from './species/species';
 import System from './system/system';
 
 export type TGalaxy = {
@@ -38,6 +38,20 @@ export default class Galaxy implements TGalaxy {
     if (options instanceof Array && options.length) {
       return options.map(source => new Species(source));
     }
-    return Array.from({ length: this.speciesCount }, () => new Species());
+    const species = Array.from(
+      { length: this.speciesCount },
+      () => new Species()
+    );
+    species.forEach(s => {
+      species.forEach(d => {
+        if (s.id !== d.id) {
+          s.relations[d.id] = {
+            activities: { research: false, routeSharing: false, trade: false },
+            relations: speciesRelationsTypeNeutral,
+          };
+        }
+      });
+    });
+    return species;
   }
 }
