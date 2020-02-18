@@ -1,6 +1,7 @@
 import { idSource } from './id.const';
 import RandomValue from './randomValue';
 
+/** generate random id */
 const ID = (): string => {
   const id: string[] = [];
   const template = idSource

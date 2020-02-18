@@ -1,24 +1,29 @@
 import ID from '../util/id';
-import RandomValue from '../util/randomValue';
-import { galaxyName } from './galaxy.const';
-import { TGalaxy } from './galaxy.types';
-import PlanetarySystem from './planetarySystem/planetarySystem';
-import Species from './species/species';
+import System from './system/system';
 
-const Galaxy = (): TGalaxy => {
-  const species = Array.from({ length: 10 }, () => Species());
-  const usedNames: string[] = [];
-  const planetarySystems = Array.from({ length: 100 }, () => {
-    const system = PlanetarySystem(species, usedNames);
-    usedNames.push(system.name);
-    return system;
-  });
-  return {
-    id: ID(),
-    name: RandomValue(galaxyName),
-    planetarySystems,
-    species,
-  };
+export type TGalaxy = {
+  id: string;
+  systemsCount: number;
+  systems: System[];
 };
 
-export default Galaxy;
+export type TGalaxyOptions = Partial<TGalaxy> | Galaxy;
+
+export default class Galaxy implements TGalaxy {
+  id: string;
+  systemsCount: number;
+  systems: System[];
+
+  constructor(options?: TGalaxyOptions) {
+    this.id = options?.id ?? ID();
+    this.systemsCount = options?.systemsCount ?? 10;
+    this.systems = this.generateSystems();
+  }
+
+  generateSystems(options?: TGalaxyOptions): System[] {
+    if (options && options.systems && options.systems.length) {
+      return options.systems.map(source => new System(source));
+    }
+    return Array.from({ length: this.systemsCount }, () => new System());
+  }
+}
