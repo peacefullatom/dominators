@@ -337,9 +337,15 @@ var id_1 = __importDefault(require("../../util/id"));
 var atmosphere_1 = __importDefault(require("../atmosphere/atmosphere"));
 
 var temperature_1 = __importDefault(require("../temperature/temperature"));
+/** initial relations */
+
 
 exports.speciesRelationsTypeNeutral = 0;
+/** is species are allied they can share their activities */
+
 exports.speciesRelationsTypeAllies = 1;
+/** these relations will end by extinction */
+
 exports.speciesRelationsTypeWar = 2;
 /** species data */
 
