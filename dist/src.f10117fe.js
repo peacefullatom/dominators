@@ -249,7 +249,141 @@ function () {
 }();
 
 exports.default = Governor;
-},{"../../../util/id":"src/util/id.ts"}],"src/galaxy/system/planet/facilities/facility/facility.ts":[function(require,module,exports) {
+},{"../../../util/id":"src/util/id.ts"}],"src/galaxy/atmosphere/atmosphere.ts":[function(require,module,exports) {
+"use strict";
+
+var __spreadArrays = this && this.__spreadArrays || function () {
+  for (var s = 0, i = 0, il = arguments.length; i < il; i++) {
+    s += arguments[i].length;
+  }
+
+  for (var r = Array(s), k = 0, i = 0; i < il; i++) {
+    for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++) {
+      r[k] = a[j];
+    }
+  }
+
+  return r;
+};
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var id_1 = __importDefault(require("../../util/id"));
+
+var randomNumber_1 = __importDefault(require("../../util/randomNumber"));
+/** sparse atmosphere */
+
+
+exports.atmosphereTypeVacuum = 0;
+/** hydrogen and helium atmosphere */
+
+exports.atmosphereTypeHydrogenHelium = 1;
+/** nitrogen and carbon dioxide atmosphere */
+
+exports.atmosphereTypeNitrogenCarbonDioxide = 2;
+/** nitrogen and methane atmosphere */
+
+exports.atmosphereTypeNitrogenMethane = 3;
+/** nitrogen and oxygen atmosphere (sol) */
+
+exports.atmosphereTypeNitrogenOxygen = 4;
+/** list of atmosphere types */
+
+exports.atmosphereTypes = [exports.atmosphereTypeVacuum, exports.atmosphereTypeHydrogenHelium, exports.atmosphereTypeNitrogenCarbonDioxide, exports.atmosphereTypeNitrogenMethane, exports.atmosphereTypeNitrogenOxygen];
+/** atmosphere data */
+
+var Atmosphere =
+/** @class */
+function () {
+  function Atmosphere(options) {
+    var _a, _b, _c;
+
+    this.id = (_b = (_a = options) === null || _a === void 0 ? void 0 : _a.id, _b !== null && _b !== void 0 ? _b : id_1.default());
+    this.type = this.generateAtmosphere((_c = options) === null || _c === void 0 ? void 0 : _c.type);
+  }
+
+  Atmosphere.prototype.generateAtmosphere = function (options) {
+    if (options instanceof Array && options.length) {
+      return options;
+    }
+
+    return __spreadArrays(exports.atmosphereTypes).sort(function () {
+      return Math.random() >= 0.5 ? -1 : 1;
+    }).slice(0, randomNumber_1.default(3, 1));
+  };
+
+  return Atmosphere;
+}();
+
+exports.default = Atmosphere;
+},{"../../util/id":"src/util/id.ts","../../util/randomNumber":"src/util/randomNumber.ts"}],"src/galaxy/temperature/temperature.ts":[function(require,module,exports) {
+"use strict";
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var id_1 = __importDefault(require("../../util/id"));
+
+var randomValue_1 = __importDefault(require("../../util/randomValue"));
+/** sparse temperature */
+
+
+exports.temperatureTypeVeryCold = 0;
+/** hydrogen and helium temperature */
+
+exports.temperatureTypeCold = 1;
+/** nitrogen and carbon dioxide temperature */
+
+exports.temperatureTypeNeutral = 2;
+/** nitrogen and methane temperature */
+
+exports.temperatureTypeHot = 3;
+/** nitrogen and oxygen temperature (sol) */
+
+exports.temperatureTypeVeryHot = 4;
+/** list of temperature types */
+
+exports.temperatureTypes = [exports.temperatureTypeVeryCold, exports.temperatureTypeCold, exports.temperatureTypeNeutral, exports.temperatureTypeHot, exports.temperatureTypeVeryHot];
+/** temperature data */
+
+var Temperature =
+/** @class */
+function () {
+  function Temperature(options) {
+    var _a, _b, _c;
+
+    this.id = (_b = (_a = options) === null || _a === void 0 ? void 0 : _a.id, _b !== null && _b !== void 0 ? _b : id_1.default());
+    this.type = this.generateTemperature((_c = options) === null || _c === void 0 ? void 0 : _c.type);
+  }
+
+  Temperature.prototype.generateTemperature = function (options) {
+    if (typeof options === 'number') {
+      return options;
+    }
+
+    return randomValue_1.default(exports.temperatureTypes);
+  };
+
+  return Temperature;
+}();
+
+exports.default = Temperature;
+},{"../../util/id":"src/util/id.ts","../../util/randomValue":"src/util/randomValue.ts"}],"src/galaxy/system/planet/facilities/facility/facility.ts":[function(require,module,exports) {
 "use strict";
 
 var __importDefault = this && this.__importDefault || function (mod) {
@@ -453,6 +587,10 @@ var id_1 = __importDefault(require("../../../util/id"));
 
 var randomNumber_1 = __importDefault(require("../../../util/randomNumber"));
 
+var atmosphere_1 = __importDefault(require("../../atmosphere/atmosphere"));
+
+var temperature_1 = __importDefault(require("../../temperature/temperature"));
+
 var facilities_1 = __importDefault(require("./facilities/facilities"));
 /** planet data */
 
@@ -461,29 +599,31 @@ var Planet =
 /** @class */
 function () {
   function Planet(options) {
-    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t, _u, _v, _w;
+    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x, _y;
 
     this.id = (_b = (_a = options) === null || _a === void 0 ? void 0 : _a.id, _b !== null && _b !== void 0 ? _b : id_1.default());
     this.abundance = (_d = (_c = options) === null || _c === void 0 ? void 0 : _c.abundance, _d !== null && _d !== void 0 ? _d : randomNumber_1.default(12, 1));
     this.size = (_f = (_e = options) === null || _e === void 0 ? void 0 : _e.size, _f !== null && _f !== void 0 ? _f : randomNumber_1.default(7, 1));
-    this.constructionPoints = (_h = (_g = options) === null || _g === void 0 ? void 0 : _g.constructionPoints, _h !== null && _h !== void 0 ? _h : 0);
-    this.espionagePoints = (_k = (_j = options) === null || _j === void 0 ? void 0 : _j.espionagePoints, _k !== null && _k !== void 0 ? _k : 0);
-    this.researchPoints = (_m = (_l = options) === null || _l === void 0 ? void 0 : _l.researchPoints, _m !== null && _m !== void 0 ? _m : 0);
-    this.populationPoints = (_p = (_o = options) === null || _o === void 0 ? void 0 : _o.populationPoints, _p !== null && _p !== void 0 ? _p : 0);
-    this.populationMaximumInitial = (_r = (_q = options) === null || _q === void 0 ? void 0 : _q.populationMaximumInitial, _r !== null && _r !== void 0 ? _r : Math.floor(this.size + this.size * (this.abundance / 10)));
-    this.populationMaximum = (_t = (_s = options) === null || _s === void 0 ? void 0 : _s.populationMaximum, _t !== null && _t !== void 0 ? _t : this.populationMaximumInitial);
-    this.population = (_v = (_u = options) === null || _u === void 0 ? void 0 : _u.population, _v !== null && _v !== void 0 ? _v : 0);
+    this.atmosphere = new atmosphere_1.default((_g = options) === null || _g === void 0 ? void 0 : _g.atmosphere);
+    this.temperature = new temperature_1.default((_h = options) === null || _h === void 0 ? void 0 : _h.temperature);
+    this.constructionPoints = (_k = (_j = options) === null || _j === void 0 ? void 0 : _j.constructionPoints, _k !== null && _k !== void 0 ? _k : 0);
+    this.espionagePoints = (_m = (_l = options) === null || _l === void 0 ? void 0 : _l.espionagePoints, _m !== null && _m !== void 0 ? _m : 0);
+    this.researchPoints = (_p = (_o = options) === null || _o === void 0 ? void 0 : _o.researchPoints, _p !== null && _p !== void 0 ? _p : 0);
+    this.populationPoints = (_r = (_q = options) === null || _q === void 0 ? void 0 : _q.populationPoints, _r !== null && _r !== void 0 ? _r : 0);
+    this.populationMaximumInitial = (_t = (_s = options) === null || _s === void 0 ? void 0 : _s.populationMaximumInitial, _t !== null && _t !== void 0 ? _t : Math.floor(this.size + this.size * (this.abundance / 10)));
+    this.populationMaximum = (_v = (_u = options) === null || _u === void 0 ? void 0 : _u.populationMaximum, _v !== null && _v !== void 0 ? _v : this.populationMaximumInitial);
+    this.population = (_x = (_w = options) === null || _w === void 0 ? void 0 : _w.population, _x !== null && _x !== void 0 ? _x : 0);
     this.defensePointsMaximumInitial = 0;
     this.defensePointsMaximum = 0;
     this.defensePoints = 0;
-    this.facilities = new facilities_1.default((_w = options) === null || _w === void 0 ? void 0 : _w.facilities);
+    this.facilities = new facilities_1.default((_y = options) === null || _y === void 0 ? void 0 : _y.facilities);
   }
 
   return Planet;
 }();
 
 exports.default = Planet;
-},{"../../../util/id":"src/util/id.ts","../../../util/randomNumber":"src/util/randomNumber.ts","./facilities/facilities":"src/galaxy/system/planet/facilities/facilities.ts"}],"src/galaxy/system/wormhole/wormhole.ts":[function(require,module,exports) {
+},{"../../../util/id":"src/util/id.ts","../../../util/randomNumber":"src/util/randomNumber.ts","../../atmosphere/atmosphere":"src/galaxy/atmosphere/atmosphere.ts","../../temperature/temperature":"src/galaxy/temperature/temperature.ts","./facilities/facilities":"src/galaxy/system/planet/facilities/facilities.ts"}],"src/galaxy/system/wormhole/wormhole.ts":[function(require,module,exports) {
 "use strict";
 
 var __importDefault = this && this.__importDefault || function (mod) {
