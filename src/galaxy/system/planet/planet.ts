@@ -5,6 +5,12 @@ import Species from '../../species/species';
 import Temperature from '../../temperature/temperature';
 import Facilities from './facilities/facilities';
 
+/** maximum planet abundance */
+export const planetAbundanceMaximum = 12;
+
+/** maximum planet size */
+export const planetSizeMaximum = 8;
+
 /** planet description */
 export type TPlanet = {
   /** planet id */
@@ -76,8 +82,9 @@ export default class Planet implements TPlanet {
     this.id = options?.id ?? ID();
     this.name = options?.name ?? ``;
     this.populated = options?.populated ?? false;
-    this.abundance = options?.abundance ?? RandomNumber(12, 1);
-    this.size = options?.size ?? RandomNumber(7, 1);
+    this.abundance =
+      options?.abundance ?? RandomNumber(planetAbundanceMaximum, 1);
+    this.size = options?.size ?? RandomNumber(planetSizeMaximum, 1);
     this.atmosphere = new Atmosphere(options?.atmosphere);
     this.temperature = new Temperature(options?.temperature);
     this.constructionPoints = options?.constructionPoints ?? 0;
@@ -85,8 +92,7 @@ export default class Planet implements TPlanet {
     this.researchPoints = options?.researchPoints ?? 0;
     this.populationPoints = options?.populationPoints ?? 0;
     this.populationMaximumInitial =
-      options?.populationMaximumInitial ??
-      Math.floor(this.size + this.size * (this.abundance / 10));
+      options?.populationMaximumInitial ?? this.calcPopulationMaximumInitial();
     this.populationMaximum =
       options?.populationMaximum ?? this.populationMaximumInitial;
     this.population = options?.population ?? 0;
@@ -96,4 +102,64 @@ export default class Planet implements TPlanet {
     this.facilities = new Facilities(options?.facilities);
     this.species = options?.species;
   }
+
+  calcPopulationMaximumInitial(): number {
+    return Math.floor(this.size + this.size * (this.abundance / 10));
+  }
+
+  calcAtmosphereRate(): number {
+    if (this.species) {
+      return this.species.atmosphere.type
+        .map(t => this.atmosphere.type.indexOf(t))
+        .some(t => t !== -1)
+        ? 1
+        : 0;
+    }
+    return 0;
+  }
+
+  calcTemperatureRate(): number {
+    if (this.species) {
+      return this.temperature.type === this.species.temperature.type ? 1 : 0;
+    }
+    return 0;
+  }
+
+  calcPoints(rate: number): number {
+    return (
+      this.population *
+      (1 + rate) *
+      10 *
+      this.abundance *
+      ((this.calcTemperatureRate() + this.calcAtmosphereRate()) * 1.1)
+    );
+  }
+
+  populate(species: Species): void {
+    this.species = species;
+    this.populated = true;
+    this.abundance = planetAbundanceMaximum;
+    this.size = planetSizeMaximum;
+    this.atmosphere = species.atmosphere;
+    this.temperature = species.temperature;
+    this.populationMaximumInitial = this.calcPopulationMaximumInitial();
+    this.populationMaximum = this.populationMaximumInitial;
+    this.population = Math.floor(this.populationMaximumInitial / 2);
+    this.facilities.upgradeToColonyA();
+    this.constructionPoints = this.calcPoints(
+      this.facilities.constructionRate()
+    );
+    this.espionagePoints = this.calcPoints(this.facilities.espionageRate());
+    this.populationPoints = this.calcPoints(this.facilities.populationRate());
+    this.researchPoints = this.calcPoints(this.facilities.researchRate());
+    // to be implemented
+    this.defensePointsMaximumInitial = 0;
+    // to be implemented
+    this.defensePointsMaximum = 0;
+    // to be implemented
+    this.defensePoints = 0;
+  }
+
+  /** user colonizes the planet */
+  colonize(): void {}
 }

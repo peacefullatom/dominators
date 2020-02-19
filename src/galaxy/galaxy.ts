@@ -25,6 +25,28 @@ export default class Galaxy implements TGalaxy {
     this.systems = this.generateSystems(options?.systems);
     this.speciesCount = options?.speciesCount ?? 3;
     this.species = this.generateSpecies(options?.species);
+    this.setup();
+  }
+
+  findUnpopulatedSystem(): System {
+    const lookout = (data: System[]): System => {
+      const index = Math.floor(Math.random() * data.length);
+      const s = data[index];
+      if (data.length && s.populated) {
+        data.splice(index, 1);
+        return lookout(data);
+      }
+      return s;
+    };
+
+    return lookout([...this.systems]);
+  }
+
+  setup(): void {
+    this.species.forEach(s => {
+      const system = this.findUnpopulatedSystem();
+      system.populate(s);
+    });
   }
 
   generateSystems(options?: System[]): System[] {

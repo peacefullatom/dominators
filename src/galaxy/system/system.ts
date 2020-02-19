@@ -1,6 +1,8 @@
 import GenerateEntities from '../../util/generateEntities';
 import ID from '../../util/id';
 import RandomNumber from '../../util/randomNumber';
+import RandomValue from '../../util/randomValue';
+import Species from '../species/species';
 import Governor from './governor/governor';
 import Planet from './planet/planet';
 import Wormhole from './wormhole/wormhole';
@@ -8,15 +10,18 @@ import Wormhole from './wormhole/wormhole';
 /** species options description */
 export type TSystemSpecies = {
   /** species id */
-  speciesId: string;
-  /** governor of the species */
-  governor: Governor;
-  /** species discovered system */
-  discovered: boolean;
-  /** species can observe system */
-  observable: boolean;
-  /** species populated system */
-  populated: boolean;
+  [speciesId: string]: {
+    /** governor of the species */
+    governor: Governor;
+    /** species discovered system */
+    discovered: boolean;
+    /** species can observe system */
+    observable: boolean;
+    /** species populated system */
+    populated: boolean;
+    /** home system */
+    homeSystem: boolean;
+  };
 };
 
 /** system description */
@@ -34,7 +39,7 @@ export type TSystem = {
   /** wormholes list */
   wormholes: Wormhole[];
   /** species options */
-  species: TSystemSpecies[];
+  species: TSystemSpecies;
 };
 
 /** system options */
@@ -48,7 +53,7 @@ export default class System implements TSystem {
   planets: Planet[];
   wormholesCount: number;
   wormholes: Wormhole[];
-  species: TSystemSpecies[];
+  species: TSystemSpecies;
 
   constructor(options?: TSystemOptions) {
     this.id = options?.id ?? ID();
@@ -65,17 +70,30 @@ export default class System implements TSystem {
       this.wormholesCount,
       options?.wormholes
     );
-    this.species = options?.species ?? [];
+    this.species = options?.species ?? {};
     this.setup();
   }
 
   /** setup system after creation */
   setup(): void {
-    this.populated = !!this.species.some(s => s.populated);
+    this.populated = Object.keys(this.species)
+      .map(key => this.species[key].populated)
+      .some(value => value);
   }
 
   /** populate system at the start */
-  populate(): void {}
+  populate(species: Species): void {
+    const planet = RandomValue(this.planets);
+    planet.populate(species);
+    this.populated = true;
+    this.species[species.id] = {
+      discovered: true,
+      governor: new Governor(),
+      homeSystem: true,
+      observable: true,
+      populated: true,
+    };
+  }
 
   /** user colonizes system */
   colonize(): void {}

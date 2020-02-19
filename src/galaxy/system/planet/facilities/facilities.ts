@@ -1,6 +1,7 @@
 import Facility, {
   facilityCostDefault,
   facilityOperationLevelDefault,
+  facilityOperationLevelMaximum,
   facilityRates,
   facilityTypeConstruction,
   facilityTypeEspionage,
@@ -13,6 +14,13 @@ import Facility, {
 
 /** maximum amount of facilities of any type */
 export const facilitiesCount = 8;
+
+/** facilities available for level A colony */
+export const facilitiesColonyA = 0;
+/** facilities available for level B colony */
+export const facilitiesColonyB = 1;
+/** facilities available for level C colony */
+export const facilitiesColonyC = 2;
 
 /** facilities structure */
 export type TFacilities = {
@@ -83,7 +91,7 @@ export default class Facilities implements TFacilities {
       type: type,
       rate: rate,
       operationLevel: facilityOperationLevelDefault,
-      cost: Math.floor(level * (facilityCostDefault + 1e4 * rate)),
+      cost: Math.floor(level * (facilityCostDefault + 1e6 * rate)),
     };
   }
 
@@ -98,9 +106,56 @@ export default class Facilities implements TFacilities {
 
   /** restore facilities list from options or generate default list */
   generateFacilities(type: TFacilityType, options?: TFacility[]): Facility[] {
-    if (options instanceof Array && options.length === 8) {
+    if (options instanceof Array && options.length === facilitiesCount) {
       return options.map(source => new Facility(source));
     }
     return this.generateFacilitiesList(type);
+  }
+
+  upgradeToColony(colonyLevel: number): void {
+    this.construction[
+      colonyLevel
+    ].operationLevel = facilityOperationLevelMaximum;
+    this.espionage[colonyLevel].operationLevel = facilityOperationLevelMaximum;
+    this.population[colonyLevel].operationLevel = facilityOperationLevelMaximum;
+    this.research[colonyLevel].operationLevel = facilityOperationLevelMaximum;
+  }
+
+  upgradeToColonyA(): void {
+    this.upgradeToColony(facilitiesColonyA);
+  }
+
+  upgradeToColonyB(): void {
+    this.upgradeToColonyA();
+    this.upgradeToColony(facilitiesColonyB);
+  }
+
+  upgradeToColonyC(): void {
+    this.upgradeToColonyA();
+    this.upgradeToColonyB();
+    this.upgradeToColony(facilitiesColonyC);
+  }
+
+  calcRate(data: Facility[]): number {
+    return data
+      .filter(f => f.operationLevel)
+      .map(f => (f.operationLevel * f.rate) / 100)
+      .reduce((t, n) => t + n);
+  }
+
+  constructionRate(): number {
+    return this.calcRate(this.construction);
+  }
+
+  espionageRate(): number {
+    return this.calcRate(this.espionage);
+  }
+
+  populationRate(): number {
+    return this.calcRate(this.population);
+  }
+
+  researchRate(): number {
+    return this.calcRate(this.research);
   }
 }

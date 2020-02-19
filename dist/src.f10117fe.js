@@ -390,7 +390,48 @@ var GenerateEntities = function GenerateEntities(type, length, options) {
 };
 
 exports.default = GenerateEntities;
-},{}],"src/galaxy/system/planet/facilities/facility/facility.ts":[function(require,module,exports) {
+},{}],"src/galaxy/system/governor/governor.ts":[function(require,module,exports) {
+"use strict";
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var id_1 = __importDefault(require("../../../util/id"));
+/** minimum/default skill level */
+
+/** maximum skill level */
+
+
+exports.governorSkillLevelDefault = 0.02;
+exports.governorSkillLevelMaximum = 0.25;
+
+var Governor =
+/** @class */
+function () {
+  function Governor(options) {
+    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p;
+
+    this.id = (_b = (_a = options) === null || _a === void 0 ? void 0 : _a.id, _b !== null && _b !== void 0 ? _b : id_1.default());
+    this.avatar = (_d = (_c = options) === null || _c === void 0 ? void 0 : _c.avatar, _d !== null && _d !== void 0 ? _d : "");
+    this.construction = (_f = (_e = options) === null || _e === void 0 ? void 0 : _e.construction, _f !== null && _f !== void 0 ? _f : exports.governorSkillLevelDefault);
+    this.espionage = (_h = (_g = options) === null || _g === void 0 ? void 0 : _g.espionage, _h !== null && _h !== void 0 ? _h : exports.governorSkillLevelDefault);
+    this.fleet = (_k = (_j = options) === null || _j === void 0 ? void 0 : _j.fleet, _k !== null && _k !== void 0 ? _k : exports.governorSkillLevelDefault);
+    this.population = (_m = (_l = options) === null || _l === void 0 ? void 0 : _l.population, _m !== null && _m !== void 0 ? _m : exports.governorSkillLevelDefault);
+    this.research = (_p = (_o = options) === null || _o === void 0 ? void 0 : _o.research, _p !== null && _p !== void 0 ? _p : exports.governorSkillLevelDefault);
+  }
+
+  return Governor;
+}();
+
+exports.default = Governor;
+},{"../../../util/id":"src/util/id.ts"}],"src/galaxy/system/planet/facilities/facility/facility.ts":[function(require,module,exports) {
 "use strict";
 
 var __importDefault = this && this.__importDefault || function (mod) {
@@ -501,6 +542,15 @@ var facility_1 = __importStar(require("./facility/facility"));
 
 
 exports.facilitiesCount = 8;
+/** facilities available for level A colony */
+
+exports.facilitiesColonyA = 0;
+/** facilities available for level B colony */
+
+exports.facilitiesColonyB = 1;
+/** facilities available for level C colony */
+
+exports.facilitiesColonyC = 2;
 /** facilities data */
 
 var Facilities =
@@ -545,7 +595,7 @@ function () {
       type: type,
       rate: rate,
       operationLevel: facility_1.facilityOperationLevelDefault,
-      cost: Math.floor(level * (facility_1.facilityCostDefault + 1e4 * rate))
+      cost: Math.floor(level * (facility_1.facilityCostDefault + 1e6 * rate))
     };
   };
   /** generate default facilities list */
@@ -564,13 +614,61 @@ function () {
 
 
   Facilities.prototype.generateFacilities = function (type, options) {
-    if (options instanceof Array && options.length === 8) {
+    if (options instanceof Array && options.length === exports.facilitiesCount) {
       return options.map(function (source) {
         return new facility_1.default(source);
       });
     }
 
     return this.generateFacilitiesList(type);
+  };
+
+  Facilities.prototype.upgradeToColony = function (colonyLevel) {
+    this.construction[colonyLevel].operationLevel = facility_1.facilityOperationLevelMaximum;
+    this.espionage[colonyLevel].operationLevel = facility_1.facilityOperationLevelMaximum;
+    this.population[colonyLevel].operationLevel = facility_1.facilityOperationLevelMaximum;
+    this.research[colonyLevel].operationLevel = facility_1.facilityOperationLevelMaximum;
+  };
+
+  Facilities.prototype.upgradeToColonyA = function () {
+    this.upgradeToColony(exports.facilitiesColonyA);
+  };
+
+  Facilities.prototype.upgradeToColonyB = function () {
+    this.upgradeToColonyA();
+    this.upgradeToColony(exports.facilitiesColonyB);
+  };
+
+  Facilities.prototype.upgradeToColonyC = function () {
+    this.upgradeToColonyA();
+    this.upgradeToColonyB();
+    this.upgradeToColony(exports.facilitiesColonyC);
+  };
+
+  Facilities.prototype.calcRate = function (data) {
+    return data.filter(function (f) {
+      return f.operationLevel;
+    }).map(function (f) {
+      return f.operationLevel * f.rate / 100;
+    }).reduce(function (t, n) {
+      return t + n;
+    });
+  };
+
+  Facilities.prototype.constructionRate = function () {
+    return this.calcRate(this.construction);
+  };
+
+  Facilities.prototype.espionageRate = function () {
+    return this.calcRate(this.espionage);
+  };
+
+  Facilities.prototype.populationRate = function () {
+    return this.calcRate(this.population);
+  };
+
+  Facilities.prototype.researchRate = function () {
+    return this.calcRate(this.research);
   };
 
   return Facilities;
@@ -599,8 +697,14 @@ var atmosphere_1 = __importDefault(require("../../atmosphere/atmosphere"));
 var temperature_1 = __importDefault(require("../../temperature/temperature"));
 
 var facilities_1 = __importDefault(require("./facilities/facilities"));
-/** planet data */
+/** maximum planet abundance */
 
+
+exports.planetAbundanceMaximum = 12;
+/** maximum planet size */
+
+exports.planetSizeMaximum = 8;
+/** planet data */
 
 var Planet =
 /** @class */
@@ -611,15 +715,15 @@ function () {
     this.id = (_b = (_a = options) === null || _a === void 0 ? void 0 : _a.id, _b !== null && _b !== void 0 ? _b : id_1.default());
     this.name = (_d = (_c = options) === null || _c === void 0 ? void 0 : _c.name, _d !== null && _d !== void 0 ? _d : "");
     this.populated = (_f = (_e = options) === null || _e === void 0 ? void 0 : _e.populated, _f !== null && _f !== void 0 ? _f : false);
-    this.abundance = (_h = (_g = options) === null || _g === void 0 ? void 0 : _g.abundance, _h !== null && _h !== void 0 ? _h : randomNumber_1.default(12, 1));
-    this.size = (_k = (_j = options) === null || _j === void 0 ? void 0 : _j.size, _k !== null && _k !== void 0 ? _k : randomNumber_1.default(7, 1));
+    this.abundance = (_h = (_g = options) === null || _g === void 0 ? void 0 : _g.abundance, _h !== null && _h !== void 0 ? _h : randomNumber_1.default(exports.planetAbundanceMaximum, 1));
+    this.size = (_k = (_j = options) === null || _j === void 0 ? void 0 : _j.size, _k !== null && _k !== void 0 ? _k : randomNumber_1.default(exports.planetSizeMaximum, 1));
     this.atmosphere = new atmosphere_1.default((_l = options) === null || _l === void 0 ? void 0 : _l.atmosphere);
     this.temperature = new temperature_1.default((_m = options) === null || _m === void 0 ? void 0 : _m.temperature);
     this.constructionPoints = (_p = (_o = options) === null || _o === void 0 ? void 0 : _o.constructionPoints, _p !== null && _p !== void 0 ? _p : 0);
     this.espionagePoints = (_r = (_q = options) === null || _q === void 0 ? void 0 : _q.espionagePoints, _r !== null && _r !== void 0 ? _r : 0);
     this.researchPoints = (_t = (_s = options) === null || _s === void 0 ? void 0 : _s.researchPoints, _t !== null && _t !== void 0 ? _t : 0);
     this.populationPoints = (_v = (_u = options) === null || _u === void 0 ? void 0 : _u.populationPoints, _v !== null && _v !== void 0 ? _v : 0);
-    this.populationMaximumInitial = (_x = (_w = options) === null || _w === void 0 ? void 0 : _w.populationMaximumInitial, _x !== null && _x !== void 0 ? _x : Math.floor(this.size + this.size * (this.abundance / 10)));
+    this.populationMaximumInitial = (_x = (_w = options) === null || _w === void 0 ? void 0 : _w.populationMaximumInitial, _x !== null && _x !== void 0 ? _x : this.calcPopulationMaximumInitial());
     this.populationMaximum = (_z = (_y = options) === null || _y === void 0 ? void 0 : _y.populationMaximum, _z !== null && _z !== void 0 ? _z : this.populationMaximumInitial);
     this.population = (_1 = (_0 = options) === null || _0 === void 0 ? void 0 : _0.population, _1 !== null && _1 !== void 0 ? _1 : 0);
     this.defensePointsMaximumInitial = 0;
@@ -628,6 +732,63 @@ function () {
     this.facilities = new facilities_1.default((_2 = options) === null || _2 === void 0 ? void 0 : _2.facilities);
     this.species = (_3 = options) === null || _3 === void 0 ? void 0 : _3.species;
   }
+
+  Planet.prototype.calcPopulationMaximumInitial = function () {
+    return Math.floor(this.size + this.size * (this.abundance / 10));
+  };
+
+  Planet.prototype.calcAtmosphereRate = function () {
+    var _this = this;
+
+    if (this.species) {
+      return this.species.atmosphere.type.map(function (t) {
+        return _this.atmosphere.type.indexOf(t);
+      }).some(function (t) {
+        return t !== -1;
+      }) ? 1 : 0;
+    }
+
+    return 0;
+  };
+
+  Planet.prototype.calcTemperatureRate = function () {
+    if (this.species) {
+      return this.temperature.type === this.species.temperature.type ? 1 : 0;
+    }
+
+    return 0;
+  };
+
+  Planet.prototype.calcPoints = function (rate) {
+    return this.population * (1 + rate) * 10 * this.abundance * ((this.calcTemperatureRate() + this.calcAtmosphereRate()) * 1.1);
+  };
+
+  Planet.prototype.populate = function (species) {
+    this.species = species;
+    this.populated = true;
+    this.abundance = exports.planetAbundanceMaximum;
+    this.size = exports.planetSizeMaximum;
+    this.atmosphere = species.atmosphere;
+    this.temperature = species.temperature;
+    this.populationMaximumInitial = this.calcPopulationMaximumInitial();
+    this.populationMaximum = this.populationMaximumInitial;
+    this.population = Math.floor(this.populationMaximumInitial / 2);
+    this.facilities.upgradeToColonyA();
+    this.constructionPoints = this.calcPoints(this.facilities.constructionRate());
+    this.espionagePoints = this.calcPoints(this.facilities.espionageRate());
+    this.populationPoints = this.calcPoints(this.facilities.populationRate());
+    this.researchPoints = this.calcPoints(this.facilities.researchRate()); // to be implemented
+
+    this.defensePointsMaximumInitial = 0; // to be implemented
+
+    this.defensePointsMaximum = 0; // to be implemented
+
+    this.defensePoints = 0;
+  };
+  /** user colonizes the planet */
+
+
+  Planet.prototype.colonize = function () {};
 
   return Planet;
 }();
@@ -682,6 +843,10 @@ var id_1 = __importDefault(require("../../util/id"));
 
 var randomNumber_1 = __importDefault(require("../../util/randomNumber"));
 
+var randomValue_1 = __importDefault(require("../../util/randomValue"));
+
+var governor_1 = __importDefault(require("./governor/governor"));
+
 var planet_1 = __importDefault(require("./planet/planet"));
 
 var wormhole_1 = __importDefault(require("./wormhole/wormhole"));
@@ -700,21 +865,36 @@ function () {
     this.planets = generateEntities_1.default(planet_1.default, this.planetsCount, (_g = options) === null || _g === void 0 ? void 0 : _g.planets);
     this.wormholesCount = (_j = (_h = options) === null || _h === void 0 ? void 0 : _h.wormholesCount, _j !== null && _j !== void 0 ? _j : randomNumber_1.default(4, 1));
     this.wormholes = generateEntities_1.default(wormhole_1.default, this.wormholesCount, (_k = options) === null || _k === void 0 ? void 0 : _k.wormholes);
-    this.species = (_m = (_l = options) === null || _l === void 0 ? void 0 : _l.species, _m !== null && _m !== void 0 ? _m : []);
+    this.species = (_m = (_l = options) === null || _l === void 0 ? void 0 : _l.species, _m !== null && _m !== void 0 ? _m : {});
     this.setup();
   }
   /** setup system after creation */
 
 
   System.prototype.setup = function () {
-    this.populated = !!this.species.some(function (s) {
-      return s.populated;
+    var _this = this;
+
+    this.populated = Object.keys(this.species).map(function (key) {
+      return _this.species[key].populated;
+    }).some(function (value) {
+      return value;
     });
   };
   /** populate system at the start */
 
 
-  System.prototype.populate = function () {};
+  System.prototype.populate = function (species) {
+    var planet = randomValue_1.default(this.planets);
+    planet.populate(species);
+    this.populated = true;
+    this.species[species.id] = {
+      discovered: true,
+      governor: new governor_1.default(),
+      homeSystem: true,
+      observable: true,
+      populated: true
+    };
+  };
   /** user colonizes system */
 
 
@@ -724,8 +904,22 @@ function () {
 }();
 
 exports.default = System;
-},{"../../util/generateEntities":"src/util/generateEntities.ts","../../util/id":"src/util/id.ts","../../util/randomNumber":"src/util/randomNumber.ts","./planet/planet":"src/galaxy/system/planet/planet.ts","./wormhole/wormhole":"src/galaxy/system/wormhole/wormhole.ts"}],"src/galaxy/galaxy.ts":[function(require,module,exports) {
+},{"../../util/generateEntities":"src/util/generateEntities.ts","../../util/id":"src/util/id.ts","../../util/randomNumber":"src/util/randomNumber.ts","../../util/randomValue":"src/util/randomValue.ts","./governor/governor":"src/galaxy/system/governor/governor.ts","./planet/planet":"src/galaxy/system/planet/planet.ts","./wormhole/wormhole":"src/galaxy/system/wormhole/wormhole.ts"}],"src/galaxy/galaxy.ts":[function(require,module,exports) {
 "use strict";
+
+var __spreadArrays = this && this.__spreadArrays || function () {
+  for (var s = 0, i = 0, il = arguments.length; i < il; i++) {
+    s += arguments[i].length;
+  }
+
+  for (var r = Array(s), k = 0, i = 0; i < il; i++) {
+    for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++) {
+      r[k] = a[j];
+    }
+  }
+
+  return r;
+};
 
 var __importDefault = this && this.__importDefault || function (mod) {
   return mod && mod.__esModule ? mod : {
@@ -764,7 +958,34 @@ function () {
     this.systems = this.generateSystems((_e = options) === null || _e === void 0 ? void 0 : _e.systems);
     this.speciesCount = (_g = (_f = options) === null || _f === void 0 ? void 0 : _f.speciesCount, _g !== null && _g !== void 0 ? _g : 3);
     this.species = this.generateSpecies((_h = options) === null || _h === void 0 ? void 0 : _h.species);
+    this.setup();
   }
+
+  Galaxy.prototype.findUnpopulatedSystem = function () {
+    var lookout = function lookout(data) {
+      var index = Math.floor(Math.random() * data.length);
+      var s = data[index];
+
+      if (data.length && s.populated) {
+        data.splice(index, 1);
+        return lookout(data);
+      }
+
+      return s;
+    };
+
+    return lookout(__spreadArrays(this.systems));
+  };
+
+  Galaxy.prototype.setup = function () {
+    var _this = this;
+
+    this.species.forEach(function (s) {
+      var system = _this.findUnpopulatedSystem();
+
+      system.populate(s);
+    });
+  };
 
   Galaxy.prototype.generateSystems = function (options) {
     if (options instanceof Array && options.length) {
@@ -865,7 +1086,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62839" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53299" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
