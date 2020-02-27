@@ -1,5 +1,5 @@
 /** get random value from range */
-const RandomNumber = (to?: number, from?: number): number =>
-  Math.floor(Math.random() * (to ?? 100)) + (from ?? 0);
+const RandomNumber = (max?: number, min?: number): number =>
+  Math.floor(Math.random() * ((max ?? 100) - (min ?? 0))) + (min ?? 0);
 
 export default RandomNumber;
