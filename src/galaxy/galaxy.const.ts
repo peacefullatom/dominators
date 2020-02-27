@@ -19,11 +19,3 @@ export const galaxyDensities = [
   galaxyDensitySparse,
   galaxyDensityVerySparse,
 ];
-
-console.log(
-  galaxyDensityVeryDense,
-  galaxyDensityDense,
-  galaxyDensityMedium,
-  galaxyDensitySparse,
-  galaxyDensityVerySparse
-);
