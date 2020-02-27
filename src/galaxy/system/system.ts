@@ -1,3 +1,4 @@
+import { TPoint } from '../../types';
 import GenerateEntities from '../../util/generateEntities';
 import ID from '../../util/id';
 import RandomNumber from '../../util/randomNumber';
@@ -5,7 +6,6 @@ import RandomValue from '../../util/randomValue';
 import Species from '../species/species';
 import Governor from './governor/governor';
 import Planet from './planet/planet';
-import Wormhole from './wormhole/wormhole';
 
 /** species options description */
 export type TSystemSpecies = {
@@ -28,6 +28,8 @@ export type TSystemSpecies = {
 export type TSystem = {
   /** system id */
   id: string;
+  /** system name */
+  name: string;
   /** specifies if system is populated */
   populated: boolean;
   /** number of planets */
@@ -37,9 +39,11 @@ export type TSystem = {
   /** number of wormholes */
   wormholesCount: number;
   /** wormholes list */
-  wormholes: Wormhole[];
+  wormholes: System[];
   /** species options */
   species: TSystemSpecies;
+  /** place of the system on the galaxy map */
+  coordinates: TPoint;
 };
 
 /** system options */
@@ -48,15 +52,18 @@ export type TSystemOptions = Partial<TSystem> | System;
 /** system data */
 export default class System implements TSystem {
   id: string;
+  name: string;
   populated: boolean;
   planetsCount: number;
   planets: Planet[];
   wormholesCount: number;
-  wormholes: Wormhole[];
+  wormholes: System[];
   species: TSystemSpecies;
+  coordinates: TPoint;
 
   constructor(options?: TSystemOptions) {
     this.id = options?.id ?? ID();
+    this.name = options?.name ?? ``;
     this.populated = options?.populated ?? false;
     this.planetsCount = options?.planetsCount ?? RandomNumber(7, 2);
     this.planets = GenerateEntities(
@@ -64,13 +71,10 @@ export default class System implements TSystem {
       this.planetsCount,
       options?.planets
     );
-    this.wormholesCount = options?.wormholesCount ?? RandomNumber(4, 1);
-    this.wormholes = GenerateEntities(
-      Wormhole,
-      this.wormholesCount,
-      options?.wormholes
-    );
+    this.wormholesCount = options?.wormholesCount ?? RandomNumber(4, 2);
+    this.wormholes = options?.wormholes ?? [];
     this.species = options?.species ?? {};
+    this.coordinates = options?.coordinates ?? { x: 0, y: 0 };
     this.setup();
   }
 
