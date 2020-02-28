@@ -7,6 +7,7 @@ import ID from '../../util/id';
 import N2Px from '../../util/n2px';
 import NormalizePadding from '../../util/normalizePadding';
 
+/** canvas options */
 export type TCanvasOptions = {
   id?: string;
   left?: number;
@@ -16,6 +17,7 @@ export type TCanvasOptions = {
   padding?: TPadding;
 };
 
+/** user interface base description */
 export type TUiBase = {
   id: string;
   name: string;
@@ -26,8 +28,12 @@ export type TUiBase = {
   navigate: (location: string) => void;
 };
 
-export type TUiBaseOptions = Partial<TUiBase> | UiBase;
+/** user interface base options */
+export type TUiBaseOptions = (Partial<TUiBase> | UiBase) & {
+  parent: HTMLElement;
+};
 
+/** user interface base data */
 export class UiBase implements TUiBase {
   id: string;
   name: string;
@@ -38,10 +44,10 @@ export class UiBase implements TUiBase {
   navigate: (location: string) => void;
   container: HTMLDivElement;
 
-  constructor(options?: TUiBaseOptions) {
+  constructor(options: TUiBaseOptions) {
     this.id = options?.id ?? ID();
     this.name = options?.name ?? `not set`;
-    this.parent = options?.parent ?? document.getElementsByTagName('body')[0];
+    this.parent = options.parent;
     this.padding = options?.padding ?? settingsPadding;
     this.width = options?.width ?? settingsWidth;
     this.height = options?.height ?? settingsHeight;

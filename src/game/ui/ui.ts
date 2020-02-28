@@ -1,47 +1,53 @@
 import { settingsHeight, settingsPadding, settingsWidth } from '../../const';
 import { TPadding } from '../../types';
-import NormalizePadding from '../../util/normalizePadding';
+import Game from '../game';
 import { TUiBaseOptions, UiBase } from './base';
 import Home from './home/home';
+import SelectSpecies from './selectSpecies/select.species';
 import { uiLocationHome } from './ui.const';
 
+/** user interface description */
 export type TUi = {
-  /** canvas width */
-  width: number;
-  /** canvas height */
-  height: number;
-  /** canvas padding */
-  padding: TPadding;
-  parent: HTMLElement;
+  /** game controller */
+  game: Game;
+  /** current location */
   location: string;
-  locations: UiBase[];
 };
 
-export type TUiOptions = Partial<TUi> | Ui;
-
-export default class Ui implements TUi {
-  width: number;
-  height: number;
-  padding: TPadding;
+/** user interface options */
+export type TUiOptions = (Partial<TUi> | Ui) & {
+  /** game controller */
+  game: Game;
+  /** parent container */
   parent: HTMLElement;
-  location: string;
-  locations: UiBase[];
+  /** canvas width */
+  width?: number;
+  /** canvas height */
+  height?: number;
+  /** canvas padding */
+  padding?: TPadding;
+};
 
-  constructor(options?: TUiOptions) {
-    this.padding = options?.padding ?? settingsPadding;
-    const padding = NormalizePadding(this.padding);
-    this.width = options?.width ?? settingsWidth;
-    this.height = options?.height ?? settingsHeight;
-    this.parent = options?.parent ?? document.getElementsByTagName('body')[0];
+/** user interface data */
+export default class Ui implements TUi {
+  game: Game;
+  location: string;
+  /** locations list */
+  locations: UiBase[];
+  /** active view */
+  view?: UiBase;
+
+  constructor(options: TUiOptions) {
+    this.game = options.game;
     this.location = options?.location ?? uiLocationHome;
     const settings: TUiBaseOptions = {
-      parent: this.parent,
-      width: this.width,
-      height: this.height,
-      padding: this.padding,
+      parent: options.parent,
+      width: options?.width ?? settingsWidth,
+      height: options?.height ?? settingsHeight,
+      padding: options?.padding ?? settingsPadding,
       navigate: location => this.show(location),
     };
-    this.locations = [new Home(settings)];
+    this.locations = [new Home(settings), new SelectSpecies(settings)];
     this.show(this.location);
   }
 
@@ -49,7 +55,11 @@ export default class Ui implements TUi {
     const view = this.locations.find(l => l.name === location);
     console.log(location);
     if (view) {
+      if (this.view) {
+        this.view.hide();
+      }
       view.show();
+      this.view = view;
     }
   }
 }

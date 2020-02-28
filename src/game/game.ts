@@ -1,41 +1,57 @@
 import './game.css';
 
 import Galaxy from './galaxy/galaxy';
+import { gameStatePause, gameStatePlay } from './game.const';
 import Ui from './ui/ui';
+import { uiLocationHome, uiLocationLoad, uiLocationSave, uiLocationSelectSpecies } from './ui/ui.const';
 
-export type TGame = {
-  parent?: HTMLElement;
-  galaxy?: Galaxy;
+/** game description */
+export type TGame = {};
+
+/** game options */
+export type TGameOptions = (Partial<TGame> | Game) & {
+  /** parent container */
+  parent: HTMLElement;
 };
 
-export type TGameOptions = Partial<TGame> | Game;
-
+/** game data */
 export default class Game implements TGame {
-  parent: HTMLElement;
   ui: Ui;
+  state: number;
   galaxy?: Galaxy;
 
-  constructor(options?: TGameOptions) {
-    this.parent = options?.parent ?? document.getElementsByTagName('body')[0];
-    this.ui = new Ui({ parent: this.parent });
-    this.galaxy = options?.galaxy;
+  constructor(options: TGameOptions) {
+    this.ui = new Ui({ parent: options.parent, game: this });
+    this.state = gameStatePause;
   }
 
   /** show home screen */
-  home(): void {}
+  home(): void {
+    this.ui.show(uiLocationHome);
+  }
 
   /** start new game */
-  new(): void {}
+  new(): void {
+    this.ui.show(uiLocationSelectSpecies);
+  }
 
   /** save game */
-  save(): void {}
+  save(): void {
+    this.ui.show(uiLocationSave);
+  }
 
   /** load game */
-  load(): void {}
+  load(): void {
+    this.ui.show(uiLocationLoad);
+  }
 
   /** pause game */
-  pause(): void {}
+  pause(): void {
+    this.state = gameStatePause;
+  }
 
   /** resume game */
-  resume(): void {}
+  resume(): void {
+    this.state = gameStatePlay;
+  }
 }

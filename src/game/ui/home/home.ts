@@ -4,7 +4,6 @@ import * as config from '../../../../package.json';
 import { TPoint } from '../../../types';
 import Canvas from '../../../util/canvas';
 import N2Px from '../../../util/n2px';
-import RandomNumber from '../../../util/randomNumber';
 import { TUiBase, TUiBaseOptions, UiBase } from '../base';
 import { uiLocationHome, uiLocationSelectSpecies } from '../ui.const';
 
@@ -15,8 +14,9 @@ export type THomeOptions = (Partial<THome> | Home) & TUiBaseOptions;
 export default class Home extends UiBase implements THome {
   background: HTMLCanvasElement;
 
-  constructor(options?: THomeOptions) {
+  constructor(options: THomeOptions) {
     super(options);
+
     this.name = uiLocationHome;
     this.background = this.createLayer();
     this.container.appendChild(this.background);
@@ -30,7 +30,6 @@ export default class Home extends UiBase implements THome {
   generateBackground(): void {
     const point: TPoint = { x: 0, y: 0 };
     const step = 10;
-    const hue = RandomNumber(360);
     const dx = Math.floor(this.width / step);
     const dy = Math.floor(this.height / step);
 
@@ -39,7 +38,7 @@ export default class Home extends UiBase implements THome {
         point.x = x * step;
         point.y = y * step;
         Canvas.circle(this.ctx(this.background), {
-          fillStyle: `hsla(${hue},100%,50%,1)`,
+          fillStyle: 'black',
           radius: 0.5,
           point,
         });

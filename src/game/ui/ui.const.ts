@@ -11,3 +11,5 @@ export const uiLocationGalaxyView = 'galaxy view';
 export const uiLocationSystemView = 'system view';
 export const uiLocationPlanetView = 'planet view';
 export const uiLocationBattle = 'battle';
+export const uiLocationSave = 'save';
+export const uiLocationLoad = 'load';
