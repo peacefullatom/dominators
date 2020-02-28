@@ -1,0 +1,13 @@
+export const uiLocationHome = 'home';
+export const uiLocationSelectSpecies = 'select species';
+export const uiLocationSelectGalaxy = 'select galaxy';
+export const uiLocationCommandCenter = 'command center';
+export const uiLocationResearch = 'research';
+export const uiLocationEspionage = 'espionage';
+export const uiLocationFleet = 'fleet';
+export const uiLocationStats = 'stats';
+export const uiLocationPlanets = 'planets';
+export const uiLocationGalaxyView = 'galaxy view';
+export const uiLocationSystemView = 'system view';
+export const uiLocationPlanetView = 'planet view';
+export const uiLocationBattle = 'battle';
