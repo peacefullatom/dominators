@@ -1,23 +1,10 @@
+import { settingsHeight, settingsPadding, settingsWidth } from '../const';
+import { TPadding } from '../types';
 import Canvas, { TCanvasContext } from '../util/canvas';
 import ID from '../util/id';
+import NormalizePadding from '../util/normalizePadding';
 import Galaxy from './galaxy';
 import System from './system/system';
-
-/** vertical and horizontal */
-export type TPaddingVH = [number, number];
-/** top, horizontal, and bottom */
-export type TPaddingTHB = [number, number, number];
-/** top, right, bottom, and left */
-export type TPaddingTRBL = [number, number, number, number];
-/** padding is mirroring CSS rule */
-export type TPadding = number | TPaddingVH | TPaddingTHB | TPaddingTRBL;
-/** normalized padding */
-export type TPaddingNormal = {
-  top: number;
-  right: number;
-  bottom: number;
-  left: number;
-};
 
 /** galaxy canvas description */
 export type TGalaxyCanvas = {
@@ -57,10 +44,12 @@ export default class GalaxyCanvas implements TGalaxyCanvas {
   constructor(options?: TGalaxyCanvasOptions) {
     this.id = options?.id ?? ID();
     this.parent = options?.parent ?? document.getElementsByTagName('body')[0];
-    this.padding = options?.padding ?? 16;
-    const padding = this.normalizedPadding(this.padding);
-    this.width = (options?.width ?? 640) - padding.left - padding.right;
-    this.height = (options?.height ?? 480) - padding.top - padding.bottom;
+    this.padding = options?.padding ?? settingsPadding;
+    const padding = NormalizePadding(this.padding);
+    this.width =
+      (options?.width ?? settingsWidth) - padding.left - padding.right;
+    this.height =
+      (options?.height ?? settingsHeight) - padding.top - padding.bottom;
     this.container = document.createElement('div');
     this.background = this.createCanvas();
     this.wormholes = this.createCanvas();
@@ -71,7 +60,7 @@ export default class GalaxyCanvas implements TGalaxyCanvas {
 
   setup(): void {
     if (this.parent) {
-      const padding = this.normalizedPadding(this.padding);
+      const padding = NormalizePadding(this.padding);
       this.container.style.width = `${this.width +
         padding.left +
         padding.right}px`;
@@ -103,7 +92,7 @@ export default class GalaxyCanvas implements TGalaxyCanvas {
   }
 
   createCanvas(): HTMLCanvasElement {
-    const padding = this.normalizedPadding(this.padding);
+    const padding = NormalizePadding(this.padding);
     const canvas = document.createElement('canvas');
     canvas.width = this.width;
     canvas.height = this.height;
@@ -113,28 +102,6 @@ export default class GalaxyCanvas implements TGalaxyCanvas {
     canvas.style.paddingLeft = `${padding.left}px`;
     canvas.style.position = 'absolute';
     return canvas;
-  }
-
-  normalizedPadding(padding: TPadding): TPaddingNormal {
-    if (padding instanceof Array) {
-      if (padding.length === 4) {
-        const [top, right, bottom, left] = padding;
-        return { top, right, bottom, left };
-      } else if (padding.length === 3) {
-        const [top, horizontal, bottom] = padding;
-        return { top, right: horizontal, bottom, left: horizontal };
-      } else {
-        const [vertical, horizontal] = padding;
-        return {
-          top: vertical,
-          right: horizontal,
-          bottom: vertical,
-          left: horizontal,
-        };
-      }
-    } else {
-      return { top: padding, right: padding, bottom: padding, left: padding };
-    }
   }
 
   showSystem(system: System, i?: number): void {
