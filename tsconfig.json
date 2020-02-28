@@ -10,7 +10,9 @@
     "allowJs": true,
     "lib": ["es6", "dom"],
     "rootDir": "src",
-    "moduleResolution": "node"
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true
   },
   "exclude": ["./dist"]
 }
