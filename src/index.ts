@@ -6,8 +6,8 @@ import {
   galaxyDensitySparse,
   galaxyDensityVeryDense,
   galaxyDensityVerySparse,
-} from './galaxy/galaxy.const';
-import Ui from './ui/ui';
+} from './game/galaxy/galaxy.const';
+import Game from './game/game';
 
 const densityLabel = (d: number): string => {
   if (d === galaxyDensityVeryDense) {
@@ -60,6 +60,6 @@ if (app) {
   // });
   // app.appendChild(density);
 
-  const ui = new Ui({ parent: app });
-  (document as any).ui = ui;
+  const game = new Game({ parent: app });
+  (document as any).game = game;
 }

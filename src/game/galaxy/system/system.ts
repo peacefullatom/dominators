@@ -1,4 +1,4 @@
-import { TPoint } from '../../types';
+import { TPoint } from '../../../types';
 import GenerateEntities from '../../util/generateEntities';
 import ID from '../../util/id';
 import RandomNumber from '../../util/randomNumber';

@@ -1,4 +1,4 @@
-import { TPadding, TPaddingNormal } from '../types';
+import { TPadding, TPaddingNormal } from '../../types';
 
 const NormalizePadding = (padding: TPadding): TPaddingNormal => {
   if (padding instanceof Array) {

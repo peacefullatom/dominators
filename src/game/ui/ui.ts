@@ -1,6 +1,6 @@
-import { settingsHeight, settingsPadding, settingsWidth } from '../const';
-import { TPadding } from '../types';
-import NormalizePadding from '../util/normalizePadding';
+import { settingsHeight, settingsPadding, settingsWidth } from '../../const';
+import { TPadding } from '../../types';
+import NormalizePadding from '../../util/normalizePadding';
 import { TUiBaseOptions, UiBase } from './base';
 import Home from './home/home';
 import { uiLocationHome } from './ui.const';

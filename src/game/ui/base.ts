@@ -1,11 +1,11 @@
 import './base.css';
 
-import { settingsHeight, settingsPadding, settingsWidth } from '../const';
-import { TPadding, TPaddingNormal } from '../types';
-import { TCanvasContext } from '../util/canvas';
-import ID from '../util/id';
-import N2Px from '../util/n2px';
-import NormalizePadding from '../util/normalizePadding';
+import { settingsHeight, settingsPadding, settingsWidth } from '../../const';
+import { TPadding, TPaddingNormal } from '../../types';
+import { TCanvasContext } from '../../util/canvas';
+import ID from '../../util/id';
+import N2Px from '../../util/n2px';
+import NormalizePadding from '../../util/normalizePadding';
 
 export type TCanvasOptions = {
   id?: string;

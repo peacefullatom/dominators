@@ -1,10 +1,10 @@
 import './home.css';
 
-import * as config from '../../../package.json';
-import { TPoint } from '../../types';
-import Canvas from '../../util/canvas';
-import N2Px from '../../util/n2px';
-import RandomNumber from '../../util/randomNumber';
+import * as config from '../../../../package.json';
+import { TPoint } from '../../../types';
+import Canvas from '../../../util/canvas';
+import N2Px from '../../../util/n2px';
+import RandomNumber from '../../../util/randomNumber';
 import { TUiBase, TUiBaseOptions, UiBase } from '../base';
 import { uiLocationHome, uiLocationSelectSpecies } from '../ui.const';
 

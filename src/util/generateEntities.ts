@@ -1,4 +1,4 @@
-import { TEntity } from '../types';
+import { TEntity } from '../../types';
 
 /** generate data from source */
 const GenerateEntities = <T>(

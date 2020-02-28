@@ -1,5 +1,5 @@
+import { TPoint } from '../../types';
 import GalaxyCanvas from '../galaxy/galaxy.canvas';
-import { TPoint } from '../types';
 
 // source is here
 // https://bl.ocks.org/Azgaar/4904e89c12c7347a9e1639edb7655e10

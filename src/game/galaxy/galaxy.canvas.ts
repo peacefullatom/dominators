@@ -1,5 +1,5 @@
-import { settingsHeight, settingsPadding, settingsWidth } from '../const';
-import { TPadding } from '../types';
+import { settingsHeight, settingsPadding, settingsWidth } from '../../const';
+import { TPadding } from '../../types';
 import Canvas, { TCanvasContext } from '../util/canvas';
 import ID from '../util/id';
 import NormalizePadding from '../util/normalizePadding';
