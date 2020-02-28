@@ -18,11 +18,12 @@ export type TGameOptions = (Partial<TGame> | Game) & {
 export default class Game implements TGame {
   ui: Ui;
   state: number;
-  galaxy?: Galaxy;
+  galaxy: Galaxy;
 
   constructor(options: TGameOptions) {
     this.ui = new Ui({ parent: options.parent, game: this });
     this.state = gameStatePause;
+    this.galaxy = new Galaxy({ parent: options.parent });
   }
 
   /** show home screen */

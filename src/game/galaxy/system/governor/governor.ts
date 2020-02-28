@@ -1,6 +1,7 @@
-import ID from '../../../util/id';
-
 /** minimum/default skill level */
+import ID from '../../../../util/id';
+
+
 /** maximum skill level */
 export const governorSkillLevelDefault = 0.02;
 export const governorSkillLevelMaximum = 0.25;

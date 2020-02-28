@@ -1,15 +1,13 @@
 import { settingsHeight, settingsPadding, settingsWidth } from '../../const';
 import { TPadding } from '../../types';
 import Game from '../game';
-import { TUiBaseOptions, UiBase } from './base';
 import Home from './home/home';
 import SelectSpecies from './selectSpecies/select.species';
-import { uiLocationHome } from './ui.const';
+import { TUiBaseOptions, UiBase } from './ui.base';
+import { uiLocationHome, uiLocationSelectSpecies } from './ui.const';
 
 /** user interface description */
 export type TUi = {
-  /** game controller */
-  game: Game;
   /** current location */
   location: string;
 };
@@ -30,36 +28,62 @@ export type TUiOptions = (Partial<TUi> | Ui) & {
 
 /** user interface data */
 export default class Ui implements TUi {
-  game: Game;
   location: string;
   /** locations list */
   locations: UiBase[];
+  /** options cache */
+  options: TUiOptions;
   /** active view */
   view?: UiBase;
 
   constructor(options: TUiOptions) {
-    this.game = options.game;
     this.location = options?.location ?? uiLocationHome;
-    const settings: TUiBaseOptions = {
-      parent: options.parent,
-      width: options?.width ?? settingsWidth,
-      height: options?.height ?? settingsHeight,
-      padding: options?.padding ?? settingsPadding,
-      navigate: location => this.show(location),
-    };
-    this.locations = [new Home(settings), new SelectSpecies(settings)];
+    this.options = options;
+    this.locations = [];
     this.show(this.location);
   }
 
+  createLocation(location: string): UiBase | undefined {
+    const settings: TUiBaseOptions = {
+      game: this.options.game,
+      parent: this.options.parent,
+      width: this.options?.width ?? settingsWidth,
+      height: this.options?.height ?? settingsHeight,
+      padding: this.options?.padding ?? settingsPadding,
+      navigate: location => this.show(location),
+    };
+    let view: UiBase | undefined;
+    let type: typeof UiBase | undefined;
+    if (location === uiLocationHome) {
+      type = Home;
+    }
+    if (location === uiLocationSelectSpecies) {
+      type = SelectSpecies;
+    }
+    if (type) {
+      view = new type(settings);
+      this.locations.push(view);
+      return view;
+    }
+    return view;
+  }
+
   show(location: string): void {
-    const view = this.locations.find(l => l.name === location);
+    let view = this.locations.find(l => l.name === location);
     console.log(location);
+
+    if (!view) {
+      view = this.createLocation(location);
+    }
+
     if (view) {
       if (this.view) {
         this.view.hide();
       }
       view.show();
       this.view = view;
+    } else {
+      console.warn(`location '${location}' not found`);
     }
   }
 }

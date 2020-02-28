@@ -1,5 +1,5 @@
-import ID from '../../util/id';
-import RandomValue from '../../util/randomValue';
+import ID from '../../../util/id';
+import RandomValue from '../../../util/randomValue';
 
 /** sparse temperature */
 export const temperatureTypeVeryCold = 0;

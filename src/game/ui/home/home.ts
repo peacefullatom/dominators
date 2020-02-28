@@ -1,10 +1,8 @@
 import './home.css';
 
 import * as config from '../../../../package.json';
-import { TPoint } from '../../../types';
-import Canvas from '../../../util/canvas';
 import N2Px from '../../../util/n2px';
-import { TUiBase, TUiBaseOptions, UiBase } from '../base';
+import { TUiBase, TUiBaseOptions, UiBase } from '../ui.base';
 import { uiLocationHome, uiLocationSelectSpecies } from '../ui.const';
 
 export type THome = {} & TUiBase;
@@ -21,29 +19,10 @@ export default class Home extends UiBase implements THome {
     this.background = this.createLayer();
     this.container.appendChild(this.background);
 
-    this.generateBackground();
+    this.generateBackground(this.background);
     this.generateLogo();
     this.generateMenu();
     this.generateVersion();
-  }
-
-  generateBackground(): void {
-    const point: TPoint = { x: 0, y: 0 };
-    const step = 10;
-    const dx = Math.floor(this.width / step);
-    const dy = Math.floor(this.height / step);
-
-    for (let x = 0; x < dx; x++) {
-      for (let y = 0; y < dy; y++) {
-        point.x = x * step;
-        point.y = y * step;
-        Canvas.circle(this.ctx(this.background), {
-          fillStyle: 'black',
-          radius: 0.5,
-          point,
-        });
-      }
-    }
   }
 
   generateLogo(): void {

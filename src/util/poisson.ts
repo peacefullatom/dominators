@@ -1,5 +1,6 @@
-import { TPoint } from '../../types';
-import GalaxyCanvas from '../galaxy/galaxy.canvas';
+import GalaxyCanvas from '../game/galaxy/galaxy.canvas';
+import { TPoint } from '../types';
+import NormalizePadding from './normalizePadding';
 
 // source is here
 // https://bl.ocks.org/Azgaar/4904e89c12c7347a9e1639edb7655e10
@@ -11,7 +12,7 @@ const poissonDiscSampler = (
   const radius2 = radius ** 2;
   const R = 3 * radius2;
   const cellSize = radius * Math.SQRT1_2;
-  const padding = canvas.normalizedPadding(canvas.padding);
+  const padding = NormalizePadding(canvas.padding);
   const width = canvas.width - padding.left - padding.right;
   const height = canvas.height - padding.top - padding.bottom;
   const gridWidth = Math.ceil(width / cellSize);

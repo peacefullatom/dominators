@@ -1,0 +1,5 @@
+.species.list {
+  display: flex;
+  position: absolute;
+  width: 100%;
+}

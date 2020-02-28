@@ -1,5 +1,5 @@
-import ID from '../../../util/id';
-import RandomNumber from '../../../util/randomNumber';
+import ID from '../../../../util/id';
+import RandomNumber from '../../../../util/randomNumber';
 import Atmosphere from '../../atmosphere/atmosphere';
 import Species from '../../species/species';
 import Temperature from '../../temperature/temperature';

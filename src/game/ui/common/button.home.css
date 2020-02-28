@@ -1,0 +1,15 @@
+.button.home {
+  z-index: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: large;
+  position: absolute;
+  overflow: hidden;
+}
+
+.button.home:hover {
+  filter: drop-shadow(2px 4px 6px black);
+  backdrop-filter: blur(2px);
+}

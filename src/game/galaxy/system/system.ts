@@ -1,8 +1,8 @@
 import { TPoint } from '../../../types';
-import GenerateEntities from '../../util/generateEntities';
-import ID from '../../util/id';
-import RandomNumber from '../../util/randomNumber';
-import RandomValue from '../../util/randomValue';
+import GenerateEntities from '../../../util/generateEntities';
+import ID from '../../../util/id';
+import RandomNumber from '../../../util/randomNumber';
+import RandomValue from '../../../util/randomValue';
 import Species from '../species/species';
 import Governor from './governor/governor';
 import Planet from './planet/planet';

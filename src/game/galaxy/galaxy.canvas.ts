@@ -1,8 +1,8 @@
 import { settingsHeight, settingsPadding, settingsWidth } from '../../const';
 import { TPadding } from '../../types';
-import Canvas, { TCanvasContext } from '../util/canvas';
-import ID from '../util/id';
-import NormalizePadding from '../util/normalizePadding';
+import Canvas, { TCanvasContext } from '../../util/canvas';
+import ID from '../../util/id';
+import NormalizePadding from '../../util/normalizePadding';
 import Galaxy from './galaxy';
 import System from './system/system';
 
@@ -73,7 +73,7 @@ export default class GalaxyCanvas implements TGalaxyCanvas {
       this.container.appendChild(this.wormholes);
       this.container.appendChild(this.systems);
       this.container.appendChild(this.popups);
-      this.parent.appendChild(this.container);
+      // this.parent.appendChild(this.container);
     }
   }
 
@@ -143,9 +143,12 @@ export default class GalaxyCanvas implements TGalaxyCanvas {
   }
 
   show(galaxy: Galaxy): void {
+    this.parent.appendChild(this.container);
     this.showSystems(galaxy.systems);
     this.showWormholes(galaxy.systems);
   }
 
-  hide(): void {}
+  hide(): void {
+    this.parent.removeChild(this.container);
+  }
 }

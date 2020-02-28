@@ -1,4 +1,4 @@
-import { TPoint } from '../../types';
+import { TPoint } from '../types';
 
 export type TCanvasContext = CanvasRenderingContext2D | null;
 

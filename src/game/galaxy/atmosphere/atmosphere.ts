@@ -1,5 +1,5 @@
-import ID from '../../util/id';
-import RandomNumber from '../../util/randomNumber';
+import ID from '../../../util/id';
+import RandomNumber from '../../../util/randomNumber';
 
 /** sparse atmosphere */
 export const atmosphereTypeVacuum = 0;

@@ -62,4 +62,5 @@ if (app) {
 
   const game = new Game({ parent: app });
   (document as any).game = game;
+  game.new();
 }

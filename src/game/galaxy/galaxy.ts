@@ -1,7 +1,7 @@
-import ID from '../util/id';
-import CreateDistributedPoints from '../util/poisson';
-import RandomNumber from '../util/randomNumber';
-import RandomValue from '../util/randomValue';
+import ID from '../../util/id';
+import CreateDistributedPoints from '../../util/poisson';
+import RandomNumber from '../../util/randomNumber';
+import RandomValue from '../../util/randomValue';
 import GalaxyCanvas from './galaxy.canvas';
 import { galaxyDensityMedium } from './galaxy.const';
 import { TGalaxyDensity } from './galaxy.type';
@@ -107,8 +107,6 @@ export default class Galaxy implements TGalaxy {
           d.wormholes.push(s);
         }
       });
-
-      // console.log(pairs);
 
       if (orphans.length) {
         this.linkSystems(systems);
