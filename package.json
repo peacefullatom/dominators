@@ -11,6 +11,11 @@
   "author": "Yuriy Markov <peacefullatom@gmail.com>",
   "license": "MIT",
   "devDependencies": {
+    "@babel/core": "^7.8.6",
+    "@babel/preset-env": "^7.8.6",
+    "@babel/preset-react": "^7.8.3",
+    "@types/react": "^16.9.23",
+    "@types/react-dom": "^16.9.5",
     "@typescript-eslint/eslint-plugin": "^2.19.2",
     "@typescript-eslint/parser": "^2.19.2",
     "eslint": "^6.8.0",
@@ -18,7 +23,9 @@
     "eslint-plugin-prettier": "^3.1.2",
     "parcel-bundler": "^1.12.4",
     "prettier": "^1.19.1",
-    "typescript": "^3.7.5"
+    "react": "^16.13.0",
+    "react-dom": "^16.13.0",
+    "typescript": "^3.8.3"
   },
   "prettier": {
     "endOfLine": "lf",

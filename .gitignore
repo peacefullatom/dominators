@@ -14,3 +14,5 @@ yarn-error.log
 .cache/
 # compiled project
 dist/
+# node modules
+node_modules/
