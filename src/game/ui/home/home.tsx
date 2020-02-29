@@ -2,8 +2,7 @@ import './home.scss';
 
 import React from 'react';
 
-import * as config from '../../../../package.json';
-import UiCommonFooter from '../common/footer';
+import UiCommonFooterWithVersion from '../common/footer.with.version';
 import UiCommonHeader from '../common/header';
 
 type TButton = {
@@ -27,14 +26,16 @@ const Button: React.FC<TButton> = ({ label, action }) => {
 };
 
 type TUiHome = {
+  intro: () => void;
   start: () => void;
   load: () => void;
 };
 
-const UiHome: React.FC<TUiHome> = ({ start, load }) => {
+const UiHome: React.FC<TUiHome> = ({ intro, start, load }) => {
   const buttons: TButton[] = [
-    { label: 'Start', action: (): void => start() },
-    { label: 'Load', action: (): void => load() },
+    { label: 'Intro', action: intro },
+    { label: 'Start', action: start },
+    { label: 'Load', action: load },
   ];
   return (
     <div className='home'>
@@ -44,7 +45,7 @@ const UiHome: React.FC<TUiHome> = ({ start, load }) => {
           <Button key={i} {...b}></Button>
         ))}
       </div>
-      <UiCommonFooter>v. {config.version}</UiCommonFooter>
+      <UiCommonFooterWithVersion></UiCommonFooterWithVersion>
     </div>
   );
 };

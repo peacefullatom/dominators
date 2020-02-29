@@ -1,4 +1,5 @@
 export const uiLocationHome = 'home';
+export const uiLocationIntro = 'intro';
 export const uiLocationSelectSpecies = 'select species';
 export const uiLocationSetupSpecies = 'setup species';
 export const uiLocationSelectGalaxy = 'select galaxy';

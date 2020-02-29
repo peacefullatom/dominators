@@ -1,4 +1,4 @@
-import './load.scss';
+import './intro.scss';
 
 import React from 'react';
 
@@ -6,19 +6,21 @@ import UiCommonFooterWithVersion from '../common/footer.with.version';
 import UiCommonHeaderWithHomeButtonAndLabel from '../common/header.with.home.button.and.label';
 import { TUiCommonHomeButton } from '../common/home.button';
 
-type TUiLoad = {} & TUiCommonHomeButton;
+type TUiIntro = {} & TUiCommonHomeButton;
 
-const UiLoad: React.FC<TUiLoad> = ({ home }) => {
+const UiIntro: React.FC<TUiIntro> = ({ home }) => {
   return (
-    <div className='load'>
+    <div className='intro'>
       <UiCommonHeaderWithHomeButtonAndLabel
+        label={'Intro'}
         home={home}
-        label={'Load'}
       ></UiCommonHeaderWithHomeButtonAndLabel>
-      <div className='content'>to be implemented</div>
+      <div className='content'>
+        As your species have reached the apex of the technological conundrum...
+      </div>
       <UiCommonFooterWithVersion></UiCommonFooterWithVersion>
     </div>
   );
 };
 
-export default UiLoad;
+export default UiIntro;

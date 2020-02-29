@@ -3,9 +3,10 @@ import './game.scss';
 import React, { useState } from 'react';
 
 import UiHome from './ui/home/home';
+import UiIntro from './ui/intro/intro';
 import UiLoad from './ui/load/load';
 import UiSelectSpecies from './ui/selectSpecies/select.species';
-import { uiLocationHome, uiLocationLoad, uiLocationSelectSpecies } from './ui/ui.const';
+import { uiLocationHome, uiLocationIntro, uiLocationLoad, uiLocationSelectSpecies } from './ui/ui.const';
 
 type TGame = {
   view?: string;
@@ -17,13 +18,16 @@ const Game: React.FC<TGame> = ({ view }) => {
 
   let content: JSX.Element;
 
-  if (currentView === uiLocationLoad) {
+  if (currentView === uiLocationIntro) {
+    content = <UiIntro home={home}></UiIntro>;
+  } else if (currentView === uiLocationLoad) {
     content = <UiLoad home={home}></UiLoad>;
   } else if (currentView === uiLocationSelectSpecies) {
     content = <UiSelectSpecies home={home}></UiSelectSpecies>;
   } else {
     content = (
       <UiHome
+        intro={(): void => setCurrentView(uiLocationIntro)}
         start={(): void => setCurrentView(uiLocationSelectSpecies)}
         load={(): void => setCurrentView(uiLocationLoad)}
       ></UiHome>
