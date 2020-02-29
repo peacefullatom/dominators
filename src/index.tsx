@@ -1,11 +1,15 @@
-import './index.css';
+import './index.scss';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-const Button: React.FC = () => <div>yeah!</div>;
+import Game from './game/game';
+import { uiLocationSelectSpecies } from './game/ui/ui.const';
 
-ReactDOM.render(<Button />, document.getElementById('app'));
+ReactDOM.render(
+  <Game view={uiLocationSelectSpecies} />,
+  document.getElementById('app')
+);
 
 // const densityLabel = (d: number): string => {
 //   if (d === galaxyDensityVeryDense) {

@@ -1,0 +1,7 @@
+@import '../../game.scss';
+
+.header {
+  @extend %flex;
+  width: $w;
+  height: $hT;
+}

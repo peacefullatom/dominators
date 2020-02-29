@@ -1,0 +1,9 @@
+@import '../../game.scss';
+
+.footer {
+  width: $w;
+  height: $hT;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}

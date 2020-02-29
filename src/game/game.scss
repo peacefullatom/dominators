@@ -1,0 +1,16 @@
+$w: 640px;
+$h: 480px;
+$wT: $w / 10;
+$hT: $h / 10;
+
+%flex {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.game {
+  width: $w;
+  height: $h;
+  display: flex;
+}

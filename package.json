@@ -25,6 +25,7 @@
     "prettier": "^1.19.1",
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
+    "sass": "^1.26.1",
     "typescript": "^3.8.3"
   },
   "prettier": {
@@ -32,18 +33,33 @@
     "semi": true,
     "singleQuote": true,
     "tabWidth": 2,
-    "trailingComma": "es5"
+    "trailingComma": "es5",
+    "jsxSingleQuote": true
   },
   "eslintConfig": {
     "parser": "@typescript-eslint/parser",
     "extends": [
       "prettier/@typescript-eslint",
-      "plugin:@typescript-eslint/recommended"
+      "plugin:@typescript-eslint/recommended",
+      "plugin:react/recommended"
     ],
     "parserOptions": {
       "ecmaVersion": 2018,
       "sourceType": "module"
     },
-    "rules": {}
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "rules": {
+      "react/prop-types": 0
+    },
+    "settings": {
+      "react": {
+        "version": "detect"
+      }
+    }
+  },
+  "dependencies": {
+    "eslint-plugin-react": "^7.18.3"
   }
 }

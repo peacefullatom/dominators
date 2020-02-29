@@ -1,0 +1,18 @@
+@import '../../game.scss';
+
+.home {
+  width: $w;
+  height: $h;
+
+  .menu {
+    @extend %flex;
+    width: $w;
+    height: $h - $hT * 2;
+    flex-direction: column;
+
+    .button {
+      width: $w;
+      height: $hT;
+    }
+  }
+}
