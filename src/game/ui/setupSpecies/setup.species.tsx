@@ -178,22 +178,7 @@ const UiSetupSpecies: React.FC<TSetupSpecies> = ({
           </div>
         </div>
         <div className='row'>
-          <div className='section'>
-            remaining points: {remainingPoints} (
-            {[
-              gravity,
-              atmosphere,
-              temperature,
-              construction,
-              espionage,
-              fleet,
-              reproduction,
-              research,
-            ].map((v, i) => (
-              <span key={i}>{v}</span>
-            ))}
-            )
-          </div>
+          <div className='section'>remaining points: {remainingPoints} </div>
         </div>
       </div>
       <UiStartNavigation back={back} next={next}></UiStartNavigation>
