@@ -9,9 +9,7 @@ import DataSpeciesPopulation from '../../data/species/population';
 import DataSpeciesScientist from '../../data/species/scientist';
 import DataSpeciesSpy from '../../data/species/spy';
 import { TSpecies } from '../../galaxy/species/species';
-import UiCommonHeaderWithHomeButtonAndLabel from '../common/header.with.home.button.and.label';
-import { TUiCommonHomeButton } from '../common/home.button';
-import UiStartNavigation, { TUiStartNavigation } from '../common/start.navigation';
+import UiStartView, { TUiStartView } from '../common/start.view';
 
 type TUiSpeciesList = {
   select: (species: TSpecies) => void;
@@ -62,8 +60,7 @@ const UiDisplaySpecies: React.FC<TUiDisplaySpecies> = ({ species }) => {
 type TUiSelectSpecies = {
   species?: TSpecies;
   setSpecies: (s: TSpecies) => void;
-} & TUiCommonHomeButton &
-  TUiStartNavigation;
+} & TUiStartView;
 
 const UiSelectSpecies: React.FC<TUiSelectSpecies> = ({
   species,
@@ -73,22 +70,19 @@ const UiSelectSpecies: React.FC<TUiSelectSpecies> = ({
   next,
   nextDisabled,
 }) => {
+  const props: TUiStartView = {
+    className: 'select species',
+    label: 'Select species',
+    home,
+    back,
+    next,
+    nextDisabled,
+  };
   return (
-    <div className='select species'>
-      <UiCommonHeaderWithHomeButtonAndLabel
-        home={home}
-        label={'Select species'}
-      ></UiCommonHeaderWithHomeButtonAndLabel>
-      <div className='content'>
-        <UiSpeciesList select={(s): void => setSpecies(s)}></UiSpeciesList>
-        {species && <UiDisplaySpecies species={species}></UiDisplaySpecies>}
-      </div>
-      <UiStartNavigation
-        back={back}
-        next={next}
-        nextDisabled={nextDisabled}
-      ></UiStartNavigation>
-    </div>
+    <UiStartView {...props}>
+      <UiSpeciesList select={(s): void => setSpecies(s)}></UiSpeciesList>
+      {species && <UiDisplaySpecies species={species}></UiDisplaySpecies>}
+    </UiStartView>
   );
 };
 

@@ -3,15 +3,12 @@ import './select.galaxy.scss';
 import React from 'react';
 
 import { TGalaxy } from '../../galaxy/galaxy';
-import UiCommonHeaderWithHomeButtonAndLabel from '../common/header.with.home.button.and.label';
-import { TUiCommonHomeButton } from '../common/home.button';
-import UiStartNavigation, { TUiStartNavigation } from '../common/start.navigation';
+import UiStartView, { TUiStartView } from '../common/start.view';
 
 type TUiSelectGalaxy = {
   galaxy: TGalaxy;
   setGalaxy: (g: TGalaxy) => void;
-} & TUiCommonHomeButton &
-  TUiStartNavigation;
+} & TUiStartView;
 
 const UiSelectGalaxy: React.FC<TUiSelectGalaxy> = ({
   home,
@@ -22,20 +19,17 @@ const UiSelectGalaxy: React.FC<TUiSelectGalaxy> = ({
   setGalaxy,
 }) => {
   console.log(galaxy);
-  return (
-    <div className='select galaxy'>
-      <UiCommonHeaderWithHomeButtonAndLabel
-        home={home}
-        label={'Select galaxy'}
-      ></UiCommonHeaderWithHomeButtonAndLabel>
-      <div className='content'></div>
-      <UiStartNavigation
-        back={back}
-        next={next}
-        nextDisabled={nextDisabled}
-      ></UiStartNavigation>
-    </div>
-  );
+
+  const props: TUiStartView = {
+    className: 'select galaxy',
+    label: 'Select galaxy',
+    home,
+    back,
+    next,
+    nextDisabled,
+  };
+
+  return <UiStartView {...props}>test!</UiStartView>;
 };
 
 export default UiSelectGalaxy;

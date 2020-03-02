@@ -6,9 +6,7 @@ import { atmosphereTypes } from '../../galaxy/atmosphere/atmosphere';
 import { gravityTypes } from '../../galaxy/gravity/gravity';
 import { TSpecies } from '../../galaxy/species/species';
 import { temperatureTypes } from '../../galaxy/temperature/temperature';
-import UiCommonHeaderWithHomeButtonAndLabel from '../common/header.with.home.button.and.label';
-import { TUiCommonHomeButton } from '../common/home.button';
-import UiStartNavigation, { TUiStartNavigation } from '../common/start.navigation';
+import UiStartView, { TUiStartView } from '../common/start.view';
 import UiControlMultiple from './control.multiple';
 import UiRangeSelector from './range.selector';
 import { TSkillName, TUiControlMultipleResult } from './setup.species.types';
@@ -26,8 +24,7 @@ import {
 type TSetupSpecies = {
   species: TSpecies;
   setSpecies: (s: TSpecies) => void;
-} & TUiCommonHomeButton &
-  TUiStartNavigation;
+} & TUiStartView;
 
 const UiSetupSpecies: React.FC<TSetupSpecies> = ({
   species,
@@ -35,6 +32,7 @@ const UiSetupSpecies: React.FC<TSetupSpecies> = ({
   home,
   back,
   next,
+  nextDisabled,
 }) => {
   const gravity = species.defyGravity
     ? scoreParam(gravityTypes) - 1
@@ -90,99 +88,101 @@ const UiSetupSpecies: React.FC<TSetupSpecies> = ({
     });
   };
 
+  const props: TUiStartView = {
+    className: 'setup species',
+    label: 'Setup species',
+    home,
+    back,
+    next,
+    nextDisabled,
+  };
+
   return (
-    <div className='setup species'>
-      <UiCommonHeaderWithHomeButtonAndLabel
-        home={home}
-        label={'Setup species'}
-      ></UiCommonHeaderWithHomeButtonAndLabel>
-      <div className='content'>
-        <div className='row'>
-          <div className='section'>
-            <UiControlMultiple
-              values={gravityTypes.map(v => ({
-                value: v,
-                label: gravityLabel(v),
-                selected: species.gravitation.indexOf(v) !== -1,
-              }))}
-              factor={species.defyGravity}
-              factorName={'Defy gravity'}
-              remainingPoints={remainingPoints}
-              update={(data): void => update({ gravitation: data })}
-            />
-          </div>
-          <div className='section'>
-            <UiControlMultiple
-              values={atmosphereTypes.map(v => ({
-                value: v,
-                label: atmosphereLabel(v),
-                selected: species.atmosphere.indexOf(v) !== -1,
-              }))}
-              factor={species.anaerobic}
-              factorName={'Anaerobic'}
-              remainingPoints={remainingPoints}
-              update={(data): void => update({ atmosphere: data })}
-            />
-          </div>
+    <UiStartView {...props}>
+      <div className='row'>
+        <div className='section'>
+          <UiControlMultiple
+            values={gravityTypes.map(v => ({
+              value: v,
+              label: gravityLabel(v),
+              selected: species.gravitation.indexOf(v) !== -1,
+            }))}
+            factor={species.defyGravity}
+            factorName={'Defy gravity'}
+            remainingPoints={remainingPoints}
+            update={(data): void => update({ gravitation: data })}
+          />
         </div>
-        <div className='row'>
-          <div className='section'>
-            <UiControlMultiple
-              values={temperatureTypes.map(v => ({
-                value: v,
-                label: temperatureLabel(v),
-                selected: species.temperature.indexOf(v) !== -1,
-              }))}
-              factor={species.ignoreTemperature}
-              factorName={'Ignore temperature'}
-              remainingPoints={remainingPoints}
-              update={(data): void => update({ temperature: data })}
-            />
-          </div>
-          <div className='section'>
-            <UiRangeSelector
-              values={skillValues}
-              selection={species.construction}
-              label={`construction`}
-              remainingPoints={remainingPoints}
-              update={updateSkill}
-            />
-            <UiRangeSelector
-              values={skillValues}
-              selection={species.espionage}
-              label={`espionage`}
-              remainingPoints={remainingPoints}
-              update={updateSkill}
-            />
-            <UiRangeSelector
-              values={skillValues}
-              selection={species.fleet}
-              label={`fleet`}
-              remainingPoints={remainingPoints}
-              update={updateSkill}
-            />
-            <UiRangeSelector
-              values={skillValues}
-              selection={species.reproduction}
-              label={`reproduction`}
-              remainingPoints={remainingPoints}
-              update={updateSkill}
-            />
-            <UiRangeSelector
-              values={skillValues}
-              selection={species.research}
-              label={`research`}
-              remainingPoints={remainingPoints}
-              update={updateSkill}
-            />
-          </div>
-        </div>
-        <div className='row'>
-          <div className='section'>remaining points: {remainingPoints} </div>
+        <div className='section'>
+          <UiControlMultiple
+            values={atmosphereTypes.map(v => ({
+              value: v,
+              label: atmosphereLabel(v),
+              selected: species.atmosphere.indexOf(v) !== -1,
+            }))}
+            factor={species.anaerobic}
+            factorName={'Anaerobic'}
+            remainingPoints={remainingPoints}
+            update={(data): void => update({ atmosphere: data })}
+          />
         </div>
       </div>
-      <UiStartNavigation back={back} next={next}></UiStartNavigation>
-    </div>
+      <div className='row'>
+        <div className='section'>
+          <UiControlMultiple
+            values={temperatureTypes.map(v => ({
+              value: v,
+              label: temperatureLabel(v),
+              selected: species.temperature.indexOf(v) !== -1,
+            }))}
+            factor={species.ignoreTemperature}
+            factorName={'Ignore temperature'}
+            remainingPoints={remainingPoints}
+            update={(data): void => update({ temperature: data })}
+          />
+        </div>
+        <div className='section'>
+          <UiRangeSelector
+            values={skillValues}
+            selection={species.construction}
+            label={`construction`}
+            remainingPoints={remainingPoints}
+            update={updateSkill}
+          />
+          <UiRangeSelector
+            values={skillValues}
+            selection={species.espionage}
+            label={`espionage`}
+            remainingPoints={remainingPoints}
+            update={updateSkill}
+          />
+          <UiRangeSelector
+            values={skillValues}
+            selection={species.fleet}
+            label={`fleet`}
+            remainingPoints={remainingPoints}
+            update={updateSkill}
+          />
+          <UiRangeSelector
+            values={skillValues}
+            selection={species.reproduction}
+            label={`reproduction`}
+            remainingPoints={remainingPoints}
+            update={updateSkill}
+          />
+          <UiRangeSelector
+            values={skillValues}
+            selection={species.research}
+            label={`research`}
+            remainingPoints={remainingPoints}
+            update={updateSkill}
+          />
+        </div>
+      </div>
+      <div className='row'>
+        <div className='section'>remaining points: {remainingPoints} </div>
+      </div>
+    </UiStartView>
   );
 };
 
