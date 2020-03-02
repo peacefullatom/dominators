@@ -1,1 +1,70 @@
 @import '../../game.scss';
+
+$iw: $wT * 1.3;
+
+.select.species {
+  .content {
+    @extend %flex;
+    width: $w;
+    height: $hT * 8;
+    justify-content: flex-start;
+    flex-direction: column;
+
+    .list {
+      width: $w;
+      height: $hT * 3;
+      display: flex;
+      justify-content: space-between;
+
+      .item {
+        width: $iw;
+        height: $hT * 3;
+        position: relative;
+        cursor: pointer;
+
+        &:hover {
+          outline: 1px solid black;
+        }
+
+        .label {
+          position: absolute;
+          left: 0;
+          bottom: 0;
+          width: $iw;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          background: white;
+        }
+      }
+    }
+
+    .species {
+      width: $w;
+      height: $hT * 5;
+      display: flex;
+
+      .avatar {
+        width: $wT * 3;
+        height: $hT * 5;
+      }
+
+      .data {
+        width: $wT * 7;
+
+        .name {
+          width: $wT * 7;
+          height: $hT;
+          display: flex;
+          justify-content: flex-start;
+          align-items: center;
+        }
+
+        .description {
+          width: $wT * 7;
+          height: $hT * 4;
+        }
+      }
+    }
+  }
+}

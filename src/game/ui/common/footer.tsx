@@ -2,8 +2,12 @@ import './footer.scss';
 
 import React from 'react';
 
-const UiCommonFooter: React.FC = ({ children }) => {
-  return <div className='footer'>{children}</div>;
+type TUiCommonFooter = {
+  className?: string;
+};
+
+const UiCommonFooter: React.FC<TUiCommonFooter> = ({ children, className }) => {
+  return <div className={`footer ${className}`}>{children}</div>;
 };
 
 export default UiCommonFooter;

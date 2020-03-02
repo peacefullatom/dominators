@@ -5,7 +5,7 @@ import RandomValue from '../../util/randomValue';
 import GalaxyCanvas from './galaxy.canvas';
 import { galaxyDensityMedium } from './galaxy.const';
 import { TGalaxyDensity } from './galaxy.type';
-import Species, { speciesRelationsTypeNeutral } from './species/species';
+import Species, { speciesRelationsTypeNeutral, TSpecies } from './species/species';
 import System from './system/system';
 
 /** galaxy description */
@@ -18,7 +18,7 @@ export type TGalaxy = {
   /** number of species */
   speciesCount: number;
   /** species data */
-  species: Species[];
+  species: TSpecies[];
   /** parent for galaxy canvas */
   parent?: HTMLElement;
 };
@@ -32,7 +32,7 @@ export default class Galaxy implements TGalaxy {
   density: TGalaxyDensity;
   systems: System[];
   speciesCount: number;
-  species: Species[];
+  species: TSpecies[];
   parent?: HTMLElement;
   /** galaxy canvas */
   canvas: GalaxyCanvas;
@@ -131,14 +131,11 @@ export default class Galaxy implements TGalaxy {
   }
 
   /** generate species */
-  generateSpecies(options?: Species[]): Species[] {
+  generateSpecies(options?: TSpecies[]): TSpecies[] {
     if (options instanceof Array && options.length) {
-      return options.map(source => new Species(source));
+      return options.map(source => Species(source));
     }
-    const species = Array.from(
-      { length: this.speciesCount },
-      () => new Species()
-    );
+    const species = Array.from({ length: this.speciesCount }, () => Species());
     species.forEach(s => {
       species.forEach(d => {
         if (s.id !== d.id) {
