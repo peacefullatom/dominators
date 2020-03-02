@@ -1,0 +1,11 @@
+@import '../../game.scss';
+
+.select.galaxy {
+  .content {
+    @extend %flex;
+    width: $w;
+    height: $hT * 8;
+    justify-content: flex-start;
+    flex-direction: column;
+  }
+}

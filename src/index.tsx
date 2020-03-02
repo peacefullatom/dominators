@@ -4,10 +4,10 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import Game from './game/game';
-import { uiLocationSetupSpecies } from './game/ui/ui.const';
+import { uiLocationSelectGalaxy } from './game/ui/ui.const';
 
 ReactDOM.render(
-  <Game view={uiLocationSetupSpecies} />,
+  <Game view={uiLocationSelectGalaxy} />,
   document.getElementById('app')
 );
 
