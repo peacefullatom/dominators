@@ -2,6 +2,7 @@ import ID from '../../../util/id';
 import { atmosphereTypeNitrogenOxygen } from '../atmosphere/atmosphere';
 import { gravityTypeNormal } from '../gravity/gravity';
 import { skillTypeNormal } from '../skill/skill';
+import { TGovernor } from '../system/governor/governor';
 import { temperatureTypeNeutral } from '../temperature/temperature';
 
 /** activities shared by species */
@@ -37,7 +38,7 @@ export type TSpeciesRelations = {
   };
 };
 
-// species skills: construction, espionage, fleet, reproduction, research
+// species skills: construction, espionage, fleet, population, research
 // range of values: -1.5, -1.25, 1, 1.25, 1.5
 // refer to skill.ts
 
@@ -67,14 +68,24 @@ export type TSpecies = {
   ignoreTemperature: boolean;
   /** construction skill modifier */
   construction: number;
+  /** governor used to modify an overall construction points */
+  leadOfConstruction?: TGovernor;
   /** espionage skill modifier */
   espionage: number;
+  /** governor used to modify an overall espionage points */
+  leadOfEspionage?: TGovernor;
   /** fleet command skill modifier */
   fleet: number;
-  /** reproduction skill modifier */
-  reproduction: number;
+  /** governor used to modify an overall fleet points */
+  leadOfFleet?: TGovernor;
+  /** population skill modifier */
+  population: number;
+  /** governor used to modify an overall population points */
+  leadOfPopulation?: TGovernor;
   /** research skill modifier */
   research: number;
+  /** governor used to modify an overall research points */
+  leadOfResearch?: TGovernor;
   /** relations with other species */
   relations: TSpeciesRelations;
   /** player's species */
@@ -85,25 +96,54 @@ export type TSpecies = {
 export type TSpeciesOptions = Partial<TSpecies> | TSpecies;
 
 /** species data */
-const Species = (options?: TSpeciesOptions): TSpecies => ({
-  id: options?.id ?? ID(),
-  name: options?.name ?? ``,
-  description: options?.description ?? ``,
-  color: options?.color ?? ``,
-  flag: options?.flag ?? ``,
-  gravitation: options?.gravitation ?? [gravityTypeNormal],
-  defyGravity: options?.defyGravity ?? false,
-  atmosphere: options?.atmosphere ?? [atmosphereTypeNitrogenOxygen],
-  anaerobic: options?.anaerobic ?? false,
-  temperature: options?.temperature ?? [temperatureTypeNeutral],
-  ignoreTemperature: options?.ignoreTemperature ?? false,
-  construction: options?.construction ?? skillTypeNormal,
-  espionage: options?.espionage ?? skillTypeNormal,
-  fleet: options?.fleet ?? skillTypeNormal,
-  reproduction: options?.reproduction ?? skillTypeNormal,
-  research: options?.research ?? skillTypeNormal,
-  relations: options?.relations ?? {},
-  player: options?.player ?? false,
-});
+export default class Species implements TSpecies {
+  id: string;
+  name: string;
+  description: string;
+  color: string;
+  flag: string;
+  gravitation: number[];
+  defyGravity: boolean;
+  atmosphere: number[];
+  anaerobic: boolean;
+  temperature: number[];
+  ignoreTemperature: boolean;
+  construction: number;
+  leadOfConstruction?: TGovernor;
+  espionage: number;
+  leadOfEspionage?: TGovernor;
+  fleet: number;
+  leadOfFleet?: TGovernor;
+  population: number;
+  leadOfPopulation?: TGovernor;
+  research: number;
+  leadOfResearch?: TGovernor;
+  relations: TSpeciesRelations;
+  player: boolean;
 
-export default Species;
+  constructor(options?: TSpeciesOptions) {
+    this.id = options?.id ?? ID();
+    this.name = options?.name ?? ``;
+    this.description = options?.description ?? ``;
+    this.color = options?.color ?? ``;
+    this.flag = options?.flag ?? ``;
+    this.gravitation = options?.gravitation ?? [gravityTypeNormal];
+    this.defyGravity = options?.defyGravity ?? false;
+    this.atmosphere = options?.atmosphere ?? [atmosphereTypeNitrogenOxygen];
+    this.anaerobic = options?.anaerobic ?? false;
+    this.temperature = options?.temperature ?? [temperatureTypeNeutral];
+    this.ignoreTemperature = options?.ignoreTemperature ?? false;
+    this.construction = options?.construction ?? skillTypeNormal;
+    this.leadOfConstruction = options?.leadOfConstruction;
+    this.espionage = options?.espionage ?? skillTypeNormal;
+    this.leadOfEspionage = options?.leadOfEspionage;
+    this.fleet = options?.fleet ?? skillTypeNormal;
+    this.leadOfFleet = options?.leadOfFleet;
+    this.population = options?.population ?? skillTypeNormal;
+    this.leadOfPopulation = options?.leadOfPopulation;
+    this.research = options?.research ?? skillTypeNormal;
+    this.leadOfResearch = options?.leadOfResearch;
+    this.relations = options?.relations ?? {};
+    this.player = options?.player ?? false;
+  }
+}

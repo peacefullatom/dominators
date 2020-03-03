@@ -46,7 +46,7 @@ const UiSetupSpecies: React.FC<TSetupSpecies> = ({
   const construction = scoreSkill(species.construction);
   const espionage = scoreSkill(species.espionage);
   const fleet = scoreSkill(species.fleet);
-  const reproduction = scoreSkill(species.reproduction);
+  const population = scoreSkill(species.population);
   const research = scoreSkill(species.research);
   const points = [
     gravity,
@@ -55,7 +55,7 @@ const UiSetupSpecies: React.FC<TSetupSpecies> = ({
     construction,
     espionage,
     fleet,
-    reproduction,
+    population,
     research,
   ].reduce((t, n) => t + n);
 
@@ -83,7 +83,7 @@ const UiSetupSpecies: React.FC<TSetupSpecies> = ({
       construction: skill === 'construction' ? data : species.construction,
       espionage: skill === 'espionage' ? data : species.espionage,
       fleet: skill === 'fleet' ? data : species.fleet,
-      reproduction: skill === 'reproduction' ? data : species.reproduction,
+      population: skill === 'population' ? data : species.population,
       research: skill === 'research' ? data : species.research,
     });
   };
@@ -165,8 +165,8 @@ const UiSetupSpecies: React.FC<TSetupSpecies> = ({
           />
           <UiRangeSelector
             values={skillValues}
-            selection={species.reproduction}
-            label={`reproduction`}
+            selection={species.population}
+            label={`population`}
             remainingPoints={remainingPoints}
             update={updateSkill}
           />

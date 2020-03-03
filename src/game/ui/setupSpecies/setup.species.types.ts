@@ -2,7 +2,7 @@ export type TSkillName =
   | 'construction'
   | 'espionage'
   | 'fleet'
-  | 'reproduction'
+  | 'population'
   | 'research';
 
 export type TUiRangeSelectorValue = {

@@ -4,7 +4,7 @@ import { skillTypeNormal, skillTypeVeryHigh } from '../../galaxy/skill/skill';
 import Species from '../../galaxy/species/species';
 import { temperatureTypeNeutral } from '../../galaxy/temperature/temperature';
 
-const DataSpeciesBuilder = Species({
+const DataSpeciesBuilder = new Species({
   id: `builder`,
   name: `builder`,
   description: `builder`,
@@ -19,7 +19,7 @@ const DataSpeciesBuilder = Species({
   construction: skillTypeVeryHigh,
   espionage: skillTypeNormal,
   fleet: skillTypeNormal,
-  reproduction: skillTypeNormal,
+  population: skillTypeNormal,
   research: skillTypeNormal,
   relations: {},
 });

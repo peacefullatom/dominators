@@ -88,11 +88,17 @@ export default class System implements TSystem {
   /** populate system at the start */
   populate(species: TSpecies): void {
     const planet = RandomValue(this.planets);
+    const governor = new Governor();
+    species.leadOfConstruction = governor;
+    species.leadOfEspionage = governor;
+    species.leadOfFleet = governor;
+    species.leadOfPopulation = governor;
+    species.leadOfResearch = governor;
     planet.populate(species);
     this.populated = true;
     this.species[species.id] = {
       discovered: true,
-      governor: new Governor(),
+      governor,
       homeSystem: true,
       observable: true,
       populated: true,
