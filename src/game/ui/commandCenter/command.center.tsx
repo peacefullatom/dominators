@@ -41,20 +41,22 @@ const UiCommandCenter: React.FC<TUiCommandCenter> = ({
 }) => {
   const parent = React.useRef<HTMLDivElement>(null);
 
-  galaxy.species = Array.from({ length: galaxy.speciesCount - 1 }, () =>
-    RandomValue([
-      DataSpeciesBuilder,
-      DataSpeciesHuman,
-      DataSpeciesNomad,
-      DataSpeciesPopulation,
-      DataSpeciesScientist,
-      DataSpeciesSpy,
-    ])
-  )
-    .concat({ ...species, player: true })
-    .map((s, i) => ({ ...s, color: colors[i] }));
+  if (!galaxy.populated) {
+    galaxy.species = Array.from({ length: galaxy.speciesCount - 1 }, () =>
+      RandomValue([
+        DataSpeciesBuilder,
+        DataSpeciesHuman,
+        DataSpeciesNomad,
+        DataSpeciesPopulation,
+        DataSpeciesScientist,
+        DataSpeciesSpy,
+      ])
+    )
+      .concat({ ...species, player: true })
+      .map((s, i) => ({ ...s, color: colors[i] }));
 
-  galaxy.populate(galaxy.species);
+    galaxy.populate(galaxy.species);
+  }
 
   React.useEffect(() => {
     const container = parent.current;

@@ -26,6 +26,8 @@ export type TGalaxy = {
   species: TSpecies[];
   /** number of opponents */
   speciesCount: number;
+  /** specifies if galaxy is populated */
+  populated: boolean;
 };
 
 export type TGalaxyOptions = (Partial<TGalaxy> | TGalaxy) &
@@ -40,6 +42,7 @@ export default class Galaxy implements TGalaxy {
   matrix: TPoint[];
   species: TSpecies[];
   speciesCount: number;
+  populated: boolean;
   /** galaxy representation */
   canvas: GalaxyCanvas;
 
@@ -52,6 +55,7 @@ export default class Galaxy implements TGalaxy {
     this.matrix = options?.matrix ?? [];
     this.species = options?.species ?? [];
     this.speciesCount = options?.speciesCount ?? 3;
+    this.populated = options?.populated ?? false;
     this.canvas = new GalaxyCanvas(options);
   }
 
@@ -167,5 +171,6 @@ export default class Galaxy implements TGalaxy {
   /** populate galaxy with species from the list */
   populate(species: TSpecies[]): void {
     species.forEach(s => this.findUnpopulatedSystem().populate(s));
+    this.populated = true;
   }
 }
