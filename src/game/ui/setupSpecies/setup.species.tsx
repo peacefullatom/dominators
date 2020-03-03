@@ -19,7 +19,7 @@ import {
   temperatureLabel,
   updateControl,
   updateFactor,
-} from './util';
+} from './setup.species.util';
 
 type TSetupSpecies = {
   species: TSpecies;

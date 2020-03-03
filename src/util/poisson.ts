@@ -1,22 +1,17 @@
-import GalaxyCanvas from '../game/galaxy/galaxy.canvas';
 import { TPoint } from '../types';
-import NormalizePadding from './normalizePadding';
 
 // source is here
 // https://bl.ocks.org/Azgaar/4904e89c12c7347a9e1639edb7655e10
 const poissonDiscSampler = (
-  canvas: GalaxyCanvas,
   radius: number,
   candidates: number
 ): (() => TPoint | undefined) => {
   const radius2 = radius ** 2;
   const R = 3 * radius2;
   const cellSize = radius * Math.SQRT1_2;
-  const padding = NormalizePadding(canvas.padding);
-  const width = canvas.width - padding.left - padding.right;
-  const height = canvas.height - padding.top - padding.bottom;
-  const gridWidth = Math.ceil(width / cellSize);
-  const gridHeight = Math.ceil(height / cellSize);
+  const size = 100;
+  const gridWidth = Math.ceil(size / cellSize);
+  const gridHeight = Math.ceil(size / cellSize);
   const grid: TPoint[] = new Array(gridWidth * gridHeight);
   const queue: TPoint[] = [];
   let queueSize = 0;
@@ -56,9 +51,9 @@ const poissonDiscSampler = (
     return true;
   };
 
-  return () => {
+  return (): TPoint | undefined => {
     if (!sampleSize) {
-      return sample(Math.random() * width, Math.random() * height);
+      return sample(Math.random() * size, Math.random() * size);
     }
 
     while (queueSize) {
@@ -69,7 +64,7 @@ const poissonDiscSampler = (
         const r = Math.sqrt(Math.random() * R + radius2);
         const x = p.x + r * Math.cos(a);
         const y = p.y + r * Math.sin(a);
-        if (0 <= x && x < width && 0 <= y && y < height && far(x, y)) {
+        if (0 <= x && x < size && 0 <= y && y < size && far(x, y)) {
           return sample(x, y);
         }
       }
@@ -79,11 +74,8 @@ const poissonDiscSampler = (
   };
 };
 
-const CreateDistributedPoints = (
-  canvas: GalaxyCanvas,
-  radius: number
-): TPoint[] => {
-  const sampler = poissonDiscSampler(canvas, radius, 20);
+const CreateDistributedPoints = (radius: number): TPoint[] => {
+  const sampler = poissonDiscSampler(radius, 20);
   const sites: TPoint[] = [];
   let sample: TPoint | undefined;
 

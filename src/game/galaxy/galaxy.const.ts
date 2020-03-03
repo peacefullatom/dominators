@@ -1,15 +1,16 @@
 /** difference between densities */
-const densityStep = 15;
-/** very dense 30 */
-export const galaxyDensityVeryDense = 30;
-/** dense 45 */
-export const galaxyDensityDense = galaxyDensityVeryDense + densityStep;
-/** medium 60 */
-export const galaxyDensityMedium = galaxyDensityDense + densityStep;
-/** sparse 75 */
-export const galaxyDensitySparse = galaxyDensityMedium + densityStep;
-/** very sparse 90 */
-export const galaxyDensityVerySparse = galaxyDensitySparse + densityStep;
+// MAGIC NUMBERS
+const density = (base: number): number => Math.ceil((1 + base) * 5);
+/** very dense */
+export const galaxyDensityVeryDense = density(0.2);
+/** dense */
+export const galaxyDensityDense = density(0.3);
+/** medium */
+export const galaxyDensityMedium = density(0.5);
+/** sparse */
+export const galaxyDensitySparse = density(0.8);
+/** very sparse */
+export const galaxyDensityVerySparse = density(1.3);
 
 /** list of available galaxy densities */
 export const galaxyDensities = [
@@ -19,3 +20,6 @@ export const galaxyDensities = [
   galaxyDensitySparse,
   galaxyDensityVerySparse,
 ];
+
+export const galaxySpeciesCountMaximum = 6;
+export const galaxySpeciesCountMinimum = 2;

@@ -1,8 +1,6 @@
 import ID from '../../../../util/id';
 import RandomNumber from '../../../../util/randomNumber';
-import Atmosphere from '../../atmosphere/atmosphere';
-import Species from '../../species/species';
-import Temperature from '../../temperature/temperature';
+import { TSpecies } from '../../species/species';
 import Facilities from './facilities/facilities';
 
 /** maximum planet abundance */
@@ -23,10 +21,12 @@ export type TPlanet = {
   abundance: number;
   /** size of planet */
   size: number;
+  /** planet gravity */
+  gravity: number[];
   /** planet atmosphere */
-  atmosphere: Atmosphere;
+  atmosphere: number[];
   /** planet temperature */
-  temperature: Temperature;
+  temperature: number[];
   /** amount of construction points generated per cycle */
   constructionPoints: number;
   /** amount of espionage points generated per cycle */
@@ -50,7 +50,7 @@ export type TPlanet = {
   /** list of facilities */
   facilities: Facilities;
   /** current planet occupants */
-  species?: Species;
+  species?: TSpecies;
 };
 
 /** planet options */
@@ -63,8 +63,9 @@ export default class Planet implements TPlanet {
   populated: boolean;
   abundance: number;
   size: number;
-  atmosphere: Atmosphere;
-  temperature: Temperature;
+  gravity: number[];
+  atmosphere: number[];
+  temperature: number[];
   constructionPoints: number;
   espionagePoints: number;
   researchPoints: number;
@@ -76,7 +77,7 @@ export default class Planet implements TPlanet {
   defensePointsMaximum: number;
   defensePoints: number;
   facilities: Facilities;
-  species?: Species;
+  species?: TSpecies;
 
   constructor(options?: TPlanetOptions) {
     this.id = options?.id ?? ID();
@@ -85,8 +86,9 @@ export default class Planet implements TPlanet {
     this.abundance =
       options?.abundance ?? RandomNumber(planetAbundanceMaximum, 1);
     this.size = options?.size ?? RandomNumber(planetSizeMaximum, 1);
-    this.atmosphere = new Atmosphere(options?.atmosphere);
-    this.temperature = new Temperature(options?.temperature);
+    this.gravity = options?.gravity ?? [];
+    this.atmosphere = options?.atmosphere ?? [];
+    this.temperature = options?.temperature ?? [];
     this.constructionPoints = options?.constructionPoints ?? 0;
     this.espionagePoints = options?.espionagePoints ?? 0;
     this.researchPoints = options?.researchPoints ?? 0;
@@ -109,8 +111,8 @@ export default class Planet implements TPlanet {
 
   calcAtmosphereRate(): number {
     if (this.species) {
-      return this.species.atmosphere.type
-        .map(t => this.atmosphere.type.indexOf(t))
+      return this.species.atmosphere
+        .map(t => this.atmosphere.indexOf(t))
         .some(t => t !== -1)
         ? 1
         : 0;
@@ -120,7 +122,7 @@ export default class Planet implements TPlanet {
 
   calcTemperatureRate(): number {
     if (this.species) {
-      return this.temperature.type === this.species.temperature.type ? 1 : 0;
+      return this.temperature === this.species.temperature ? 1 : 0;
     }
     return 0;
   }
@@ -135,7 +137,7 @@ export default class Planet implements TPlanet {
     );
   }
 
-  populate(species: Species): void {
+  populate(species: TSpecies): void {
     this.species = species;
     this.populated = true;
     this.abundance = planetAbundanceMaximum;
@@ -161,5 +163,7 @@ export default class Planet implements TPlanet {
   }
 
   /** user colonizes the planet */
-  colonize(): void {}
+  colonize(): void {
+    console.log('colonize planet');
+  }
 }

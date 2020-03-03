@@ -3,7 +3,7 @@ import GenerateEntities from '../../../util/generateEntities';
 import ID from '../../../util/id';
 import RandomNumber from '../../../util/randomNumber';
 import RandomValue from '../../../util/randomValue';
-import Species from '../species/species';
+import { TSpecies } from '../species/species';
 import Governor from './governor/governor';
 import Planet from './planet/planet';
 
@@ -39,7 +39,7 @@ export type TSystem = {
   /** number of wormholes */
   wormholesCount: number;
   /** wormholes list */
-  wormholes: System[];
+  wormholes: string[];
   /** species options */
   species: TSystemSpecies;
   /** place of the system on the galaxy map */
@@ -57,7 +57,7 @@ export default class System implements TSystem {
   planetsCount: number;
   planets: Planet[];
   wormholesCount: number;
-  wormholes: System[];
+  wormholes: string[];
   species: TSystemSpecies;
   coordinates: TPoint;
 
@@ -86,7 +86,7 @@ export default class System implements TSystem {
   }
 
   /** populate system at the start */
-  populate(species: Species): void {
+  populate(species: TSpecies): void {
     const planet = RandomValue(this.planets);
     planet.populate(species);
     this.populated = true;
@@ -100,5 +100,7 @@ export default class System implements TSystem {
   }
 
   /** user colonizes system */
-  colonize(): void {}
+  colonize(): void {
+    console.log('colonize planet');
+  }
 }
