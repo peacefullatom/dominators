@@ -4,6 +4,7 @@ export const uiLocationSelectSpecies = 'select species';
 export const uiLocationSetupSpecies = 'setup species';
 export const uiLocationSelectGalaxy = 'select galaxy';
 export const uiLocationCommandCenter = 'command center';
+export const uiLocationMenu = 'menu';
 export const uiLocationResearch = 'research';
 export const uiLocationEspionage = 'espionage';
 export const uiLocationFleet = 'fleet';
