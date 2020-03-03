@@ -77,6 +77,8 @@ export type TSpecies = {
   research: number;
   /** relations with other species */
   relations: TSpeciesRelations;
+  /** player's species */
+  player: boolean;
 };
 
 /** species options */
@@ -101,6 +103,7 @@ const Species = (options?: TSpeciesOptions): TSpecies => ({
   reproduction: options?.reproduction ?? skillTypeNormal,
   research: options?.research ?? skillTypeNormal,
   relations: options?.relations ?? {},
+  player: options?.player ?? false,
 });
 
 export default Species;

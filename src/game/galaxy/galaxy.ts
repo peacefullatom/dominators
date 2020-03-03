@@ -17,7 +17,7 @@ export type TGalaxy = {
   /** density of the galaxy */
   density: number;
   /** list of habitable star systems */
-  systems: TSystem[];
+  systems: System[];
   /** adjacent list of wormholes */
   wormholes: TPoint[][];
   /** initial galaxy's systems seed */
@@ -35,7 +35,7 @@ export default class Galaxy implements TGalaxy {
   id: string;
   name: string;
   density: number;
-  systems: TSystem[];
+  systems: System[];
   wormholes: TPoint[][];
   matrix: TPoint[];
   species: TSpecies[];
@@ -55,10 +55,18 @@ export default class Galaxy implements TGalaxy {
     this.canvas = new GalaxyCanvas(options);
   }
 
+  /** generate galaxy and draw it into parent container */
   setup(parent: HTMLElement, matrix?: TPoint[]): void {
     this.canvas.setup(parent);
     this.generate(matrix);
     this.canvas.show(this.systems, { systems: true });
+  }
+
+  /** embed existing galaxy into new parent */
+  embed(parent: HTMLElement): void {
+    this.canvas.setup(parent);
+    this.resize();
+    this.canvas.show(this.systems, { systems: true, wormholes: true });
   }
 
   /** link systems */
@@ -113,17 +121,21 @@ export default class Galaxy implements TGalaxy {
     );
   }
 
-  /** generate new galaxy */
-  generate(matrix?: TPoint[]): void {
-    this.matrix = matrix || this.seed();
-    this.systems = this.matrix.map(m => {
-      const system = new System();
-      system.coordinates = {
+  /** resize coordinates to new dimensions */
+  resize(): void {
+    this.matrix.forEach((m, i) => {
+      this.systems[i].coordinates = {
         x: (m.x * this.canvas.width) / 100,
         y: (m.y * this.canvas.height) / 100,
       };
-      return system;
     });
+  }
+
+  /** generate new galaxy */
+  generate(matrix?: TPoint[]): void {
+    this.matrix = matrix || this.seed();
+    this.systems = this.matrix.map(() => new System());
+    this.resize();
     this.linkSystems(this.systems);
   }
 
@@ -132,23 +144,23 @@ export default class Galaxy implements TGalaxy {
     this.canvas.show(this.systems, { systems: true });
   }
 
+  /** find unpopulated system */
+  findUnpopulatedSystem(): System {
+    const lookout = (data: System[]): System => {
+      const index = Math.floor(Math.random() * data.length);
+      const s = data[index];
+      if (data.length && s.populated) {
+        data.splice(index, 1);
+        return lookout(data);
+      }
+      return s;
+    };
+
+    return lookout([...this.systems]);
+  }
+
   /** populate galaxy with species from the list */
-  populate(): void {
-    console.log('populate the galaxy');
+  populate(species: TSpecies[]): void {
+    species.forEach(s => this.findUnpopulatedSystem().populate(s));
   }
 }
-
-//   /** find unpopulated system */
-//   findUnpopulatedSystem(): System {
-//     const lookout = (data: System[]): System => {
-//       const index = Math.floor(Math.random() * data.length);
-//       const s = data[index];
-//       if (data.length && s.populated) {
-//         data.splice(index, 1);
-//         return lookout(data);
-//       }
-//       return s;
-//     };
-
-//     return lookout([...this.systems]);
-//   }

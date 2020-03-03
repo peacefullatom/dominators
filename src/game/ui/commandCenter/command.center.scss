@@ -1,1 +1,52 @@
 @import '../../../common.scss';
+
+.command.center {
+  width: $w;
+  height: $h;
+
+  .header {
+    width: $w;
+    height: $hT;
+
+    .menu {
+      width: $wT;
+      height: $hT;
+    }
+
+    .feed {
+      @extend %flex;
+      width: $wT * 7;
+      height: $hT;
+    }
+
+    .expand {
+      width: $wT;
+      height: $hT;
+    }
+
+    .pause {
+      width: $wT;
+      height: $hT;
+    }
+  }
+
+  .galaxy {
+    width: $wT * 8;
+    height: $hT * 7;
+    margin: 0 $wT;
+  }
+
+  .navigation {
+    width: $w;
+    height: $hT * 2;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .item {
+      @extend %flex;
+      height: $hT * 2;
+      flex-basis: 15%;
+    }
+  }
+}

@@ -19,8 +19,6 @@ const UiSelectGalaxy: React.FC<TUiSelectGalaxy> = ({
   galaxy,
   nextDisabled,
 }) => {
-  console.log(galaxy);
-
   const props: TUiStartView = {
     className: 'select galaxy',
     label: 'Select galaxy',
@@ -61,6 +59,7 @@ const UiSelectGalaxy: React.FC<TUiSelectGalaxy> = ({
 
   const updateSpeciesCount = (c: number): void => {
     setSpeciesCount(() => {
+      console.log(galaxy.id);
       galaxy.speciesCount = c;
       return c;
     });
@@ -68,7 +67,7 @@ const UiSelectGalaxy: React.FC<TUiSelectGalaxy> = ({
 
   const speciesCountList = Array.from(
     {
-      length: 5 - galaxySpeciesCountMinimum + 1,
+      length: 6 - galaxySpeciesCountMinimum + 1,
     },
     (v, i) => i + 2
   );

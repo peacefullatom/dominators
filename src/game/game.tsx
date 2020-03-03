@@ -29,7 +29,7 @@ type TGame = {
 const Game: React.FC<TGame> = ({ view }) => {
   const [currentView, setCurrentView] = useState(view ?? uiLocationHome);
   const [species, setSpecies] = useState<TSpecies>(DataSpeciesHuman);
-  const galaxy = new Galaxy();
+  const [galaxy] = useState(new Galaxy());
   const home = (): void => setCurrentView(uiLocationHome);
   let content: JSX.Element;
 
@@ -68,7 +68,9 @@ const Game: React.FC<TGame> = ({ view }) => {
       ></UiSelectGalaxy>
     );
   } else if (currentView === uiLocationCommandCenter) {
-    content = <UiCommandCenter></UiCommandCenter>;
+    content = (
+      <UiCommandCenter galaxy={galaxy} species={species}></UiCommandCenter>
+    );
   } else {
     content = (
       <UiHome
