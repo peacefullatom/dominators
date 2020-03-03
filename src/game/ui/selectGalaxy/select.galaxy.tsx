@@ -35,11 +35,11 @@ const UiSelectGalaxy: React.FC<TUiSelectGalaxy> = ({
 
   React.useEffect(() => {
     const container = parent.current;
-    if (container && !galaxy.canvas.parent) {
+    if (container) {
       setMatrix(() => {
-        const m = galaxy.seed();
-        galaxy.setup(container, m);
-        return m;
+        galaxy.generate();
+        galaxy.embed(container);
+        return galaxy.matrix;
       });
     }
   }, [parent]);
@@ -59,7 +59,6 @@ const UiSelectGalaxy: React.FC<TUiSelectGalaxy> = ({
 
   const updateSpeciesCount = (c: number): void => {
     setSpeciesCount(() => {
-      console.log(galaxy.id);
       galaxy.speciesCount = c;
       return c;
     });

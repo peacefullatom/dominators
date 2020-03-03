@@ -1,0 +1,29 @@
+@import '../../../common.scss';
+
+.layout {
+  .header {
+    width: $w;
+    height: $hT;
+
+    .options {
+      width: $wT;
+      height: $hT;
+    }
+
+    .feed {
+      @extend %flex;
+      width: $wT * 7;
+      height: $hT;
+    }
+
+    .expand {
+      width: $wT;
+      height: $hT;
+    }
+
+    .pause {
+      width: $wT;
+      height: $hT;
+    }
+  }
+}

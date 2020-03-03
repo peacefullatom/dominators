@@ -20,3 +20,5 @@ export type TPaddingNormal = {
   bottom: number;
   left: number;
 };
+
+export type TAction = () => void;

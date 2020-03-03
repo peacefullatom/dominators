@@ -2,6 +2,7 @@ import './command.center.scss';
 
 import React from 'react';
 
+import { TAction } from '../../../types';
 import RandomValue from '../../../util/randomValue';
 import DataSpeciesBuilder from '../../data/species/builder';
 import DataSpeciesHuman from '../../data/species/human';
@@ -9,8 +10,8 @@ import DataSpeciesNomad from '../../data/species/nomad';
 import DataSpeciesPopulation from '../../data/species/population';
 import DataSpeciesScientist from '../../data/species/scientist';
 import DataSpeciesSpy from '../../data/species/spy';
-import Galaxy from '../../galaxy/galaxy';
 import { TSpecies } from '../../galaxy/species/species';
+import UiGameLayout, { TUiGameLayout } from '../common/game.layout';
 import { uiLocationEspionage, uiLocationFleet, uiLocationPlanets, uiLocationResearch, uiLocationStats } from '../ui.const';
 
 const colors = ['red', 'green', 'blue', 'cyan', 'magenta', 'yellow'].sort(() =>
@@ -19,13 +20,25 @@ const colors = ['red', 'green', 'blue', 'cyan', 'magenta', 'yellow'].sort(() =>
 
 /** command center description */
 type TUiCommandCenter = {
-  /** galaxy data */
-  galaxy: Galaxy;
   /** user selected species */
   species: TSpecies;
-};
+  fleet: TAction;
+  research: TAction;
+  espionage: TAction;
+  planets: TAction;
+  stats: TAction;
+} & TUiGameLayout;
 
-const UiCommandCenter: React.FC<TUiCommandCenter> = ({ galaxy, species }) => {
+const UiCommandCenter: React.FC<TUiCommandCenter> = ({
+  galaxy,
+  species,
+  action,
+  fleet,
+  research,
+  espionage,
+  planets,
+  stats,
+}) => {
   const parent = React.useRef<HTMLDivElement>(null);
 
   galaxy.species = Array.from({ length: galaxy.speciesCount - 1 }, () =>
@@ -46,35 +59,46 @@ const UiCommandCenter: React.FC<TUiCommandCenter> = ({ galaxy, species }) => {
   React.useEffect(() => {
     const container = parent.current;
     if (container) {
-      galaxy.embed(container);
+      galaxy.embed(container, { systems: true, wormholes: true });
     }
   }, [parent]);
 
   const locations = [
-    uiLocationFleet,
-    uiLocationResearch,
-    uiLocationEspionage,
-    uiLocationPlanets,
-    uiLocationStats,
+    {
+      label: uiLocationFleet,
+      action: (): void => fleet(),
+    },
+    {
+      label: uiLocationResearch,
+      action: (): void => research(),
+    },
+    {
+      label: uiLocationEspionage,
+      action: (): void => espionage(),
+    },
+    {
+      label: uiLocationPlanets,
+      action: (): void => planets(),
+    },
+    {
+      label: uiLocationStats,
+      action: (): void => stats(),
+    },
   ];
 
   return (
-    <div className='command center'>
-      <div className='header'>
-        <button className='menu'>menu</button>
-        <div className='feed'>feed</div>
-        <button className='expand'>news</button>
-        <button className='pause'>pause</button>
+    <UiGameLayout galaxy={galaxy} action={action} actionName={'menu'}>
+      <div className='command center'>
+        <div ref={parent} className='galaxy'></div>
+        <div className='navigation'>
+          {locations.map((l, i) => (
+            <button key={i} className='item' onClick={l.action}>
+              {l.label}
+            </button>
+          ))}
+        </div>
       </div>
-      <div ref={parent} className='galaxy'></div>
-      <div className='navigation'>
-        {locations.map((l, i) => (
-          <button key={i} className='item'>
-            {l}
-          </button>
-        ))}
-      </div>
-    </div>
+    </UiGameLayout>
   );
 };
 

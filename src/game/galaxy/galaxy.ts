@@ -3,7 +3,7 @@ import ID from '../../util/id';
 import CreateDistributedPoints from '../../util/poisson';
 import RandomNumber from '../../util/randomNumber';
 import RandomValue from '../../util/randomValue';
-import GalaxyCanvas, { TGalaxyCanvasOptions } from './galaxy.canvas';
+import GalaxyCanvas, { TGalaxyCanvasOptions, TGalaxyLayers } from './galaxy.canvas';
 import { galaxyDensityMedium } from './galaxy.const';
 import { TSpecies } from './species/species';
 import System, { TSystem } from './system/system';
@@ -55,18 +55,23 @@ export default class Galaxy implements TGalaxy {
     this.canvas = new GalaxyCanvas(options);
   }
 
-  /** generate galaxy and draw it into parent container */
-  setup(parent: HTMLElement, matrix?: TPoint[]): void {
-    this.canvas.setup(parent);
-    this.generate(matrix);
-    this.canvas.show(this.systems, { systems: true });
-  }
+  // /** generate galaxy and draw it into parent container */
+  // setup(parent: HTMLElement, matrix?: TPoint[]): void {
+  //   this.canvas.setup(parent);
+  //   this.generate(matrix);
+  //   this.canvas.show(this.systems, { systems: true });
+  // }
 
   /** embed existing galaxy into new parent */
-  embed(parent: HTMLElement): void {
+  embed(parent: HTMLElement, layers?: TGalaxyLayers): void {
     this.canvas.setup(parent);
     this.resize();
-    this.canvas.show(this.systems, { systems: true, wormholes: true });
+    this.canvas.show(this.systems, layers ? layers : { systems: true });
+  }
+
+  /** reset galaxy */
+  reset(): void {
+    this.canvas.reset();
   }
 
   /** link systems */

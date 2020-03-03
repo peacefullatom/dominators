@@ -6,6 +6,18 @@ import N2Px from '../../util/n2px';
 import NormalizePadding from '../../util/normalizePadding';
 import { TSystem } from './system/system';
 
+/** defines which layers to be shown */
+export type TGalaxyLayers = {
+  /** background layer */
+  background?: boolean;
+  /** wormholes layer */
+  wormholes?: boolean;
+  /** systems layer */
+  systems?: boolean;
+  /** popups layer */
+  popups?: boolean;
+};
+
 /** galaxy canvas description */
 export type TGalaxyCanvas = {
   /** canvas id */
@@ -40,6 +52,8 @@ export default class GalaxyCanvas implements TGalaxyCanvas {
   systems: HTMLCanvasElement;
   /** popups layer */
   popups: HTMLCanvasElement;
+  /** collection of layers */
+  layers: HTMLCanvasElement[] = [];
 
   constructor(options?: TGalaxyCanvasOptions) {
     this.id = options?.id ?? ID();
@@ -51,13 +65,13 @@ export default class GalaxyCanvas implements TGalaxyCanvas {
     this.height =
       (options?.height ?? settingsHeight) - padding.top - padding.bottom;
     this.container = document.createElement('div');
+    this.container.id = 'galaxy_canvas';
     this.background = this.createCanvas('background');
     this.wormholes = this.createCanvas('wormholes');
     this.systems = this.createCanvas('systems');
     this.popups = this.createCanvas('popups');
-    [this.background, this.wormholes, this.systems, this.popups].forEach(c =>
-      this.container.appendChild(c)
-    );
+    this.layers = [this.background, this.wormholes, this.systems, this.popups];
+    this.layers.forEach(c => this.container.appendChild(c));
   }
 
   setup(parent: HTMLElement): void {
@@ -70,12 +84,10 @@ export default class GalaxyCanvas implements TGalaxyCanvas {
       const padding = NormalizePadding(this.padding);
       const width = this.width - padding.left - padding.right;
       const height = this.height - padding.top - padding.bottom;
-      [this.background, this.wormholes, this.systems, this.popups].forEach(
-        c => {
-          c.width = width;
-          c.height = height;
-        }
-      );
+      this.layers.forEach(c => {
+        c.width = width;
+        c.height = height;
+      });
     }
   }
 
@@ -86,6 +98,12 @@ export default class GalaxyCanvas implements TGalaxyCanvas {
     });
   }
 
+  /** reset all layers */
+  reset(): void {
+    this.layers.forEach(l => this.resetCanvas(l));
+  }
+
+  /** clear canvas */
   resetCanvas(layer: HTMLCanvasElement): void {
     const ctx = this.ctx(layer);
     if (ctx) {
@@ -93,6 +111,7 @@ export default class GalaxyCanvas implements TGalaxyCanvas {
     }
   }
 
+  /** create canvas */
   createCanvas(id?: string): HTMLCanvasElement {
     const padding = NormalizePadding(this.padding);
     const canvas = document.createElement('canvas');
@@ -107,6 +126,7 @@ export default class GalaxyCanvas implements TGalaxyCanvas {
     return canvas;
   }
 
+  /** redraw wormholes layer */
   showWormholes(systems: TSystem[]): void {
     const ctx = this.ctx(this.wormholes);
     const finished: string[] = [];
@@ -128,6 +148,7 @@ export default class GalaxyCanvas implements TGalaxyCanvas {
     });
   }
 
+  /** draw single system */
   showSystem(point: TPoint, ctx?: TCanvasContext): void {
     ctx = ctx || this.ctx(this.systems);
     Canvas.circle(ctx, {
@@ -137,27 +158,27 @@ export default class GalaxyCanvas implements TGalaxyCanvas {
     });
   }
 
+  /** redraw systems */
   showSystems(points: TPoint[], ctx?: TCanvasContext): void {
     ctx = ctx || this.ctx(this.systems);
     this.resetCanvas(this.systems);
     points.forEach(p => this.showSystem(p, ctx));
   }
 
-  show(
-    systems: TSystem[],
-    options: { systems?: boolean; wormholes?: boolean }
-  ): void {
+  /** redraws layers */
+  show(systems: TSystem[], layer: TGalaxyLayers): void {
     if (this.parent) {
-      if (options.systems) {
+      if (layer.systems) {
         this.showSystems(systems.map(s => s.coordinates));
       }
-      if (options.wormholes) {
+      if (layer.wormholes) {
         this.showWormholes(systems);
       }
       this.parent.appendChild(this.container);
     }
   }
 
+  /** hide galaxy */
   hide(): void {
     if (this.parent) {
       this.parent.removeChild(this.container);
