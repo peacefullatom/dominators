@@ -1,0 +1,10 @@
+$w: 800px;
+$h: 600px;
+$wT: $w / 10;
+$hT: $h / 10;
+
+%flex {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

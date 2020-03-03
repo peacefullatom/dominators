@@ -5,6 +5,7 @@ import React, { useState } from 'react';
 import DataSpeciesHuman from './data/species/human';
 import Galaxy from './galaxy/galaxy';
 import { TSpecies } from './galaxy/species/species';
+import UiCommandCenter from './ui/commandCenter/command.center';
 import UiHome from './ui/home/home';
 import UiIntro from './ui/intro/intro';
 import UiLoad from './ui/load/load';
@@ -63,10 +64,11 @@ const Game: React.FC<TGame> = ({ view }) => {
         home={home}
         back={(): void => setCurrentView(uiLocationSetupSpecies)}
         next={(): void => setCurrentView(uiLocationCommandCenter)}
-        nextDisabled={true}
         galaxy={galaxy}
       ></UiSelectGalaxy>
     );
+  } else if (currentView === uiLocationCommandCenter) {
+    content = <UiCommandCenter></UiCommandCenter>;
   } else {
     content = (
       <UiHome
