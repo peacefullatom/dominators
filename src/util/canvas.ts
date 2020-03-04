@@ -39,6 +39,7 @@ const Canvas = {
   line(ctx: TCanvasContext, line?: TCanvasLine): void {
     if (ctx) {
       ctx.strokeStyle = line?.strokeStyle ?? `black`;
+      ctx.fillStyle = line?.strokeStyle ?? 'black';
       ctx.beginPath();
       ctx.moveTo(line?.start?.x ?? 0, line?.start?.y ?? 0);
       ctx.lineTo(line?.end?.x ?? 0, line?.end?.y ?? 0);

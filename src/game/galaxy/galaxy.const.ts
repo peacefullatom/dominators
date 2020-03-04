@@ -21,5 +21,6 @@ export const galaxyDensities = [
   galaxyDensityVerySparse,
 ];
 
+export const galaxySpeciesCountDefault = 3;
 export const galaxySpeciesCountMaximum = 6;
 export const galaxySpeciesCountMinimum = 2;

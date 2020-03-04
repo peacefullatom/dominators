@@ -4,7 +4,7 @@ import CreateDistributedPoints from '../../util/poisson';
 import RandomNumber from '../../util/randomNumber';
 import RandomValue from '../../util/randomValue';
 import GalaxyCanvas, { TGalaxyCanvasOptions, TGalaxyLayers } from './galaxy.canvas';
-import { galaxyDensityMedium } from './galaxy.const';
+import { galaxyDensityMedium, galaxySpeciesCountDefault } from './galaxy.const';
 import { TSpecies } from './species/species';
 import System, { TSystem } from './system/system';
 
@@ -54,7 +54,7 @@ export default class Galaxy implements TGalaxy {
     this.wormholes = options?.wormholes ?? [];
     this.matrix = options?.matrix ?? [];
     this.species = options?.species ?? [];
-    this.speciesCount = options?.speciesCount ?? 3;
+    this.speciesCount = options?.speciesCount ?? galaxySpeciesCountDefault;
     this.populated = options?.populated ?? false;
     this.canvas = new GalaxyCanvas(options);
   }
@@ -67,14 +67,27 @@ export default class Galaxy implements TGalaxy {
   // }
 
   /** embed existing galaxy into new parent */
-  embed(parent: HTMLElement, layers?: TGalaxyLayers): void {
+  embed(
+    parent: HTMLElement,
+    layers?: TGalaxyLayers,
+    interactive?: boolean
+  ): void {
     this.canvas.setup(parent);
     this.resize();
-    this.canvas.show(this.systems, layers ? layers : { systems: true });
+    this.canvas.show(this.systems, layers ?? { systems: true }, interactive);
   }
 
   /** reset galaxy */
   reset(): void {
+    this.id = ``;
+    this.name = ``;
+    this.density = galaxyDensityMedium;
+    this.systems = [];
+    this.wormholes = [];
+    this.matrix = [];
+    this.species = [];
+    this.speciesCount = galaxySpeciesCountDefault;
+    this.populated = false;
     this.canvas.reset();
   }
 

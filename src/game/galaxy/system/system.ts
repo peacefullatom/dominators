@@ -9,19 +9,18 @@ import Planet from './planet/planet';
 
 /** species options description */
 export type TSystemSpecies = {
-  /** species id */
-  [speciesId: string]: {
-    /** governor of the species */
-    governor: Governor;
-    /** species discovered system */
-    discovered: boolean;
-    /** species can observe system */
-    observable: boolean;
-    /** species populated system */
-    populated: boolean;
-    /** home system */
-    homeSystem: boolean;
-  };
+  /** link to species */
+  species: TSpecies;
+  /** governor of the species */
+  governor: Governor;
+  /** species discovered system */
+  discovered: boolean;
+  /** species can observe system */
+  observable: boolean;
+  /** species populated system */
+  populated: boolean;
+  /** home system */
+  homeSystem: boolean;
 };
 
 /** system description */
@@ -41,7 +40,7 @@ export type TSystem = {
   /** wormholes list */
   wormholes: string[];
   /** species options */
-  species: TSystemSpecies;
+  species: TSystemSpecies[];
   /** place of the system on the galaxy map */
   coordinates: TPoint;
 };
@@ -58,7 +57,7 @@ export default class System implements TSystem {
   planets: Planet[];
   wormholesCount: number;
   wormholes: string[];
-  species: TSystemSpecies;
+  species: TSystemSpecies[];
   coordinates: TPoint;
 
   constructor(options?: TSystemOptions) {
@@ -73,16 +72,14 @@ export default class System implements TSystem {
     );
     this.wormholesCount = options?.wormholesCount ?? RandomNumber(4, 2);
     this.wormholes = options?.wormholes ?? [];
-    this.species = options?.species ?? {};
+    this.species = options?.species ?? [];
     this.coordinates = options?.coordinates ?? { x: 0, y: 0 };
     this.setup();
   }
 
   /** setup system after creation */
   setup(): void {
-    this.populated = Object.keys(this.species)
-      .map(key => this.species[key].populated)
-      .some(value => value);
+    this.populated = !!this.species.length;
   }
 
   /** populate system at the start */
@@ -96,13 +93,14 @@ export default class System implements TSystem {
     species.leadOfResearch = governor;
     planet.populate(species);
     this.populated = true;
-    this.species[species.id] = {
-      discovered: true,
+    this.species.push({
+      species,
+      discovered: species.player,
       governor,
       homeSystem: true,
-      observable: true,
+      observable: species.player,
       populated: true,
-    };
+    });
   }
 
   /** user colonizes system */

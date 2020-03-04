@@ -61,7 +61,7 @@ const UiCommandCenter: React.FC<TUiCommandCenter> = ({
   React.useEffect(() => {
     const container = parent.current;
     if (container) {
-      galaxy.embed(container, { systems: true, wormholes: true });
+      galaxy.embed(container, { systems: true, wormholes: true }, true);
     }
   }, [parent]);
 

@@ -44,6 +44,7 @@ const Game: React.FC<TGame> = ({ view }) => {
   const [galaxy] = useState(new Galaxy());
   const home = (): void => {
     galaxy.reset();
+    setSpecies(DataSpeciesHuman);
     setCurrentView(uiLocationHome);
   };
   const menu = (): void => setCurrentView(uiLocationMenu);
