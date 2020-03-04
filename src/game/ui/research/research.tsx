@@ -8,7 +8,7 @@ type TUiResearch = {} & TUiGameLayout;
 
 const UiResearch: React.FC<TUiResearch> = ({ galaxy, action }) => {
   return (
-    <UiGameLayout galaxy={galaxy} action={action} actionName={'center'}>
+    <UiGameLayout galaxy={galaxy} action={action}>
       research view
     </UiGameLayout>
   );

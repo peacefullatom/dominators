@@ -1,1 +1,43 @@
 @import '../../../common.scss';
+
+.fleet {
+  width: $w;
+  height: $hT * 9;
+  display: flex;
+
+  .left {
+    width: $wT * 7;
+    height: $hT * 9;
+
+    .ships.shipyards {
+      width: $wT * 7;
+      height: $hT * 7;
+
+      .header {
+        width: $wT * 7;
+        height: $hT;
+        justify-content: space-around;
+
+        button {
+          width: $wT;
+          height: $hT;
+        }
+      }
+
+      .table {
+        width: $wT * 7;
+        height: $hT * 6;
+      }
+    }
+
+    .governor {
+      width: $wT * 7;
+      height: $hT * 2;
+    }
+  }
+
+  .right {
+    width: $wT * 3;
+    height: $hT * 9;
+  }
+}

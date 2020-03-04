@@ -8,7 +8,7 @@ type TUiEspionage = {} & TUiGameLayout;
 
 const UiEspionage: React.FC<TUiEspionage> = ({ galaxy, action }) => {
   return (
-    <UiGameLayout galaxy={galaxy} action={action} actionName={'center'}>
+    <UiGameLayout galaxy={galaxy} action={action}>
       Espionage view
     </UiGameLayout>
   );

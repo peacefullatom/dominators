@@ -1,10 +1,15 @@
 /** minimum/default skill level */
 import ID from '../../../../util/id';
 
-
 /** maximum skill level */
 export const governorSkillLevelDefault = 0.02;
 export const governorSkillLevelMaximum = 0.25;
+
+/** avatar, normalized skill level */
+type TGovernorBio = {
+  avatar: string;
+  skill: number;
+};
 
 /** governor description */
 export type TGovernor = {
@@ -43,5 +48,33 @@ export default class Governor implements TGovernor {
     this.fleet = options?.fleet ?? governorSkillLevelDefault;
     this.population = options?.population ?? governorSkillLevelDefault;
     this.research = options?.research ?? governorSkillLevelDefault;
+  }
+
+  readableSkill(skill: number): number {
+    return Math.floor(skill * 100);
+  }
+
+  bio(skill: number): TGovernorBio {
+    return { avatar: this.avatar, skill: this.readableSkill(skill) };
+  }
+
+  bioConstruction(): TGovernorBio {
+    return this.bio(this.construction);
+  }
+
+  bioEspionage(): TGovernorBio {
+    return this.bio(this.espionage);
+  }
+
+  bioFleet(): TGovernorBio {
+    return this.bio(this.fleet);
+  }
+
+  bioPopulation(): TGovernorBio {
+    return this.bio(this.population);
+  }
+
+  bioResearch(): TGovernorBio {
+    return this.bio(this.research);
   }
 }

@@ -8,7 +8,7 @@ type TUiPlanets = {} & TUiGameLayout;
 
 const UiPlanets: React.FC<TUiPlanets> = ({ galaxy, action }) => {
   return (
-    <UiGameLayout galaxy={galaxy} action={action} actionName={'center'}>
+    <UiGameLayout galaxy={galaxy} action={action}>
       Planets view
     </UiGameLayout>
   );

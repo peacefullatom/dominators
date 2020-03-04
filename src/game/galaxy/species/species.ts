@@ -2,7 +2,7 @@ import ID from '../../../util/id';
 import { atmosphereTypeNitrogenOxygen } from '../atmosphere/atmosphere';
 import { gravityTypeNormal } from '../gravity/gravity';
 import { skillTypeNormal } from '../skill/skill';
-import { TGovernor } from '../system/governor/governor';
+import Governor from '../system/governor/governor';
 import { temperatureTypeNeutral } from '../temperature/temperature';
 
 /** activities shared by species */
@@ -69,23 +69,23 @@ export type TSpecies = {
   /** construction skill modifier */
   construction: number;
   /** governor used to modify an overall construction points */
-  leadOfConstruction?: TGovernor;
+  leadOfConstruction?: Governor;
   /** espionage skill modifier */
   espionage: number;
   /** governor used to modify an overall espionage points */
-  leadOfEspionage?: TGovernor;
+  leadOfEspionage?: Governor;
   /** fleet command skill modifier */
   fleet: number;
   /** governor used to modify an overall fleet points */
-  leadOfFleet?: TGovernor;
+  leadOfFleet?: Governor;
   /** population skill modifier */
   population: number;
   /** governor used to modify an overall population points */
-  leadOfPopulation?: TGovernor;
+  leadOfPopulation?: Governor;
   /** research skill modifier */
   research: number;
   /** governor used to modify an overall research points */
-  leadOfResearch?: TGovernor;
+  leadOfResearch?: Governor;
   /** relations with other species */
   relations: TSpeciesRelations;
   /** player's species */
@@ -109,15 +109,15 @@ export default class Species implements TSpecies {
   temperature: number[];
   ignoreTemperature: boolean;
   construction: number;
-  leadOfConstruction?: TGovernor;
+  leadOfConstruction?: Governor;
   espionage: number;
-  leadOfEspionage?: TGovernor;
+  leadOfEspionage?: Governor;
   fleet: number;
-  leadOfFleet?: TGovernor;
+  leadOfFleet?: Governor;
   population: number;
-  leadOfPopulation?: TGovernor;
+  leadOfPopulation?: Governor;
   research: number;
-  leadOfResearch?: TGovernor;
+  leadOfResearch?: Governor;
   relations: TSpeciesRelations;
   player: boolean;
 

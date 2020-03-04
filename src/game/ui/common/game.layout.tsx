@@ -22,7 +22,7 @@ const UiGameLayout: React.FC<TUiGameLayout> = ({
     <div className='layout'>
       <div className='header'>
         <button className='options' onClick={action}>
-          {actionName}
+          {actionName || 'center'}
         </button>
         <div className='feed'>feed</div>
         <button className='expand'>news</button>
