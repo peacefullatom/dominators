@@ -1,5 +1,5 @@
 import { gravityTypeNormal } from '../../galaxy/gravity/gravity';
-import { skillTypeNormal, skillTypeVeryHigh } from '../../galaxy/skill/skill';
+import { skillTypeVeryHigh, skillTypeVeryLow } from '../../galaxy/skill/skill';
 import Species from '../../galaxy/species/species';
 
 const DataSpeciesPopulation = new Species({
@@ -14,11 +14,11 @@ const DataSpeciesPopulation = new Species({
   anaerobic: true,
   temperature: [],
   ignoreTemperature: true,
-  construction: skillTypeNormal,
-  espionage: skillTypeNormal,
-  fleet: skillTypeNormal,
+  construction: skillTypeVeryLow,
+  espionage: skillTypeVeryLow,
+  fleet: skillTypeVeryLow,
   population: skillTypeVeryHigh,
-  research: skillTypeNormal,
+  research: skillTypeVeryLow,
   relations: {},
 });
 
