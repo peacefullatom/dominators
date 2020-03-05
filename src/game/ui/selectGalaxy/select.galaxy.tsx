@@ -31,6 +31,7 @@ const UiSelectGalaxy: React.FC<TUiSelectGalaxy> = ({
   const [matrix, setMatrix] = useState<TPoint[]>(galaxy.matrix);
   const [density, setDensity] = useState(galaxy.density);
   const [speciesCount, setSpeciesCount] = useState(galaxy.speciesCount);
+  const [galaxyName, setGalaxyName] = useState(galaxy.name);
   const parent = React.useRef<HTMLDivElement>(null);
 
   React.useEffect(() => {
@@ -38,15 +39,20 @@ const UiSelectGalaxy: React.FC<TUiSelectGalaxy> = ({
     if (container) {
       setMatrix(() => {
         galaxy.generate();
-        galaxy.embed(container);
+        galaxy.embed(container, { systems: true });
         return galaxy.matrix;
       });
+
+      // debug
+      // next();
+      // debug
     }
   }, [parent]);
 
   const generate = (): void => {
     galaxy.generate();
     galaxy.redraw();
+    setGalaxyName(galaxy.name);
   };
 
   const updateDensity = (d: number): void => {
@@ -102,6 +108,9 @@ const UiSelectGalaxy: React.FC<TUiSelectGalaxy> = ({
               </option>
             ))}
           </select>
+        </div>
+        <div className='control'>
+          <span>Galaxy name: {galaxyName}</span>
         </div>
         <div className='control'>
           <button onClick={(): void => generate()}>New galaxy</button>

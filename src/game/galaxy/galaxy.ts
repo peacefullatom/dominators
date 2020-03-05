@@ -4,9 +4,10 @@ import CreateDistributedPoints from '../../util/poisson';
 import RandomNumber from '../../util/randomNumber';
 import RandomValue from '../../util/randomValue';
 import GalaxyCanvas, { TGalaxyCanvasOptions, TGalaxyLayers } from './galaxy.canvas';
-import { galaxyDensityMedium, galaxySpeciesCountDefault } from './galaxy.const';
+import { galaxyDensityMedium, galaxyNames, galaxySpeciesCountDefault } from './galaxy.const';
 import { TSpecies } from './species/species';
 import System, { TSystem } from './system/system';
+import { systemNames } from './system/system.const';
 
 /** galaxy description */
 export type TGalaxy = {
@@ -48,7 +49,7 @@ export default class Galaxy implements TGalaxy {
 
   constructor(options?: TGalaxyOptions) {
     this.id = options?.id ?? ID();
-    this.name = options?.name ?? ``;
+    this.name = options?.name ?? RandomValue(galaxyNames);
     this.density = options?.density ?? galaxyDensityMedium;
     this.systems = options?.systems ?? [];
     this.wormholes = options?.wormholes ?? [];
@@ -155,8 +156,12 @@ export default class Galaxy implements TGalaxy {
 
   /** generate new galaxy */
   generate(matrix?: TPoint[]): void {
+    this.name = RandomValue(galaxyNames);
     this.matrix = matrix || this.seed();
-    this.systems = this.matrix.map(() => new System());
+    const names = systemNames
+      .slice(0, this.matrix.length)
+      .sort(() => (Math.random() >= 0.5 ? -1 : 1));
+    this.systems = this.matrix.map((m, i) => new System({ name: names[i] }));
     this.resize();
     this.linkSystems(this.systems);
   }

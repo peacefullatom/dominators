@@ -200,7 +200,7 @@ export default class GalaxyCanvas implements TGalaxyCanvas {
       control.style.top = N2Px(system.coordinates.y);
       control.style.cursor = system.populated && player ? 'pointer' : '';
       control.style.transform = 'translateX(-50%) translateY(-50%)';
-      control.title = system.id;
+      control.title = system.name;
       control.addEventListener('mouseenter', () =>
         this.highlightSystem(system)
       );
