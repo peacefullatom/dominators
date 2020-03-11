@@ -6,10 +6,9 @@ import CreateDistributedPoints from '../util/poisson';
 import RandomValue from '../util/randomValue';
 import { TGalaxyData } from './galaxy/Galaxy.types';
 import { TSpecies } from './galaxy/species/Species.types';
-import { gameLocationHome } from './Game.const';
+import { gameLocationGalaxy, gameLocationHome } from './Game.const';
 import { TGame } from './Game.types';
 import Menu from './menu/Menu';
-import { menuLocationStart } from './menu/Menu.const';
 
 const Game: React.FC<TGame> = ({ view }) => {
   const [screen, setScreen] = useState(view ?? gameLocationHome);
@@ -24,13 +23,12 @@ const Game: React.FC<TGame> = ({ view }) => {
     systems: [],
   });
 
-  if (screen === gameLocationHome) {
+  if (screen === gameLocationGalaxy) {
     return <div>dominate!!!</div>;
   }
 
   return (
     <Menu
-      menuView={menuLocationStart}
       setGameView={setScreen}
       galaxyData={galaxyData}
       setGalaxyData={setGalaxyData}

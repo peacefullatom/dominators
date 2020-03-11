@@ -7,7 +7,6 @@ import { gameDefaultLocation } from '../Game.const';
 import Intro from '../intro/Intro';
 import Load from '../load/Load';
 import Start from '../start/Start';
-import { startLocationSelectGalaxy } from '../start/Start.const';
 import MenuItem from './menu-item/MenuItem';
 import { TMenuItem } from './menu-item/MenuItem.types';
 import { menuLocationAbout, menuLocationIntro, menuLocationLoad, menuLocationStart } from './Menu.const';
@@ -34,7 +33,6 @@ const Menu: React.FC<TMenu> = ({
   if (screen === menuLocationStart) {
     return (
       <Start
-        view={startLocationSelectGalaxy}
         setView={setScreen}
         galaxyData={galaxyData}
         setGalaxyData={setGalaxyData}
