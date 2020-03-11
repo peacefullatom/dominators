@@ -1,2 +1,3 @@
-export const gameStatePlay = 0;
-export const gameStatePause = 1;
+export const gameDefaultLocation = ``;
+export const gameLocationHome = 'home';
+export const gameLocationGalaxy = 'galaxy';

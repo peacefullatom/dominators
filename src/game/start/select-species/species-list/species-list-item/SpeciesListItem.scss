@@ -1,0 +1,16 @@
+@import '../../../../../common.scss';
+
+.species_list_item {
+  @extend %normal;
+  width: 7rem;
+  height: 100%;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+
+  &.selected,
+  &:hover {
+    @extend %hover;
+  }
+}

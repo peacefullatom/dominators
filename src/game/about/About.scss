@@ -1,0 +1,14 @@
+@import '../../common.scss';
+
+.about {
+  width: 100%;
+  height: 100%;
+  padding: 0 10rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  .about_block {
+    font-size: 1.2rem;
+  }
+}

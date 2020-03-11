@@ -1,10 +1,25 @@
-$w: 800px;
-$h: 600px;
-$wT: $w / 10;
-$hT: $h / 10;
+// $accent: #8f8f8f;
+$accent: #569cd6;
+$accentHover: scale-color($accent, $lightness: 40%);
+$background: #1e1e1e;
+$backgroundAccent: scale-color($background, $lightness: -40%);
 
-%flex {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+%normal {
+  color: $accent;
+  background: $background;
+  transition: color 0.3s, background 0.3s;
+}
+
+%hover {
+  color: $accentHover;
+  background: scale-color($background, $lightness: -20%, $alpha: 1%);
+}
+
+%normal_color {
+  color: $accent;
+  transition: color 0.3s;
+}
+
+%hover_color {
+  color: $accentHover;
 }

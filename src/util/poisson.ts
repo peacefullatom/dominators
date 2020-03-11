@@ -6,10 +6,11 @@ const poissonDiscSampler = (
   radius: number,
   candidates: number
 ): (() => TPoint | undefined) => {
+  const gap = 3;
   const radius2 = radius ** 2;
   const R = 3 * radius2;
   const cellSize = radius * Math.SQRT1_2;
-  const size = 100;
+  const size = 100 - gap;
   const gridWidth = Math.ceil(size / cellSize);
   const gridHeight = Math.ceil(size / cellSize);
   const grid: TPoint[] = new Array(gridWidth * gridHeight);
@@ -64,7 +65,7 @@ const poissonDiscSampler = (
         const r = Math.sqrt(Math.random() * R + radius2);
         const x = p.x + r * Math.cos(a);
         const y = p.y + r * Math.sin(a);
-        if (0 <= x && x < size && 0 <= y && y < size && far(x, y)) {
+        if (gap <= x && x < size && gap <= y && y < size && far(x, y)) {
           return sample(x, y);
         }
       }

@@ -10,6 +10,14 @@
   "repository": "https://github.com/peacefullatom/galaxy.git",
   "author": "Yuriy Markov <peacefullatom@gmail.com>",
   "license": "MIT",
+  "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.20",
+    "@fortawesome/free-brands-svg-icons": "^5.12.1",
+    "@fortawesome/free-regular-svg-icons": "^5.12.1",
+    "@fortawesome/free-solid-svg-icons": "^5.12.1",
+    "@fortawesome/react-fontawesome": "^0.1.9",
+    "react-fontawesome": "^1.7.1"
+  },
   "devDependencies": {
     "@babel/core": "^7.8.6",
     "@babel/preset-env": "^7.8.6",
@@ -21,9 +29,10 @@
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.10.0",
     "eslint-plugin-prettier": "^3.1.2",
+    "eslint-plugin-react": "^7.19.0",
     "parcel-bundler": "^1.12.4",
     "prettier": "^1.19.1",
-    "react": "^16.13.0",
+    "react": "16.x",
     "react-dom": "^16.13.0",
     "sass": "^1.26.1",
     "typescript": "^3.8.3"
@@ -58,8 +67,5 @@
         "version": "detect"
       }
     }
-  },
-  "dependencies": {
-    "eslint-plugin-react": "^7.18.3"
   }
 }

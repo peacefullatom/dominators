@@ -1,0 +1,34 @@
+@import '../../../../common.scss';
+
+.species_details {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  padding: 0 3rem;
+  box-sizing: border-box;
+
+  .details_left {
+    width: 15rem;
+    margin-right: 1rem;
+
+    .left_avatar {
+      @extend %hover;
+      width: 100%;
+      height: 18rem;
+    }
+  }
+
+  .details_right {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+
+    .right_name {
+      margin-bottom: 1rem;
+    }
+
+    .right_description {
+      height: 100%;
+    }
+  }
+}

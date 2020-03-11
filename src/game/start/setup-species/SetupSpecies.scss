@@ -1,0 +1,45 @@
+@import '../../../common.scss';
+
+.setup_species {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  padding: 0 3rem;
+  box-sizing: border-box;
+
+  .species_left {
+    width: 15rem;
+    margin-right: 1rem;
+
+    .left_avatar {
+      @extend %hover;
+      width: 100%;
+      height: 18rem;
+    }
+
+    .left_name {
+      width: 100%;
+      height: 3rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.5rem;
+    }
+  }
+
+  .species_right {
+    width: 100%;
+
+    .right_row {
+      display: flex;
+
+      .row_cell {
+        flex-basis: 50%;
+
+        .cell_label {
+          font-size: 1.5rem;
+        }
+      }
+    }
+  }
+}

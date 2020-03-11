@@ -1,0 +1,16 @@
+@import '../../../common.scss';
+
+.menu_item {
+  @extend %normal;
+  width: 15rem;
+  height: 5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  font-size: 2rem;
+
+  &:hover {
+    @extend %hover;
+  }
+}

@@ -1,0 +1,21 @@
+@import '../../../../../common.scss';
+
+.multi_select_checkbox {
+  input[type='checkbox'] {
+    display: none;
+  }
+
+  label {
+    @extend %normal_color;
+    font-size: 1.3rem;
+    cursor: pointer;
+
+    &.disabled {
+      color: scale-color($accent, $alpha: -50%);
+    }
+
+    &:hover {
+      @extend %hover_color;
+    }
+  }
+}

@@ -1,9 +1,0 @@
-@import '../../../common.scss';
-
-.intro {
-  .content {
-    @extend %flex;
-    width: $w;
-    height: $hT * 8;
-  }
-}
