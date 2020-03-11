@@ -1,0 +1,30 @@
+@import '../../../../../common.scss';
+
+.value_select {
+  display: flex;
+
+  button {
+    display: none;
+  }
+
+  label {
+    @extend %normal_color;
+    font-size: 1.3rem;
+    cursor: pointer;
+
+    &.disabled {
+      color: scale-color($accent, $alpha: -50%);
+    }
+
+    &:hover {
+      @extend %hover_color;
+    }
+  }
+
+  .select_description {
+    font-size: 1.3rem;
+    white-space: nowrap;
+    margin: 0 0.5rem;
+    width: 100%;
+  }
+}

@@ -4,6 +4,7 @@ import { galaxyDensityMedium, galaxyNames, galaxySpeciesCountDefault } from '../
 import { speciesHuman } from '../data/species/human';
 import CreateDistributedPoints from '../util/poisson';
 import RandomValue from '../util/randomValue';
+import CommandCenter from './command-center/CommandCenter';
 import { TGalaxyData } from './galaxy/Galaxy.types';
 import { TSpecies } from './galaxy/species/Species.types';
 import { gameLocationGalaxy, gameLocationHome } from './Game.const';
@@ -24,7 +25,13 @@ const Game: React.FC<TGame> = ({ view }) => {
   });
 
   if (screen === gameLocationGalaxy) {
-    return <div>dominate!!!</div>;
+    return (
+      <CommandCenter
+        setView={setScreen}
+        galaxyData={galaxyData}
+        setGalaxyData={setGalaxyData}
+      />
+    );
   }
 
   return (

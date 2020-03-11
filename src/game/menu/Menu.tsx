@@ -4,15 +4,15 @@ import { faTwitter } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useState } from 'react';
 
-import About from '../about/About';
 import { gameDefaultLocation } from '../Game.const';
-import Intro from '../intro/Intro';
-import Load from '../load/Load';
-import Start from '../start/Start';
+import About from './about/About';
+import Intro from './intro/Intro';
+import Load from './load/Load';
 import MenuItem from './menu-item/MenuItem';
 import { TMenuItem } from './menu-item/MenuItem.types';
 import { menuLocationAbout, menuLocationIntro, menuLocationLoad, menuLocationStart } from './Menu.const';
 import { TMenu } from './Menu.types';
+import Start from './start/Start';
 
 const Menu: React.FC<TMenu> = ({
   menuView,
