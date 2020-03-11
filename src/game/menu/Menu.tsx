@@ -1,5 +1,7 @@
 import './Menu.scss';
 
+import { faTwitter } from '@fortawesome/free-brands-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useState } from 'react';
 
 import About from '../about/About';
@@ -54,6 +56,15 @@ const Menu: React.FC<TMenu> = ({
       {items.map((item, index) => (
         <MenuItem key={index} {...item} />
       ))}
+      <div className='menu_contact'>
+        <a
+          href='https://twitter.com/dominators_game'
+          target='_blank'
+          rel='noopener noreferrer'
+        >
+          Follow me for the updates! <FontAwesomeIcon icon={faTwitter} />
+        </a>
+      </div>
     </div>
   );
 };
