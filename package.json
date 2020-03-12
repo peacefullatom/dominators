@@ -5,7 +5,7 @@
   "main": "index.html",
   "scripts": {
     "start": "parcel index.html --port 8000",
-    "build": "parcel build index.html"
+    "build": "parcel build index.html --no-source-maps"
   },
   "repository": "https://github.com/peacefullatom/galaxy.git",
   "author": "Yuriy Markov <peacefullatom@gmail.com>",
