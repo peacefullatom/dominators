@@ -13,13 +13,9 @@ import { TMenuItem } from './menu-item/MenuItem.types';
 import { menuLocationAbout, menuLocationIntro, menuLocationLoad, menuLocationStart } from './Menu.const';
 import { TMenu } from './Menu.types';
 import Start from './start/Start';
+import { startLocationSelectGalaxy } from './start/Start.const';
 
-const Menu: React.FC<TMenu> = ({
-  menuView,
-  galaxyData,
-  setGalaxyData,
-  setGameView,
-}) => {
+const Menu: React.FC<TMenu> = ({ menuView, setGameView }) => {
   const [screen, setScreen] = useState(menuView ?? gameDefaultLocation);
   const items: TMenuItem[] = [
     { title: 'Intro', action: (): void => setScreen(menuLocationIntro) },
@@ -35,9 +31,8 @@ const Menu: React.FC<TMenu> = ({
   if (screen === menuLocationStart) {
     return (
       <Start
+        startView={startLocationSelectGalaxy}
         setView={setScreen}
-        galaxyData={galaxyData}
-        setGalaxyData={setGalaxyData}
         setGameView={setGameView}
       />
     );

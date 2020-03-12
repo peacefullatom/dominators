@@ -8,7 +8,7 @@ import { speciesNomad } from '../../../../data/species/nomad';
 import { speciesPopulation } from '../../../../data/species/population';
 import { speciesScientist } from '../../../../data/species/scientist';
 import { speciesSpy } from '../../../../data/species/spy';
-import { TSpecies } from '../../../galaxy/species/Species.types';
+import { useGalaxy } from '../../../galaxy/GalaxyContext';
 import StartLayout from '../start-layout/StartLayout';
 import { TSelectSpecies } from './SelectSpecies.types';
 import SpeciesDetails from './species-details/SpeciesDetails';
@@ -23,23 +23,14 @@ const predefinedSpecies = [
   speciesSpy,
 ];
 
-const SelectSpecies: React.FC<TSelectSpecies> = ({
-  setView,
-  forward,
-  galaxyData: galaxyData,
-  setGalaxyData: setgalaxyData,
-}) => {
-  const selectSpecies = (player: TSpecies): void =>
-    setgalaxyData({ ...galaxyData, player });
+const SelectSpecies: React.FC<TSelectSpecies> = ({ setView, forward }) => {
+  const { galaxy } = useGalaxy();
+
   return (
     <StartLayout setView={setView} forward={forward}>
       <div className='select_species'>
-        <SpeciesList
-          selection={galaxyData.player}
-          species={predefinedSpecies}
-          selectSpecies={selectSpecies}
-        />
-        <SpeciesDetails {...galaxyData.player} />
+        <SpeciesList selection={galaxy.player} species={predefinedSpecies} />
+        <SpeciesDetails />
       </div>
     </StartLayout>
   );

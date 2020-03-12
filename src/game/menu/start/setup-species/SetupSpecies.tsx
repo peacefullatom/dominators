@@ -5,6 +5,7 @@ import React from 'react';
 import { atmosphereTypes } from '../../../../data/atmosphere/atmosphere';
 import { gravityTypes } from '../../../../data/gravity/gravity';
 import { temperatureTypes } from '../../../../data/temperature/temperature';
+import { useGalaxy } from '../../../galaxy/GalaxyContext';
 import StartLayout from '../start-layout/StartLayout';
 import MultiSelect from './multi-select/MultiSelect';
 import { TMultiSelectResult, TSetupSpecies } from './SetupSpecies.types';
@@ -20,14 +21,9 @@ import {
 } from './SetupSpecies.utils';
 import ValueSelect from './value-select/ValueSelect';
 
-const SetupSpecies: React.FC<TSetupSpecies> = ({
-  galaxyData,
-  setGalaxyData,
-  setView,
-  back,
-  forward,
-}) => {
-  const { player } = galaxyData;
+const SetupSpecies: React.FC<TSetupSpecies> = ({ setView, back, forward }) => {
+  const { galaxy, setGalaxy } = useGalaxy();
+  const { player } = galaxy;
   const gravity = player.defyGravity
     ? scoreParam(gravityTypes) - 1
     : scoreParam(player.gravitation);
@@ -55,10 +51,10 @@ const SetupSpecies: React.FC<TSetupSpecies> = ({
   const remainingPoints = 15 - points;
 
   const update = (data: TMultiSelectResult): void => {
-    setGalaxyData({
-      ...galaxyData,
+    setGalaxy({
+      ...galaxy,
       player: {
-        ...galaxyData.player,
+        ...galaxy.player,
         gravitation: updateControl(data.gravitation) || player.gravitation,
         defyGravity: updateFactor(!!player.defyGravity, data.gravitation),
         atmosphere: updateControl(data.atmosphere) || player.atmosphere,
@@ -73,10 +69,10 @@ const SetupSpecies: React.FC<TSetupSpecies> = ({
   };
 
   const updateSkill = (data: number, skill: string): void => {
-    setGalaxyData({
-      ...galaxyData,
+    setGalaxy({
+      ...galaxy,
       player: {
-        ...galaxyData.player,
+        ...galaxy.player,
         construction: skill === 'construction' ? data : player.construction,
         espionage: skill === 'espionage' ? data : player.espionage,
         fleet: skill === 'fleet' ? data : player.fleet,

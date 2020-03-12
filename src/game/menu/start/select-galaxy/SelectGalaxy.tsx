@@ -8,26 +8,18 @@ import {
   galaxyDensities,
   galaxyDensityVeryDense,
   galaxyDensityVerySparse,
-  galaxyNames,
   galaxySpeciesCountMaximum,
   galaxySpeciesCountMinimum,
 } from '../../../../data/galaxy/galaxy';
-import CreateDistributedPoints from '../../../../util/poisson';
-import RandomValue from '../../../../util/randomValue';
 import Galaxy from '../../../galaxy/Galaxy';
-import { TGalaxyData } from '../../../galaxy/Galaxy.types';
+import { useGalaxy } from '../../../galaxy/GalaxyContext';
 import StartLayout from '../start-layout/StartLayout';
 import SelectControl from './select-control/SelectControl';
 import { TSelectGalaxy } from './SelectGalaxy.types';
 import { densityLabel } from './SelectGalaxy.utils';
 
-const SelectGalaxy: React.FC<TSelectGalaxy> = ({
-  galaxyData: galaxyData,
-  setGalaxyData: setgalaxyData,
-  setView,
-  back,
-  forward,
-}) => {
+const SelectGalaxy: React.FC<TSelectGalaxy> = ({ setView, back, forward }) => {
+  const { galaxy, generate } = useGalaxy();
   const plane = createRef<HTMLDivElement>();
   const species = Array.from(
     {
@@ -37,59 +29,39 @@ const SelectGalaxy: React.FC<TSelectGalaxy> = ({
   );
   const densities = [...galaxyDensities].reverse();
 
-  const update = (options: TGalaxyData): void => {
-    setgalaxyData({
-      ...options,
-      name: RandomValue(galaxyNames),
-      seed: CreateDistributedPoints(options.density),
-    });
-  };
-
-  const generate = (): void => {
-    update({ ...galaxyData });
-  };
-
-  const setDensity = (d: number): void => {
-    update({ ...galaxyData, density: d });
-  };
-
-  const setSpeciesCount = (c: number): void => {
-    update({ ...galaxyData, speciesCount: c });
-  };
-
   return (
     <StartLayout setView={setView} back={back} forward={forward}>
       <div className='select_galaxy'>
-        <div className='galaxy_name'>{galaxyData.name}</div>
+        <div className='galaxy_name'>{galaxy.name}</div>
         <div ref={plane} className='galaxy_canvas'>
-          <Galaxy data={galaxyData as TGalaxyData} setView={setView} />
+          <Galaxy />
         </div>
         <div className='galaxy_controls'>
           <div className='controls_cell'>
             galaxy density{' '}
             <SelectControl
-              value={galaxyData.density}
+              value={galaxy.density}
               values={densities}
               max={galaxyDensityVeryDense}
               min={galaxyDensityVerySparse}
-              label={densityLabel(galaxyData.density)}
-              update={setDensity}
+              label={densityLabel(galaxy.density)}
+              update={(density): void => generate({ density })}
             />
           </div>
           <div className='controls_cell'>
             species count{' '}
             <SelectControl
-              value={galaxyData.speciesCount}
+              value={galaxy.speciesCount}
               values={species}
               min={galaxySpeciesCountMinimum}
               max={galaxySpeciesCountMaximum}
-              label={galaxyData.speciesCount.toString()}
-              update={setSpeciesCount}
+              label={galaxy.speciesCount.toString()}
+              update={(speciesCount): void => generate({ speciesCount })}
             />
           </div>
           <div className='controls_cell'>
             <div>generate</div>
-            <div className='new_galaxy' onClick={generate}>
+            <div className='new_galaxy' onClick={(): void => generate()}>
               <FontAwesomeIcon icon={faSyncAlt} /> new galaxy
             </div>
           </div>

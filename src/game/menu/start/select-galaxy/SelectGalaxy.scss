@@ -26,6 +26,7 @@
     display: flex;
     justify-content: space-around;
     align-items: center;
+    user-select: none;
 
     .controls_cell {
       flex-basis: 30%;

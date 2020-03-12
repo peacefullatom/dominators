@@ -3,10 +3,7 @@ import { useEffect, useState } from 'react';
 import { TDimensions } from '../types';
 
 export default (ref: React.RefObject<HTMLElement>): TDimensions | undefined => {
-  const [dimensions, setDimensions] = useState<{
-    width: number;
-    height: number;
-  }>();
+  const [dimensions, setDimensions] = useState<TDimensions>();
 
   useEffect(() => {
     if (!ref.current) {

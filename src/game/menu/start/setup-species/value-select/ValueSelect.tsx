@@ -20,7 +20,7 @@ const ValueSelect: React.FC<TValueSelect> = ({
   const decreaseDisabled = selection === skillTypeVeryLow;
   const increaseDisabled =
     selection === skillTypeVeryHigh ||
-    remainingPoints - skillTypes.indexOf(selection ?? 0) < 0;
+    remainingPoints - skillTypes.indexOf(selection ?? 0) <= 0;
   const mutate = (direction: -1 | 1): void => {
     update(skillTypes[skillTypes.indexOf(selection ?? 0) + direction], label);
   };

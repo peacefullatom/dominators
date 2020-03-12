@@ -1,18 +1,24 @@
-import { TComponent, TPoint } from '../../types';
+import { TPoint } from '../../types';
 import { TSpecies } from './species/Species.types';
-import { TSystem } from './system/System.const';
+import { TSystem } from './system/System.types';
+
+export type TGalaxyGenerate = {
+  seed: TPoint[];
+  systems: TSystem[];
+};
 
 export type TGalaxyData = {
   id: string;
   name: string;
   density: number;
   seed: TPoint[];
+  systems: TSystem[];
   speciesCount: number;
   player: TSpecies;
   species: TSpecies[];
-  systems: TSystem[];
 };
 
 export type TGalaxy = {
-  data: TGalaxyData;
-} & TComponent;
+  galaxy: TGalaxyData;
+  setGalaxy: (data: TGalaxyData) => void;
+};

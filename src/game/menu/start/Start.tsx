@@ -1,6 +1,6 @@
 import './Start.scss';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { gameDefaultLocation, gameLocationGalaxy } from '../../Game.const';
 import SelectGalaxy from './select-galaxy/SelectGalaxy';
@@ -9,20 +9,16 @@ import SetupSpecies from './setup-species/SetupSpecies';
 import { startLocationSelectGalaxy, startLocationSetupSpecies } from './Start.const';
 import { TStart } from './Start.types';
 
-const Start: React.FC<TStart> = ({
-  view,
-  setView,
-  galaxyData,
-  setGalaxyData,
-  setGameView,
-}) => {
-  const [screen, setScreen] = useState(view ?? gameDefaultLocation);
+const Start: React.FC<TStart> = ({ startView, setView, setGameView }) => {
+  const [screen, setScreen] = useState(startView ?? gameDefaultLocation);
+
+  useEffect(() => {
+    // setGameView(gameLocationGalaxy);
+  }, [screen]);
 
   if (screen === startLocationSelectGalaxy) {
     return (
       <SelectGalaxy
-        galaxyData={galaxyData}
-        setGalaxyData={setGalaxyData}
         setView={setView}
         back={(): void => setScreen(startLocationSetupSpecies)}
         forward={(): void => setGameView(gameLocationGalaxy)}
@@ -33,8 +29,6 @@ const Start: React.FC<TStart> = ({
   if (screen === startLocationSetupSpecies) {
     return (
       <SetupSpecies
-        galaxyData={galaxyData}
-        setGalaxyData={setGalaxyData}
         setView={setView}
         back={(): void => setScreen(gameDefaultLocation)}
         forward={(): void => setScreen(startLocationSelectGalaxy)}
@@ -44,8 +38,6 @@ const Start: React.FC<TStart> = ({
 
   return (
     <SelectSpecies
-      galaxyData={galaxyData}
-      setGalaxyData={setGalaxyData}
       setView={setView}
       forward={(): void => setScreen(startLocationSetupSpecies)}
     />

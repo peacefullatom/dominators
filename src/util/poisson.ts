@@ -1,5 +1,7 @@
 import { TPoint } from '../types';
 
+export const poissonDiscSamplerWidth = 100;
+
 // source is here
 // https://bl.ocks.org/Azgaar/4904e89c12c7347a9e1639edb7655e10
 const poissonDiscSampler = (
@@ -10,7 +12,7 @@ const poissonDiscSampler = (
   const radius2 = radius ** 2;
   const R = 3 * radius2;
   const cellSize = radius * Math.SQRT1_2;
-  const size = 100 - gap;
+  const size = poissonDiscSamplerWidth - gap;
   const gridWidth = Math.ceil(size / cellSize);
   const gridHeight = Math.ceil(size / cellSize);
   const grid: TPoint[] = new Array(gridWidth * gridHeight);

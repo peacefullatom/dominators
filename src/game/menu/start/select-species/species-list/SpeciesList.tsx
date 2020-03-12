@@ -6,11 +6,7 @@ import { TSpecies } from '../../../../galaxy/species/Species.types';
 import SpeciesListItem from './species-list-item/SpeciesListItem';
 import { TSpeciesList } from './SpeciesList.types';
 
-const SpeciesList: React.FC<TSpeciesList> = ({
-  selection,
-  species,
-  selectSpecies,
-}) => {
+const SpeciesList: React.FC<TSpeciesList> = ({ selection, species }) => {
   return (
     <div className='species_list'>
       {species.map((item, index) => (
@@ -18,7 +14,6 @@ const SpeciesList: React.FC<TSpeciesList> = ({
           key={index}
           selected={selection.id === item.id}
           species={item as TSpecies}
-          selectSpecies={selectSpecies}
         />
       ))}
     </div>

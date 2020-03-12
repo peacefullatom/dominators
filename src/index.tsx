@@ -3,6 +3,6 @@ import './index.scss';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import Game from './game/Game';
+import App from './App';
 
-ReactDOM.render(<Game />, document.getElementById('app'));
+ReactDOM.render(<App />, document.getElementById('app'));
