@@ -2,18 +2,12 @@ import './Menu.scss';
 
 import { faTwitter } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { useState } from 'react';
+import React, { lazy, useState } from 'react';
 
 import { gameDefaultLocation } from '../Game.const';
-import About from './about/About';
-import Intro from './intro/Intro';
-import Load from './load/Load';
-import MenuItem from './menu-item/MenuItem';
 import { TMenuItem } from './menu-item/MenuItem.types';
 import { menuLocationAbout, menuLocationIntro, menuLocationLoad, menuLocationStart } from './Menu.const';
 import { TMenu } from './Menu.types';
-import Start from './start/Start';
-import { startLocationSelectGalaxy } from './start/Start.const';
 
 const Menu: React.FC<TMenu> = ({ menuView, setGameView }) => {
   const [screen, setScreen] = useState(menuView ?? gameDefaultLocation);
@@ -23,6 +17,11 @@ const Menu: React.FC<TMenu> = ({ menuView, setGameView }) => {
     { title: 'Load', action: (): void => setScreen(menuLocationLoad) },
     { title: 'About', action: (): void => setScreen(menuLocationAbout) },
   ];
+  const Intro = lazy(() => import('./intro/Intro'));
+  const Start = lazy(() => import('./start/Start'));
+  const Load = lazy(() => import('./load/Load'));
+  const About = lazy(() => import('./about/About'));
+  const MenuItem = lazy(() => import('./menu-item/MenuItem'));
 
   if (screen === menuLocationIntro) {
     return <Intro setView={setScreen} />;
@@ -31,7 +30,7 @@ const Menu: React.FC<TMenu> = ({ menuView, setGameView }) => {
   if (screen === menuLocationStart) {
     return (
       <Start
-        startView={startLocationSelectGalaxy}
+        // startView={startLocationSelectGalaxy}
         setView={setScreen}
         setGameView={setGameView}
       />
