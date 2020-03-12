@@ -1,0 +1,25 @@
+@import './common.scss';
+
+.spinner {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+
+  &_gear {
+    display: flex;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    font-size: 5rem;
+    animation: rotate_gear 3s linear infinite;
+  }
+}
+
+@keyframes rotate_gear {
+  0% {
+    transform: translateX(-50%) translateY(-50%) rotate(0deg);
+  }
+  100% {
+    transform: translateX(-50%) translateY(-50%) rotate(360deg);
+  }
+}

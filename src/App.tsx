@@ -1,14 +1,21 @@
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 
 import { TApp } from './App.types';
-import { GalaxyProvider } from './game/galaxy/GalaxyContext';
-import Game from './game/Game';
+import Spinner from './Spinner';
 
 const App: React.FC<TApp> = () => {
+  const GalaxyProvider = lazy(() =>
+    import('./game/galaxy/GalaxyContext').then(m => ({
+      default: m.GalaxyProvider,
+    }))
+  );
+  const Game = lazy(() => import('./game/Game'));
   return (
-    <GalaxyProvider>
-      <Game />
-    </GalaxyProvider>
+    <Suspense fallback={<Spinner />}>
+      <GalaxyProvider>
+        <Game />
+      </GalaxyProvider>
+    </Suspense>
   );
 };
 
