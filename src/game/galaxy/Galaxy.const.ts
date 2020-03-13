@@ -66,7 +66,6 @@ export const galaxyGenerate = (
     })),
     species
   );
-  console.log(systemNames.length, systems.length);
   return { seed, systems };
 };
 

@@ -7,6 +7,10 @@ export type TCommandCenterContext = {
   setMode: (mode: number) => void;
   speed: number;
   setSpeed: (speed: number) => void;
+  showNews: boolean;
+  setShowNews: (state: boolean) => void;
+  feed: string[];
+  setFeed: (feed: string[]) => void;
 };
 
 export type TCommandCenterProvider = {

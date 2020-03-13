@@ -19,7 +19,16 @@ import { TCenterLayout } from './CenterLayout.types';
 import LayoutHeader from './layout-header/LayoutHeader';
 
 const CenterLayout: React.FC<TCenterLayout> = ({ children }) => {
-  const { speed, setSpeed, mode, setMode, setView, view } = useCommandCenter();
+  const {
+    speed,
+    setSpeed,
+    mode,
+    setMode,
+    setView,
+    view,
+    showNews,
+    setShowNews,
+  } = useCommandCenter();
   const keyboard = (event: KeyboardEvent): void => {
     const { keyCode } = event;
     // +
@@ -46,6 +55,10 @@ const CenterLayout: React.FC<TCenterLayout> = ({ children }) => {
         setView(gameDefaultLocation);
       }
     }
+    // n
+    if (keyCode === 78) {
+      setShowNews(!showNews);
+    }
     // 1
     if (keyCode === 49 || keyCode === 97) {
       setView(commandCenterLocationFleet);
@@ -68,10 +81,24 @@ const CenterLayout: React.FC<TCenterLayout> = ({ children }) => {
     }
   };
 
+  const mouse = (event: MouseEvent): void => {
+    console.log(event.target);
+    if (event.target) {
+      const name = (event.target as HTMLElement).className;
+      if (!name.match(/new_item/)) {
+        setShowNews(false);
+      }
+    }
+  };
+
   useEffect(() => {
     document.addEventListener('keydown', keyboard);
+    document.addEventListener('mousedown', mouse);
 
-    return (): void => document.removeEventListener('keydown', keyboard);
+    return (): void => {
+      document.removeEventListener('keydown', keyboard);
+      document.removeEventListener('mousedown', mouse);
+    };
   });
 
   return (

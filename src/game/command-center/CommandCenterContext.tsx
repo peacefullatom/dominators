@@ -20,9 +20,22 @@ const CommandCenterProvider: FC<TCommandCenterProvider> = props => {
   const [view, setView] = useState(props.view ?? gameDefaultLocation);
   const [mode, setMode] = useState(props.mode ?? commandCenterModePause);
   const [speed, setSpeed] = useState(props.speed ?? commandCenterSpeed1);
+  const [showNews, setShowNews] = useState(false);
+  const [feed, setFeed] = useState<string[]>([]);
   const value = useMemo(
-    () => ({ view, setView, mode, setMode, speed, setSpeed }),
-    [view, mode, speed]
+    () => ({
+      view,
+      setView,
+      mode,
+      setMode,
+      speed,
+      setSpeed,
+      showNews,
+      setShowNews,
+      feed,
+      setFeed,
+    }),
+    [view, mode, speed, showNews, feed]
   );
 
   return <CommandCenterContext.Provider value={value} {...props} />;

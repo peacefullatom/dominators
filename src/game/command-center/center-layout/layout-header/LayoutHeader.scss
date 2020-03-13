@@ -26,17 +26,43 @@
   }
 
   .header_news {
-    @extend %normal;
     display: flex;
+    position: relative;
     width: 100%;
     height: 100%;
-    font-size: 2rem;
-    justify-content: flex-end;
-    align-items: center;
-    cursor: pointer;
 
-    &:hover {
-      @extend %hover;
+    .news_list {
+      position: absolute;
+      width: 100%;
+      top: 100%;
+      outline: 1px solid $accent;
+      z-index: 1;
+    }
+  }
+
+  .header_news,
+  .header_news .news_list {
+    .news_item {
+      @extend %normal;
+      display: flex;
+      position: relative;
+      width: 100%;
+      height: 100%;
+      background: $background;
+      font-size: 1.5rem;
+      justify-content: flex-end;
+      align-items: center;
+      cursor: pointer;
+      padding: 0 1rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      box-sizing: border-box;
+      z-index: 1;
+
+      &:hover {
+        @extend %hover;
+      }
     }
   }
 
