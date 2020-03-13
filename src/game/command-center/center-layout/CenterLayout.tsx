@@ -9,6 +9,7 @@ import {
   commandCenterLocationOptions,
   commandCenterLocationPlanets,
   commandCenterLocationResearch,
+  commandCenterLocationStats,
   commandCenterModePause,
   commandCenterModePlay,
   commandCenterSpeed1,
@@ -45,8 +46,8 @@ const CenterLayout: React.FC<TCenterLayout> = ({ children }) => {
     if ((keyCode === 189 || keyCode === 109) && speed > commandCenterSpeed1) {
       updateSpeed(-1);
     }
-    // p
-    if (keyCode === 80) {
+    // p / space
+    if (keyCode === 80 || keyCode === 32) {
       if (mode === commandCenterModePause) {
         setMode(commandCenterModePlay);
         setFeed(`Game paused`);
@@ -67,6 +68,10 @@ const CenterLayout: React.FC<TCenterLayout> = ({ children }) => {
     if (keyCode === 78) {
       setShowNews(!showNews);
     }
+    // c
+    if (keyCode === 67) {
+      setView(gameDefaultLocation);
+    }
     // 1
     if (keyCode === 49 || keyCode === 97) {
       setView(commandCenterLocationFleet);
@@ -85,7 +90,7 @@ const CenterLayout: React.FC<TCenterLayout> = ({ children }) => {
     }
     // 5
     if (keyCode === 53 || keyCode === 101) {
-      setView(commandCenterLocationPlanets);
+      setView(commandCenterLocationStats);
     }
   };
 
