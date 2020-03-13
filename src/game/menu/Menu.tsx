@@ -2,7 +2,7 @@ import './Menu.scss';
 
 import { faTwitter } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { lazy } from 'react';
+import React, { lazy, useEffect } from 'react';
 
 import About from './about/About';
 import Intro from './intro/Intro';
@@ -16,15 +16,45 @@ import Start from './start/Start';
 
 const Menu: React.FC<TMenu> = () => {
   const { view, setView } = useMenu();
+  const intro = (): void => setView(menuLocationIntro);
+  const start = (): void => setView(menuLocationStart);
+  const load = (): void => setView(menuLocationLoad);
+  const about = (): void => setView(menuLocationAbout);
   const items: TMenuItem[] = [
-    { title: 'Intro', action: (): void => setView(menuLocationIntro) },
-    { title: 'Start', action: (): void => setView(menuLocationStart) },
-    { title: 'Load', action: (): void => setView(menuLocationLoad) },
-    { title: 'About', action: (): void => setView(menuLocationAbout) },
+    { title: 'Intro', action: intro },
+    { title: 'Start', action: start },
+    { title: 'Load', action: load },
+    { title: 'About', action: about },
   ];
   const StartProvider = lazy(() =>
     import('./start/StartContext').then(m => ({ default: m.StartProvider }))
   );
+
+  const keyboard = (event: KeyboardEvent): void => {
+    const { keyCode } = event;
+    // i
+    if (keyCode === 73) {
+      intro();
+    }
+    // s
+    if (keyCode === 83) {
+      start();
+    }
+    // l
+    if (keyCode === 76) {
+      load();
+    }
+    // a
+    if (keyCode === 65) {
+      about();
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('keydown', keyboard);
+
+    return (): void => document.removeEventListener('keydown', keyboard);
+  });
 
   if (view === menuLocationIntro) {
     return <Intro />;
