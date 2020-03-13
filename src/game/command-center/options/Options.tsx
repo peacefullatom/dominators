@@ -1,6 +1,6 @@
 import './Options.scss';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { gameDefaultLocation } from '../../Game.const';
 import { useGame } from '../../GameContext';
@@ -33,6 +33,28 @@ const Options: React.FC<TOptions> = () => {
   const quit = (): void => {
     setView(gameDefaultLocation);
   };
+
+  const keyboard = (event: KeyboardEvent): void => {
+    const { keyCode } = event;
+    // s
+    if (keyCode === 83) {
+      console.log('save game');
+    }
+    // l
+    if (keyCode === 76) {
+      console.log('load game');
+    }
+    // e
+    if (keyCode === 69) {
+      quit();
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('keydown', keyboard);
+
+    return (): void => document.removeEventListener('keydown', keyboard);
+  });
 
   return (
     <CenterLayout>

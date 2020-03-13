@@ -66,7 +66,6 @@ const CenterLayout: React.FC<TCenterLayout> = ({ children }) => {
     if (keyCode === 53 || keyCode === 101) {
       setView(commandCenterLocationPlanets);
     }
-    console.log(keyCode);
   };
 
   useEffect(() => {
