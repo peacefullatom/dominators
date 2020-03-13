@@ -2,8 +2,9 @@ import './Menu.scss';
 
 import { faTwitter } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { lazy, useEffect } from 'react';
+import React, { useEffect } from 'react';
 
+import { useGalaxy } from '../galaxy/GalaxyContext';
 import About from './about/About';
 import Intro from './intro/Intro';
 import Load from './load/Load';
@@ -13,11 +14,16 @@ import { menuLocationAbout, menuLocationIntro, menuLocationLoad, menuLocationSta
 import { TMenu } from './Menu.types';
 import { useMenu } from './MenuContext';
 import Start from './start/Start';
+import { StartProvider } from './start/StartContext';
 
 const Menu: React.FC<TMenu> = () => {
   const { view, setView } = useMenu();
+  const { generate } = useGalaxy();
   const intro = (): void => setView(menuLocationIntro);
-  const start = (): void => setView(menuLocationStart);
+  const start = (): void => {
+    generate();
+    setView(menuLocationStart);
+  };
   const load = (): void => setView(menuLocationLoad);
   const about = (): void => setView(menuLocationAbout);
   const items: TMenuItem[] = [
@@ -26,9 +32,6 @@ const Menu: React.FC<TMenu> = () => {
     { title: 'Load', action: load },
     { title: 'About', action: about },
   ];
-  const StartProvider = lazy(() =>
-    import('./start/StartContext').then(m => ({ default: m.StartProvider }))
-  );
 
   const keyboard = (event: KeyboardEvent): void => {
     const { keyCode } = event;
