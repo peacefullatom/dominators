@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, FC, useContext, useMemo, useState } from 'react';
 
 import { galaxyNames } from '../../data/galaxy/galaxy';
 import ID from '../../util/id';
@@ -16,7 +16,7 @@ const useGalaxy = (): TGalaxyContext => {
   return context;
 };
 
-const GalaxyProvider: React.FC = props => {
+const GalaxyProvider: FC = props => {
   const [galaxy, setGalaxy] = useState(galaxyDefaultData);
   const generate = (data?: TGalaxyContextGenerate): void => {
     const { seed, systems } = galaxyGenerate(data?.density);
@@ -30,11 +30,9 @@ const GalaxyProvider: React.FC = props => {
       speciesCount: data?.speciesCount ?? galaxy.speciesCount,
     });
   };
-  const value = React.useMemo(() => ({ galaxy, setGalaxy, generate }), [
-    galaxy,
-  ]);
+  const value = useMemo(() => ({ galaxy, setGalaxy, generate }), [galaxy]);
 
   return <GalaxyContext.Provider value={value} {...props} />;
 };
 
-export { GalaxyProvider, useGalaxy };
+export { useGalaxy, GalaxyProvider };

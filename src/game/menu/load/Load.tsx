@@ -5,9 +5,9 @@ import React from 'react';
 import MenuLayout from '../menu-layout/MenuLayout';
 import { TLoad } from './Load.types';
 
-const Load: React.FC<TLoad> = ({ setView }) => {
+const Load: React.FC<TLoad> = () => {
   return (
-    <MenuLayout setView={setView}>
+    <MenuLayout>
       <div className='load'>to be implemented</div>
     </MenuLayout>
   );

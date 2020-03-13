@@ -5,9 +5,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 
 import { gameDefaultLocation } from '../../Game.const';
+import { useMenu } from '../MenuContext';
 import { TMenuLayout } from './MenuLayout.types';
 
-const MenuLayout: React.FC<TMenuLayout> = ({ children, setView }) => {
+const MenuLayout: React.FC<TMenuLayout> = ({ children }) => {
+  const { setView } = useMenu();
+
   return (
     <div className='menu_layout'>
       <div className='menu_header'>

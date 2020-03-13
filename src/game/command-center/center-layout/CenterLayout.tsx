@@ -5,10 +5,10 @@ import React from 'react';
 import { TCenterLayout } from './CenterLayout.types';
 import LayoutHeader from './layout-header/LayoutHeader';
 
-const CenterLayout: React.FC<TCenterLayout> = ({ children, setView }) => {
+const CenterLayout: React.FC<TCenterLayout> = ({ children }) => {
   return (
-    <div>
-      <LayoutHeader setView={setView}></LayoutHeader>
+    <div className='center_layout'>
+      <LayoutHeader />
       {children}
     </div>
   );

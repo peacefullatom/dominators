@@ -1,1 +1,27 @@
 @import '../../common.scss';
+
+.center_galaxy {
+  width: 100%;
+  height: 100%;
+}
+
+.center_controls {
+  width: 100%;
+  height: 10rem;
+  display: flex;
+  justify-content: space-around;
+
+  .controls_item {
+    @extend %normal;
+    width: 20%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+
+    &:hover {
+      @extend %hover;
+    }
+  }
+}

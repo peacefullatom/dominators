@@ -2,47 +2,48 @@ import './Menu.scss';
 
 import { faTwitter } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { lazy, useState } from 'react';
+import React, { lazy } from 'react';
 
-import { gameDefaultLocation } from '../Game.const';
+import About from './about/About';
+import Intro from './intro/Intro';
+import Load from './load/Load';
+import MenuItem from './menu-item/MenuItem';
 import { TMenuItem } from './menu-item/MenuItem.types';
 import { menuLocationAbout, menuLocationIntro, menuLocationLoad, menuLocationStart } from './Menu.const';
 import { TMenu } from './Menu.types';
+import { useMenu } from './MenuContext';
+import Start from './start/Start';
 
-const Menu: React.FC<TMenu> = ({ menuView, setGameView }) => {
-  const [screen, setScreen] = useState(menuView ?? gameDefaultLocation);
+const Menu: React.FC<TMenu> = () => {
+  const { view, setView } = useMenu();
   const items: TMenuItem[] = [
-    { title: 'Intro', action: (): void => setScreen(menuLocationIntro) },
-    { title: 'Start', action: (): void => setScreen(menuLocationStart) },
-    { title: 'Load', action: (): void => setScreen(menuLocationLoad) },
-    { title: 'About', action: (): void => setScreen(menuLocationAbout) },
+    { title: 'Intro', action: (): void => setView(menuLocationIntro) },
+    { title: 'Start', action: (): void => setView(menuLocationStart) },
+    { title: 'Load', action: (): void => setView(menuLocationLoad) },
+    { title: 'About', action: (): void => setView(menuLocationAbout) },
   ];
-  const Intro = lazy(() => import('./intro/Intro'));
-  const Start = lazy(() => import('./start/Start'));
-  const Load = lazy(() => import('./load/Load'));
-  const About = lazy(() => import('./about/About'));
-  const MenuItem = lazy(() => import('./menu-item/MenuItem'));
+  const StartProvider = lazy(() =>
+    import('./start/StartContext').then(m => ({ default: m.StartProvider }))
+  );
 
-  if (screen === menuLocationIntro) {
-    return <Intro setView={setScreen} />;
+  if (view === menuLocationIntro) {
+    return <Intro />;
   }
 
-  if (screen === menuLocationStart) {
+  if (view === menuLocationStart) {
     return (
-      <Start
-        // startView={startLocationSelectGalaxy}
-        setView={setScreen}
-        setGameView={setGameView}
-      />
+      <StartProvider>
+        <Start />
+      </StartProvider>
     );
   }
 
-  if (screen === menuLocationLoad) {
-    return <Load setView={setScreen} />;
+  if (view === menuLocationLoad) {
+    return <Load />;
   }
 
-  if (screen === menuLocationAbout) {
-    return <About setView={setScreen} />;
+  if (view === menuLocationAbout) {
+    return <About />;
   }
 
   return (

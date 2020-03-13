@@ -1,3 +1,1 @@
-import { TComponent } from '../../../types';
-
-export type TMenuLayout = {} & TComponent;
+export type TMenuLayout = {};

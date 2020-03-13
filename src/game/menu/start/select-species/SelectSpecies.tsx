@@ -10,6 +10,8 @@ import { speciesScientist } from '../../../../data/species/scientist';
 import { speciesSpy } from '../../../../data/species/spy';
 import { useGalaxy } from '../../../galaxy/GalaxyContext';
 import StartLayout from '../start-layout/StartLayout';
+import { startLocationSetupSpecies } from '../Start.const';
+import { useStart } from '../StartContext';
 import { TSelectSpecies } from './SelectSpecies.types';
 import SpeciesDetails from './species-details/SpeciesDetails';
 import SpeciesList from './species-list/SpeciesList';
@@ -23,11 +25,12 @@ const predefinedSpecies = [
   speciesSpy,
 ];
 
-const SelectSpecies: React.FC<TSelectSpecies> = ({ setView, forward }) => {
+const SelectSpecies: React.FC<TSelectSpecies> = () => {
   const { galaxy } = useGalaxy();
+  const { setView } = useStart();
 
   return (
-    <StartLayout setView={setView} forward={forward}>
+    <StartLayout forward={(): void => setView(startLocationSetupSpecies)}>
       <div className='select_species'>
         <SpeciesList selection={galaxy.player} species={predefinedSpecies} />
         <SpeciesDetails />

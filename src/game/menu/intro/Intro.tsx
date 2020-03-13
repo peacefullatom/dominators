@@ -5,9 +5,9 @@ import React from 'react';
 import MenuLayout from '../menu-layout/MenuLayout';
 import { TIntro } from './Intro.types';
 
-const Intro: React.FC<TIntro> = ({ setView }) => {
+const Intro: React.FC<TIntro> = () => {
   return (
-    <MenuLayout setView={setView}>
+    <MenuLayout>
       <div className='intro'>
         <p className='intro_block'>
           As your species have reached the apex of the technological

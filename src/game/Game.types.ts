@@ -1,3 +1,3 @@
 export type TGame = {
-  view?: string;
+  // view?: string;
 };

@@ -6,7 +6,10 @@ import { atmosphereTypes } from '../../../../data/atmosphere/atmosphere';
 import { gravityTypes } from '../../../../data/gravity/gravity';
 import { temperatureTypes } from '../../../../data/temperature/temperature';
 import { useGalaxy } from '../../../galaxy/GalaxyContext';
+import { gameDefaultLocation } from '../../../Game.const';
 import StartLayout from '../start-layout/StartLayout';
+import { startLocationSelectGalaxy } from '../Start.const';
+import { useStart } from '../StartContext';
 import MultiSelect from './multi-select/MultiSelect';
 import { TMultiSelectResult, TSetupSpecies } from './SetupSpecies.types';
 import {
@@ -21,7 +24,8 @@ import {
 } from './SetupSpecies.utils';
 import ValueSelect from './value-select/ValueSelect';
 
-const SetupSpecies: React.FC<TSetupSpecies> = ({ setView, back, forward }) => {
+const SetupSpecies: React.FC<TSetupSpecies> = () => {
+  const { setView } = useStart();
   const { galaxy, setGalaxy } = useGalaxy();
   const { player } = galaxy;
   const gravity = player.defyGravity
@@ -83,7 +87,10 @@ const SetupSpecies: React.FC<TSetupSpecies> = ({ setView, back, forward }) => {
   };
 
   return (
-    <StartLayout setView={setView} back={back} forward={forward}>
+    <StartLayout
+      back={(): void => setView(gameDefaultLocation)}
+      forward={(): void => setView(startLocationSelectGalaxy)}
+    >
       <div className='setup_species'>
         <div className='species_left'>
           <div className='left_avatar'></div>

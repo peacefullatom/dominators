@@ -1,5 +1,1 @@
-import { TComponent } from '../../types';
-
-export type TCommandCenter = {
-  gameView?: string;
-} & TComponent;
+export type TCommandCenter = {};

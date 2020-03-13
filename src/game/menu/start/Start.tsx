@@ -1,43 +1,26 @@
 import './Start.scss';
 
-import React, { lazy, useState } from 'react';
+import React, { lazy } from 'react';
 
-import { gameDefaultLocation, gameLocationGalaxy } from '../../Game.const';
+import SelectGalaxy from './select-galaxy/SelectGalaxy';
+import SelectSpecies from './select-species/SelectSpecies';
+import SetupSpecies from './setup-species/SetupSpecies';
 import { startLocationSelectGalaxy, startLocationSetupSpecies } from './Start.const';
 import { TStart } from './Start.types';
+import { useStart } from './StartContext';
 
-const Start: React.FC<TStart> = ({ startView, setView, setGameView }) => {
-  const [screen, setScreen] = useState(startView ?? gameDefaultLocation);
-  const SelectSpecies = lazy(() => import('./select-species/SelectSpecies'));
-  const SetupSpecies = lazy(() => import('./setup-species/SetupSpecies'));
-  const SelectGalaxy = lazy(() => import('./select-galaxy/SelectGalaxy'));
+const Start: React.FC<TStart> = () => {
+  const { view } = useStart();
 
-  if (screen === startLocationSelectGalaxy) {
-    return (
-      <SelectGalaxy
-        setView={setView}
-        back={(): void => setScreen(startLocationSetupSpecies)}
-        forward={(): void => setGameView(gameLocationGalaxy)}
-      />
-    );
+  if (view === startLocationSelectGalaxy) {
+    return <SelectGalaxy />;
   }
 
-  if (screen === startLocationSetupSpecies) {
-    return (
-      <SetupSpecies
-        setView={setView}
-        back={(): void => setScreen(gameDefaultLocation)}
-        forward={(): void => setScreen(startLocationSelectGalaxy)}
-      />
-    );
+  if (view === startLocationSetupSpecies) {
+    return <SetupSpecies />;
   }
 
-  return (
-    <SelectSpecies
-      setView={setView}
-      forward={(): void => setScreen(startLocationSetupSpecies)}
-    />
-  );
+  return <SelectSpecies />;
 };
 
 export default Start;

@@ -7,14 +7,9 @@ import React from 'react';
 import MenuLayout from '../../menu-layout/MenuLayout';
 import { TStartLayout } from './StartLayout.types';
 
-const StartLayout: React.FC<TStartLayout> = ({
-  children,
-  setView,
-  back,
-  forward,
-}) => {
+const StartLayout: React.FC<TStartLayout> = ({ children, back, forward }) => {
   return (
-    <MenuLayout setView={setView}>
+    <MenuLayout>
       <div className='start_layout'>
         <div className='layout_content'>{children}</div>
         <div className='layout_navigation'>

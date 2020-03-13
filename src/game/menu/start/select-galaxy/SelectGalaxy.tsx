@@ -2,7 +2,7 @@ import './SelectGalaxy.scss';
 
 import { faSyncAlt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { createRef } from 'react';
+import React from 'react';
 
 import {
   galaxyDensities,
@@ -13,14 +13,19 @@ import {
 } from '../../../../data/galaxy/galaxy';
 import Galaxy from '../../../galaxy/Galaxy';
 import { useGalaxy } from '../../../galaxy/GalaxyContext';
+import { gameLocationGalaxy } from '../../../Game.const';
+import { useGame } from '../../../GameContext';
 import StartLayout from '../start-layout/StartLayout';
+import { startLocationSetupSpecies } from '../Start.const';
+import { useStart } from '../StartContext';
 import SelectControl from './select-control/SelectControl';
 import { TSelectGalaxy } from './SelectGalaxy.types';
 import { densityLabel } from './SelectGalaxy.utils';
 
-const SelectGalaxy: React.FC<TSelectGalaxy> = ({ setView, back, forward }) => {
+const SelectGalaxy: React.FC<TSelectGalaxy> = () => {
   const { galaxy, generate } = useGalaxy();
-  const plane = createRef<HTMLDivElement>();
+  const { setView } = useStart();
+  const { setView: setGameView } = useGame();
   const species = Array.from(
     {
       length: galaxySpeciesCountMaximum - galaxySpeciesCountMinimum + 1,
@@ -30,10 +35,13 @@ const SelectGalaxy: React.FC<TSelectGalaxy> = ({ setView, back, forward }) => {
   const densities = [...galaxyDensities].reverse();
 
   return (
-    <StartLayout setView={setView} back={back} forward={forward}>
+    <StartLayout
+      back={(): void => setView(startLocationSetupSpecies)}
+      forward={(): void => setGameView(gameLocationGalaxy)}
+    >
       <div className='select_galaxy'>
         <div className='galaxy_name'>{galaxy.name}</div>
-        <div ref={plane} className='galaxy_canvas'>
+        <div className='galaxy_canvas'>
           <Galaxy />
         </div>
         <div className='galaxy_controls'>

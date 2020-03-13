@@ -6,9 +6,9 @@ import * as config from '../../../../package.json';
 import MenuLayout from '../menu-layout/MenuLayout';
 import { TAbout } from './About.types';
 
-const About: React.FC<TAbout> = ({ setView }) => {
+const About: React.FC<TAbout> = () => {
   return (
-    <MenuLayout setView={setView}>
+    <MenuLayout>
       <div className='about'>
         <p className='about_block'>author: {config.author}</p>
         <p className='about_block'>version: {config.version}</p>

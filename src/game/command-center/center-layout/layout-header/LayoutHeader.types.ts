@@ -1,3 +1,1 @@
-import { TComponent } from '../../../../types';
-
-export type TLayoutHeader = {} & TComponent;
+export type TLayoutHeader = {};

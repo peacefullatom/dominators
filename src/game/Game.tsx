@@ -1,22 +1,35 @@
-import React, { lazy, useState } from 'react';
+import React, { lazy } from 'react';
 
-import { gameLocationGalaxy, gameLocationHome } from './Game.const';
+import CommandCenter from './command-center/CommandCenter';
+import { gameLocationGalaxy } from './Game.const';
 import { TGame } from './Game.types';
+import { useGame } from './GameContext';
+import Menu from './menu/Menu';
 
-const Game: React.FC<TGame> = ({ view }) => {
-  const [screen, setScreen] = useState(view ?? gameLocationHome);
-  const CommandCenter = lazy(() => import('./command-center/CommandCenter'));
-  const Menu = lazy(() => import('./menu/Menu'));
+const Game: React.FC<TGame> = () => {
+  const { view } = useGame();
+  const CommandCenterProvider = lazy(() =>
+    import('./command-center/CommandCenterContext').then(m => ({
+      default: m.CommandCenterProvider,
+    }))
+  );
+  const MenuProvider = lazy(() =>
+    import('./menu/MenuContext').then(m => ({ default: m.MenuProvider }))
+  );
 
-  if (screen === gameLocationGalaxy) {
-    return <CommandCenter setView={setScreen} />;
+  if (view === gameLocationGalaxy) {
+    return (
+      // <CommandCenterProvider view={commandCenterLocationOptions}>
+      <CommandCenterProvider>
+        <CommandCenter />
+      </CommandCenterProvider>
+    );
   }
 
   return (
-    <Menu
-      // menuView={menuLocationStart}
-      setGameView={setScreen}
-    />
+    <MenuProvider>
+      <Menu />
+    </MenuProvider>
   );
 };
 
