@@ -5,9 +5,9 @@ export const commandCenterLocationEspionage = 'espionage';
 export const commandCenterLocationPlanets = 'planets';
 export const commandCenterLocationStats = 'stats';
 
-export const commandCenterModePause = 0;
-export const commandCenterModePlay = 1;
-export const commandCenterModeBattle = 2;
+export const commandCenterModePause = 1;
+export const commandCenterModePlay = 2;
+export const commandCenterModeBattle = 3;
 
 export const commandCenterSpeed1 = 1;
 export const commandCenterSpeed2 = 2;

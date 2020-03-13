@@ -10,7 +10,7 @@ export type TCommandCenterContext = {
   showNews: boolean;
   setShowNews: (state: boolean) => void;
   feed: string[];
-  setFeed: (feed: string[]) => void;
+  setFeed: (data: string) => void;
 };
 
 export type TCommandCenterProvider = {

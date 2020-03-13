@@ -21,7 +21,15 @@ const CommandCenterProvider: FC<TCommandCenterProvider> = props => {
   const [mode, setMode] = useState(props.mode ?? commandCenterModePause);
   const [speed, setSpeed] = useState(props.speed ?? commandCenterSpeed1);
   const [showNews, setShowNews] = useState(false);
-  const [feed, setFeed] = useState<string[]>([]);
+  const [feed, updateFeed] = useState<string[]>([`It has begun!`]);
+  const setFeed = (data: string): void => {
+    const update = [...feed];
+    update.unshift(data);
+    if (update.length > 6) {
+      update.pop();
+    }
+    updateFeed(update);
+  };
   const value = useMemo(
     () => ({
       view,

@@ -28,23 +28,31 @@ const CenterLayout: React.FC<TCenterLayout> = ({ children }) => {
     view,
     showNews,
     setShowNews,
+    setFeed,
   } = useCommandCenter();
+  const updateSpeed = (direction: 1 | -1): void => {
+    const update = speed + direction;
+    setSpeed(update);
+    setFeed(`Speed is set to ${update}.`);
+  };
   const keyboard = (event: KeyboardEvent): void => {
     const { keyCode } = event;
     // +
     if ((keyCode === 187 || keyCode === 107) && speed < commandCenterSpeed7) {
-      setSpeed(speed + 1);
+      updateSpeed(1);
     }
     // -
     if ((keyCode === 189 || keyCode === 109) && speed > commandCenterSpeed1) {
-      setSpeed(speed - 1);
+      updateSpeed(-1);
     }
     // p
     if (keyCode === 80) {
       if (mode === commandCenterModePause) {
         setMode(commandCenterModePlay);
+        setFeed(`Game paused`);
       } else if (mode === commandCenterModePlay) {
         setMode(commandCenterModePause);
+        setFeed(`Game resumed`);
       }
     }
     // q
@@ -82,7 +90,6 @@ const CenterLayout: React.FC<TCenterLayout> = ({ children }) => {
   };
 
   const mouse = (event: MouseEvent): void => {
-    console.log(event.target);
     if (event.target) {
       const name = (event.target as HTMLElement).className;
       if (!name.match(/new_item/)) {
