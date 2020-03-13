@@ -1,5 +1,6 @@
 export const commandCenterLocationOptions = 'options';
 export const commandCenterLocationFleet = 'fleet';
+export const commandCenterLocationResearch = 'research';
 export const commandCenterLocationEspionage = 'espionage';
 export const commandCenterLocationPlanets = 'planets';
 export const commandCenterLocationStats = 'stats';
