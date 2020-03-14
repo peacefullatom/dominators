@@ -10,7 +10,9 @@ const SpeciesListItem: React.FC<TSpeciesListItem> = ({ selected, species }) => {
   return (
     <div
       className={`species_list_item ${selected ? 'selected' : ''}`}
-      onClick={(): void => setGalaxy({ ...galaxy, player: species })}
+      onClick={(): void =>
+        setGalaxy({ ...galaxy, player: { ...species, player: true } })
+      }
     >
       {species.name}
     </div>
