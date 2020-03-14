@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useEffect } from 'react';
 
 import { useGalaxy } from '../galaxy/GalaxyContext';
+import { gameDefaultLocation } from '../Game.const';
 import About from './about/About';
 import Intro from './intro/Intro';
 import Load from './load/Load';
@@ -34,22 +35,24 @@ const Menu: React.FC<TMenu> = () => {
   ];
 
   const keyboard = (event: KeyboardEvent): void => {
-    const { keyCode } = event;
-    // i
-    if (keyCode === 73) {
-      intro();
-    }
-    // s
-    if (keyCode === 83) {
-      start();
-    }
-    // l
-    if (keyCode === 76) {
-      load();
-    }
-    // a
-    if (keyCode === 65) {
-      about();
+    if (view === gameDefaultLocation) {
+      const { keyCode } = event;
+      // i
+      if (keyCode === 73) {
+        intro();
+      }
+      // s
+      if (keyCode === 83) {
+        start();
+      }
+      // l
+      if (keyCode === 76) {
+        load();
+      }
+      // a
+      if (keyCode === 65) {
+        about();
+      }
     }
   };
 
