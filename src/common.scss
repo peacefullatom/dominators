@@ -1,26 +1,23 @@
-$background: #1e1e1e;
-// $accent: #8f8f8f;
-$accent: #569cd6;
-$accentHover: scale-color($accent, $lightness: 40%);
-$background: #1e1e1e;
-$backgroundAccent: scale-color($background, $lightness: -40%);
+$delay: 0.3s;
+$accent: #cccccc;
+$background: #252526;
 
 %normal {
   color: $accent;
   background: $background;
-  transition: color 0.3s, background 0.3s;
+  transition: color $delay, background $delay;
 }
 
 %hover {
-  color: $accentHover;
-  background: scale-color($background, $lightness: -20%, $alpha: 1%);
+  color: $background;
+  background: $accent;
 }
 
 %normal_color {
   color: $accent;
-  transition: color 0.3s;
+  transition: color $delay;
 }
 
 %hover_color {
-  color: $accentHover;
+  color: #569cd6;
 }
