@@ -3,6 +3,16 @@ export const systemPlanetsCountMaximum = 7;
 /** minimum number of planets per system */
 export const systemPlanetsCountMinimum = 2;
 
+export const systemShapeDiamond = 0;
+export const systemShapeCircle = 1;
+
+export const systemStatusUnvisited = 0;
+export const systemStatusObservable = 1;
+export const systemStatusPeaceful = 2;
+export const systemStatusNeutral = 3;
+export const systemStatusHostile = 4;
+export const systemStatusBattle = 5;
+
 // source http://www.astro.wisc.edu/~dolan/constellations/starname_list.html
 /** list of real-world star names */
 export const systemNames = [
