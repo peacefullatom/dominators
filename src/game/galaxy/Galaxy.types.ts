@@ -10,6 +10,7 @@ export type TGalaxyGenerate = {
 export type TGalaxyData = {
   id: string;
   name: string;
+  date: number;
   density: number;
   seed: TPoint[];
   systems: TSystem[];
@@ -19,6 +20,5 @@ export type TGalaxyData = {
 };
 
 export type TGalaxy = {
-  galaxy: TGalaxyData;
-  setGalaxy: (data: TGalaxyData) => void;
+  interactive?: boolean;
 };
