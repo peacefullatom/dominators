@@ -50,10 +50,10 @@ const CenterLayout: React.FC<TCenterLayout> = ({ children }) => {
     if (keyCode === 80 || keyCode === 32) {
       if (mode === commandCenterModePause) {
         setMode(commandCenterModePlay);
-        setFeed(`Game paused`);
+        setFeed(`Game resumed`);
       } else if (mode === commandCenterModePlay) {
         setMode(commandCenterModePause);
-        setFeed(`Game resumed`);
+        setFeed(`Game paused`);
       }
     }
     // q
@@ -97,7 +97,7 @@ const CenterLayout: React.FC<TCenterLayout> = ({ children }) => {
   const mouse = (event: MouseEvent): void => {
     if (event.target) {
       const name = (event.target as HTMLElement).className;
-      if (!name.match(/new_item/)) {
+      if (typeof name === 'string' && !name.match(/new_item/)) {
         setShowNews(false);
       }
     }
