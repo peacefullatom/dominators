@@ -4,8 +4,15 @@ import { faCogs, faPause, faPlay, IconDefinition } from '@fortawesome/free-solid
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 
+import padZero from '../../../../util/padZero';
+import { useGalaxy } from '../../../galaxy/GalaxyContext';
 import { gameDefaultLocation } from '../../../Game.const';
-import { commandCenterLocationOptions, commandCenterModeBattle, commandCenterModePause } from '../../CommandCenter.const';
+import {
+  commandCenterLocationOptions,
+  commandCenterModeBattle,
+  commandCenterModePause,
+  commandCenterModePlay,
+} from '../../CommandCenter.const';
 import { useCommandCenter } from '../../CommandCenterContext';
 import { TLayoutHeader } from './LayoutHeader.types';
 
@@ -25,7 +32,11 @@ const LayoutHeader: React.FC<TLayoutHeader> = () => {
     showNews,
     setShowNews,
     feed,
+    setMode,
   } = useCommandCenter();
+  const { galaxy } = useGalaxy();
+  const roughDate = padZero(galaxy.date, 5);
+  const date = `${roughDate.substr(0, 4)}.${roughDate.substr(4, 1)}`;
 
   const options = (): void => {
     if (view === commandCenterLocationOptions) {
@@ -43,6 +54,14 @@ const LayoutHeader: React.FC<TLayoutHeader> = () => {
         setShowNews(true);
       }
     }
+  };
+
+  const toggleMode = (): void => {
+    setMode(
+      mode === commandCenterModePause
+        ? commandCenterModePlay
+        : commandCenterModePause
+    );
   };
 
   return (
@@ -64,7 +83,8 @@ const LayoutHeader: React.FC<TLayoutHeader> = () => {
           </div>
         )}
       </div>
-      <div className='header_control'>
+      <div className='header_date'>{date}</div>
+      <div className='header_control' onClick={toggleMode}>
         <FontAwesomeIcon icon={control(mode)} />
       </div>
     </div>
