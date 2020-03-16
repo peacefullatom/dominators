@@ -2,7 +2,7 @@ import './SelectGalaxy.scss';
 
 import { faSyncAlt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import {
   galaxyDensities,
@@ -33,6 +33,36 @@ const SelectGalaxy: React.FC<TSelectGalaxy> = () => {
     (v, i) => i + 2
   );
   const densities = [...galaxyDensities].reverse();
+
+  const keyboard = (event: KeyboardEvent): void => {
+    const { keyCode } = event;
+    // s
+    if (keyCode === 83) {
+      const { speciesCount: count } = galaxy;
+      const speciesCount =
+        count < galaxySpeciesCountMaximum
+          ? count + 1
+          : galaxySpeciesCountMinimum;
+      generate({ speciesCount });
+    }
+    // d
+    if (keyCode === 68) {
+      const index = densities.indexOf(galaxy.density);
+      const density =
+        index < densities.length - 1 ? densities[index + 1] : densities[0];
+      generate({ density });
+    }
+    // g
+    if (keyCode === 71) {
+      generate();
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('keydown', keyboard);
+
+    return (): void => document.removeEventListener('keydown', keyboard);
+  });
 
   return (
     <StartLayout
