@@ -1,4 +1,5 @@
 import { galaxyDensityMedium, galaxySpeciesCountDefault } from '../../data/galaxy/galaxy';
+import { gravityTypeHigh, gravityTypeNormal, gravityTypes } from '../../data/gravity/gravity';
 import { speciesBuilder } from '../../data/species/builder';
 import { speciesHuman } from '../../data/species/human';
 import { speciesNomad } from '../../data/species/nomad';
@@ -10,13 +11,26 @@ import CreateDistributedPoints from '../../util/poisson';
 import RandomNumber from '../../util/randomNumber';
 import RandomValue from '../../util/randomValue';
 import { TGalaxyData, TGalaxyGenerate } from './Galaxy.types';
+import { speciesRelationsUnknown } from './species/Species.const';
 import { TSpecies } from './species/Species.types';
 import { governorSkillLevelDefault } from './system/governor/Governor.const';
 import { TGovernor } from './system/governor/Governor.types';
-import { planetAbundanceMaximum, planetSizeMaximum } from './system/planet/Planet.const';
+import {
+  planetAbundanceMaximum,
+  planetSizeHighGravity,
+  planetSizeLowGravity,
+  planetSizeMaximum,
+  planetSizeNormalGravity,
+} from './system/planet/Planet.const';
 import { TPlanet } from './system/planet/Planet.types';
 import { starClass } from './system/star/Star.const';
-import { systemNames, systemPlanetsCountMaximum, systemPlanetsCountMinimum } from './system/System.const';
+import {
+  systemNames,
+  systemPlanetsCountMaximum,
+  systemPlanetsCountMinimum,
+  systemShapeCircle,
+  systemStatusPeaceful,
+} from './system/System.const';
 import { TSystem } from './system/System.types';
 
 export const galaxySpecies = (speciesCount?: number): TSpecies[] => {
@@ -46,9 +60,67 @@ const findUnpopulatedSystem = (systems: TSystem[]): TSystem => {
   return lookout([...systems]);
 };
 
+const planetSize = (gravity: number[], defyGravity: boolean): number => {
+  if (defyGravity || gravity.indexOf(gravityTypeHigh)) {
+    return planetSizeHighGravity;
+  }
+
+  if (gravity.indexOf(gravityTypeNormal)) {
+    return planetSizeNormalGravity;
+  }
+
+  return planetSizeLowGravity;
+};
+
+const populatePlanet = (planet: TPlanet, species: TSpecies): void => {
+  planet.populated = true;
+  planet.abundance = planetAbundanceMaximum;
+  planet.size = planetSize(species.gravity, species.defyGravity);
+  planet.gravity = [
+    RandomValue(species.defyGravity ? gravityTypes : species.gravity),
+  ];
+  planet.atmosphere = species.atmosphere;
+  planet.temperature = species.temperature;
+  planet.constructionPoints = 0;
+  planet.espionagePoints = 0;
+  planet.researchPoints = 0;
+  planet.populationPoints = 0;
+  planet.populationMaximumInitial = 0;
+  planet.populationMaximum = 0;
+  planet.population = 0;
+  planet.defensePointsMaximumInitial = 0;
+  planet.defensePointsMaximum = 0;
+  planet.defensePoints = 0;
+  planet.facilities = [];
+  planet.species = species;
+};
+
+const populateSystem = (
+  system: TSystem,
+  species: TSpecies,
+  governor: TGovernor
+): void => {
+  if (species.player) {
+    system.coordinates.shape = systemShapeCircle;
+    system.coordinates.status = systemStatusPeaceful;
+  }
+  system.species = [
+    {
+      data: species,
+      governor,
+      discovered: true,
+      homeSystem: true,
+      canObserve: true,
+      isHabitant: true,
+    },
+  ];
+  system.populated = true;
+
+  populatePlanet(RandomValue(system.planets), species);
+};
+
 const populateGalaxy = (systems: TSystem[], species: TSpecies[]): TSystem[] => {
   species.forEach(s => {
-    const system = findUnpopulatedSystem(systems);
     const governor: TGovernor = {
       id: ID(),
       avatar: ``,
@@ -63,18 +135,16 @@ const populateGalaxy = (systems: TSystem[], species: TSpecies[]): TSystem[] => {
     s.leadOfFleet = governor;
     s.leadOfPopulation = governor;
     s.leadOfResearch = governor;
-    system.species = [
-      {
-        species: s,
-        governor,
-        discovered: true,
-        homeSystem: true,
-        observable: true,
-        populated: true,
-      },
-    ];
-    system.populated = true;
+    s.relations = species
+      .filter(r => r.id !== s.id)
+      .map(r => ({
+        species: r.id,
+        relations: speciesRelationsUnknown,
+        activities: { research: false, routeSharing: false, trade: false },
+      }));
+    populateSystem(findUnpopulatedSystem(systems), s, governor);
   });
+  console.log(systems.filter(s => s.populated));
   return systems;
 };
 
@@ -167,7 +237,7 @@ export const galaxyGenerate = (
 ): TGalaxyGenerate => {
   console.log(species);
   const seed = CreateDistributedPoints(density ?? galaxyDensityMedium);
-  const names = systemNames
+  const names = [...systemNames]
     .sort(() => (Math.random() >= 0.5 ? -1 : 1))
     .splice(0, seed.length);
   const systems: TSystem[] = populateGalaxy(

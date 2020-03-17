@@ -15,6 +15,7 @@ const Galaxy: React.FC<TGalaxy> = ({ interactive }) => {
         background: true,
         wormholes: true,
         systems: true,
+        controls: true,
         popups: true,
       }
     : { systems: true };
@@ -22,6 +23,7 @@ const Galaxy: React.FC<TGalaxy> = ({ interactive }) => {
   return (
     <div ref={galaxyRef} className='galaxy'>
       <GalaxyCanvas
+        interactive={interactive}
         layers={layers}
         width={dimensions?.width ?? 0}
         height={dimensions?.height ?? 0}

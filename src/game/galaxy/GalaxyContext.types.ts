@@ -8,5 +8,7 @@ export type TGalaxyContextGenerate = {
 export type TGalaxyContext = {
   galaxy: TGalaxyData;
   setGalaxy: (data: TGalaxyData) => void;
+  reset: () => void;
   generate: (data?: TGalaxyContextGenerate) => void;
+  cycle: () => void;
 };
