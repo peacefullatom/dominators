@@ -166,7 +166,8 @@ export const galaxyCanvasPopup = (
       );
       ctx.font = `14px -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif`;
       ctx.fillStyle = 'white';
-      ctx.textAlign = 'center';
+      // MAGIC NUMBERS
+      ctx.textAlign = width - x > 30 ? 'center' : 'end';
       // MAGIC NUMBERS
       const dy = y > 30 ? y - 15 : y + 25;
       ctx.fillText(name, x, dy);
