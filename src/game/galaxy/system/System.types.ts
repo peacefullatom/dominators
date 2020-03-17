@@ -21,7 +21,8 @@ export type TSystemCoordinates = {
 
 export type TSystemWormhole = {
   id: string;
-  angle: number;
+  name: string;
+  angle?: number;
 };
 
 export type TSystem = {

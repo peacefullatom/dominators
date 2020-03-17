@@ -2,6 +2,7 @@ import './GalaxyCanvas.scss';
 
 import React, { createRef, useEffect } from 'react';
 
+import { TPoint } from '../../types';
 import { commandCenterLocationSystem } from '../command-center/CommandCenter.const';
 import { TGalaxyCanvas } from './GalaxyCanvas.types';
 import {
@@ -12,7 +13,7 @@ import {
   galaxyCanvasWormholes,
 } from './GalaxyCanvas.utils';
 import { useGalaxy } from './GalaxyContext';
-import { TSystem } from './system/System.types';
+import { TSystem, TSystemWormhole } from './system/System.types';
 
 const GalaxyCanvas: React.FC<TGalaxyCanvas> = ({
   interactive,
@@ -88,6 +89,32 @@ const GalaxyCanvas: React.FC<TGalaxyCanvas> = ({
       }
     }
   }, [galaxy, width, height]);
+
+  useEffect(() => {
+    const angle = (a: TPoint, b: TPoint): number => {
+      return (Math.atan2(b.y - a.y, b.x - a.x) * 180) / Math.PI;
+    };
+
+    const system = (id: string): TSystem => {
+      return galaxy.systems.filter(s => s.id === id)[0];
+    };
+
+    const wormholes = (
+      coordinates: TPoint,
+      source: TSystemWormhole[]
+    ): TSystemWormhole[] => {
+      return source.map(w => {
+        return { ...w, angle: angle(coordinates, system(w.id).coordinates) };
+      });
+    };
+
+    const systems = galaxy.systems.map(system => ({
+      ...system,
+      wormholes: wormholes(system.coordinates, system.wormholes),
+    }));
+
+    setGalaxy({ ...galaxy, systems });
+  }, [width, height]);
 
   return (
     <div className='galaxy_canvas_container'>
