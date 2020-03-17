@@ -19,7 +19,6 @@ const Game: React.FC<TGame> = () => {
 
   if (view === gameLocationGalaxy) {
     return (
-      // <CommandCenterProvider view={commandCenterLocationOptions}>
       <CommandCenterProvider>
         <CommandCenter />
       </CommandCenterProvider>
