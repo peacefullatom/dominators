@@ -22,7 +22,6 @@ const GalaxyCanvas: React.FC<TGalaxyCanvas> = ({
   select,
 }) => {
   const { galaxy, setGalaxy, setSystem } = useGalaxy();
-  // const { setView } = useCommandCenter();
   const visibleLayers = layers ?? { systems: true };
   const settings = Object.keys(visibleLayers).map(id => ({
     id,
