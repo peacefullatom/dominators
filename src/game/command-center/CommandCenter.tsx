@@ -1,8 +1,10 @@
 import './CommandCenter.scss';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
+import useInterval from '../../hook/useInterval';
 import Galaxy from '../galaxy/Galaxy';
+import { useGalaxy } from '../galaxy/GalaxyContext';
 import CenterLayout from './center-layout/CenterLayout';
 import {
   commandCenterLocationEspionage,
@@ -11,6 +13,7 @@ import {
   commandCenterLocationPlanets,
   commandCenterLocationResearch,
   commandCenterLocationStats,
+  commandCenterModePlay,
 } from './CommandCenter.const';
 import { TCommandCenter } from './CommandCenter.types';
 import { useCommandCenter } from './CommandCenterContext';
@@ -22,7 +25,15 @@ import Research from './research/Research';
 import Stats from './stats/Stats';
 
 const CommandCenter: React.FC<TCommandCenter> = () => {
-  const { view } = useCommandCenter();
+  const { view, speed, mode } = useCommandCenter();
+  const { cycle } = useGalaxy();
+  const [delay, setDelay] = useState<number | null>(null);
+
+  useEffect(() => {
+    setDelay(mode === commandCenterModePlay ? 1e3 / speed : null);
+  }, [speed, mode]);
+
+  useInterval(cycle, delay);
 
   const locations = ['fleet', 'research', 'espionage', 'planets', 'stats'];
 
@@ -53,7 +64,7 @@ const CommandCenter: React.FC<TCommandCenter> = () => {
   return (
     <CenterLayout>
       <div className='center_galaxy'>
-        <Galaxy />
+        <Galaxy interactive={true} />
       </div>
       <div className='center_controls'>
         {locations.map((l, i) => (

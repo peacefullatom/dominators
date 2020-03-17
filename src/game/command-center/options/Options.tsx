@@ -2,6 +2,7 @@ import './Options.scss';
 
 import React, { useEffect } from 'react';
 
+import { useGalaxy } from '../../galaxy/GalaxyContext';
 import { gameDefaultLocation } from '../../Game.const';
 import { useGame } from '../../GameContext';
 import CenterLayout from '../center-layout/CenterLayout';
@@ -12,6 +13,7 @@ import { TOptions } from './Options.types';
 const Options: React.FC<TOptions> = () => {
   const { speed, setSpeed } = useCommandCenter();
   const { setView } = useGame();
+  const { reset } = useGalaxy();
 
   const speedList = Array.from(
     { length: commandCenterSpeed7 },
@@ -31,6 +33,7 @@ const Options: React.FC<TOptions> = () => {
   };
 
   const quit = (): void => {
+    reset();
     setView(gameDefaultLocation);
   };
 
