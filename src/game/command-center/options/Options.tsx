@@ -6,7 +6,7 @@ import { useGalaxy } from '../../galaxy/GalaxyContext';
 import { gameDefaultLocation } from '../../Game.const';
 import { useGame } from '../../GameContext';
 import CenterLayout from '../center-layout/CenterLayout';
-import { commandCenterSpeed1, commandCenterSpeed7 } from '../CommandCenter.const';
+import { commandCenterSpeedMax, commandCenterSpeedMin } from '../CommandCenter.const';
 import { useCommandCenter } from '../CommandCenterContext';
 import { TOptions } from './Options.types';
 
@@ -16,18 +16,18 @@ const Options: React.FC<TOptions> = () => {
   const { reset } = useGalaxy();
 
   const speedList = Array.from(
-    { length: commandCenterSpeed7 },
+    { length: commandCenterSpeedMax },
     (v, i) => i + 1
   );
 
   const slower = (): void => {
-    if (speed > commandCenterSpeed1) {
+    if (speed > commandCenterSpeedMin) {
       setSpeed(speed - 1);
     }
   };
 
   const faster = (): void => {
-    if (speed < commandCenterSpeed7) {
+    if (speed < commandCenterSpeedMax) {
       setSpeed(speed + 1);
     }
   };

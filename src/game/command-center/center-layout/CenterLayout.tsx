@@ -12,8 +12,8 @@ import {
   commandCenterLocationStats,
   commandCenterModePause,
   commandCenterModePlay,
-  commandCenterSpeed1,
-  commandCenterSpeed7,
+  commandCenterSpeedMax,
+  commandCenterSpeedMin,
 } from '../CommandCenter.const';
 import { useCommandCenter } from '../CommandCenterContext';
 import { TCenterLayout } from './CenterLayout.types';
@@ -39,11 +39,11 @@ const CenterLayout: React.FC<TCenterLayout> = ({ children }) => {
   const keyboard = (event: KeyboardEvent): void => {
     const { keyCode } = event;
     // +
-    if ((keyCode === 187 || keyCode === 107) && speed < commandCenterSpeed7) {
+    if ((keyCode === 187 || keyCode === 107) && speed < commandCenterSpeedMax) {
       updateSpeed(1);
     }
     // -
-    if ((keyCode === 189 || keyCode === 109) && speed > commandCenterSpeed1) {
+    if ((keyCode === 189 || keyCode === 109) && speed > commandCenterSpeedMin) {
       updateSpeed(-1);
     }
     // p / space
