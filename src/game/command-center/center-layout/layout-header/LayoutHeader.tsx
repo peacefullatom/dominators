@@ -1,6 +1,6 @@
 import './LayoutHeader.scss';
 
-import { faCogs, faPause, faPlay, IconDefinition } from '@fortawesome/free-solid-svg-icons';
+import { faCogs, faGlobe, faPause, faPlay, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 
@@ -24,6 +24,14 @@ const control = (mode: number): IconDefinition => {
   return faPlay;
 };
 
+const home = (view: string): IconDefinition => {
+  if (view !== gameDefaultLocation) {
+    return faGlobe;
+  }
+
+  return faCogs;
+};
+
 const LayoutHeader: React.FC<TLayoutHeader> = () => {
   const {
     view,
@@ -39,7 +47,7 @@ const LayoutHeader: React.FC<TLayoutHeader> = () => {
   const date = `${roughDate.substr(0, 4)}.${roughDate.substr(4, 1)}`;
 
   const options = (): void => {
-    if (view === commandCenterLocationOptions) {
+    if (view !== gameDefaultLocation) {
       setView(gameDefaultLocation);
     } else {
       setView(commandCenterLocationOptions);
@@ -67,7 +75,7 @@ const LayoutHeader: React.FC<TLayoutHeader> = () => {
   return (
     <div className='layout_header'>
       <div className='header_options' onClick={options}>
-        <FontAwesomeIcon icon={faCogs} />
+        <FontAwesomeIcon icon={home(view)} />
       </div>
       <div className='header_news'>
         <div className='news_item' onClick={toggleFeed}>
