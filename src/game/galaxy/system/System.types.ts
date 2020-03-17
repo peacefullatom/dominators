@@ -19,13 +19,18 @@ export type TSystemCoordinates = {
   active?: boolean;
 } & TPoint;
 
+export type TSystemWormhole = {
+  id: string;
+  angle: number;
+};
+
 export type TSystem = {
   id: string;
   name: string;
   populated: boolean;
   star: TStar;
   planets: TPlanet[];
-  wormholes: string[];
+  wormholes: TSystemWormhole[];
   species: TSystemSpecies[];
   coordinates: TSystemCoordinates;
 };

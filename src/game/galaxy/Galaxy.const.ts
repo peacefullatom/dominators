@@ -6,6 +6,7 @@ import { speciesNomad } from '../../data/species/nomad';
 import { speciesPopulation } from '../../data/species/population';
 import { speciesScientist } from '../../data/species/scientist';
 import { speciesSpy } from '../../data/species/spy';
+import { TPoint } from '../../types';
 import ID from '../../util/id';
 import CreateDistributedPoints from '../../util/poisson';
 import RandomNumber from '../../util/randomNumber';
@@ -79,8 +80,8 @@ const populatePlanet = (planet: TPlanet, species: TSpecies): void => {
   planet.gravity = [
     RandomValue(species.defyGravity ? gravityTypes : species.gravity),
   ];
-  planet.atmosphere = species.atmosphere;
-  planet.temperature = species.temperature;
+  planet.atmosphere = [RandomValue(species.atmosphere)];
+  planet.temperature = [RandomValue(species.temperature)];
   planet.constructionPoints = 0;
   planet.espionagePoints = 0;
   planet.researchPoints = 0;
@@ -217,11 +218,21 @@ const linkSystems = (systems: TSystem[]): void => {
       .sort((a, b) => (a?.r ?? 0) - (b?.r ?? 0))
       .slice(0, RandomNumber(3));
 
+    const angle = (a: TPoint, b: TPoint): number => {
+      return (Math.atan2(a.y - b.y, a.x - b.x) * 180) / Math.PI + 180;
+    };
+
     pairs.forEach(p => {
       const { s, d } = p;
       if (d) {
-        s.wormholes.push(d.id);
-        d.wormholes.push(s.id);
+        s.wormholes.push({
+          id: d.id,
+          angle: angle(d.coordinates, s.coordinates),
+        });
+        d.wormholes.push({
+          id: s.id,
+          angle: angle(s.coordinates, d.coordinates),
+        });
       }
     });
 

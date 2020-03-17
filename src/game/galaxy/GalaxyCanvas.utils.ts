@@ -188,7 +188,7 @@ export const galaxyCanvasWormholes = (
         // if (finished.indexOf(system.id) === -1 && system.populated) {
         finished.push(system.id);
         system.wormholes.forEach(wormhole => {
-          const destination = systems.find(s => s.id === wormhole);
+          const destination = systems.find(s => s.id === wormhole.id);
           if (destination) {
             const color =
               destination.populated || system.populated
