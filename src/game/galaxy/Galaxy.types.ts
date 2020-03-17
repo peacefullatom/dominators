@@ -21,4 +21,5 @@ export type TGalaxyData = {
 
 export type TGalaxy = {
   interactive?: boolean;
+  select: (view: string) => void;
 };

@@ -6,6 +6,7 @@ import RandomValue from '../../util/randomValue';
 import { galaxyDefaultData, galaxyGenerate, galaxySpecies } from './Galaxy.const';
 import { TGalaxyContext, TGalaxyContextGenerate } from './GalaxyContext.types';
 import { galaxyContextPlanets, galaxyContextSystemCoordinates } from './GalaxyContext.utils';
+import { TSystem } from './system/System.types';
 
 const GalaxyContext = createContext<TGalaxyContext | null>(null);
 
@@ -19,6 +20,7 @@ const useGalaxy = (): TGalaxyContext => {
 
 const GalaxyProvider: FC = props => {
   const [galaxy, setGalaxy] = useState(galaxyDefaultData);
+  const [system, setSystem] = useState<TSystem>();
   const reset = (): void => setGalaxy(galaxyDefaultData);
   const generate = (data?: TGalaxyContextGenerate): void => {
     const density = data?.density ?? galaxy.density;
@@ -48,9 +50,10 @@ const GalaxyProvider: FC = props => {
     });
     setGalaxy({ ...galaxy, date, systems });
   };
-  const value = useMemo(() => ({ galaxy, setGalaxy, reset, generate, cycle }), [
-    galaxy,
-  ]);
+  const value = useMemo(
+    () => ({ galaxy, setGalaxy, system, setSystem, reset, generate, cycle }),
+    [galaxy, system]
+  );
 
   return <GalaxyContext.Provider value={value} {...props} />;
 };

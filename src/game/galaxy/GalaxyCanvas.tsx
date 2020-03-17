@@ -2,6 +2,7 @@ import './GalaxyCanvas.scss';
 
 import React, { createRef, useEffect } from 'react';
 
+import { commandCenterLocationSystem } from '../command-center/CommandCenter.const';
 import { TGalaxyCanvas } from './GalaxyCanvas.types';
 import {
   galaxyCanvasCoordinate,
@@ -18,8 +19,10 @@ const GalaxyCanvas: React.FC<TGalaxyCanvas> = ({
   width,
   height,
   layers,
+  select,
 }) => {
-  const { galaxy, setGalaxy } = useGalaxy();
+  const { galaxy, setGalaxy, setSystem } = useGalaxy();
+  // const { setView } = useCommandCenter();
   const visibleLayers = layers ?? { systems: true };
   const settings = Object.keys(visibleLayers).map(id => ({
     id,
@@ -112,6 +115,10 @@ const GalaxyCanvas: React.FC<TGalaxyCanvas> = ({
               }}
               onMouseEnter={(): void => highlight(s)}
               onMouseLeave={(): void => dim()}
+              onClick={(): void => {
+                setSystem(s);
+                select(commandCenterLocationSystem);
+              }}
             ></div>
           );
         })}

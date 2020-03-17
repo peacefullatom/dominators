@@ -11,4 +11,5 @@ export type TGalaxyCanvas = {
   width: number;
   height: number;
   layers?: TGalaxyCanvasLayers;
+  select: (view: string) => void;
 };

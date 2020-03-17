@@ -7,7 +7,7 @@ import { TGalaxy } from './Galaxy.types';
 import GalaxyCanvas from './GalaxyCanvas';
 import { TGalaxyCanvasLayers } from './GalaxyCanvas.types';
 
-const Galaxy: React.FC<TGalaxy> = ({ interactive }) => {
+const Galaxy: React.FC<TGalaxy> = ({ interactive, select }) => {
   const galaxyRef = useRef<HTMLDivElement>(null);
   const dimensions = useElementDimensions(galaxyRef);
   const layers: TGalaxyCanvasLayers = interactive
@@ -27,6 +27,7 @@ const Galaxy: React.FC<TGalaxy> = ({ interactive }) => {
         layers={layers}
         width={dimensions?.width ?? 0}
         height={dimensions?.height ?? 0}
+        select={select}
       />
     </div>
   );
