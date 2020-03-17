@@ -1,6 +1,16 @@
 import { TGovernor } from '../system/governor/Governor.types';
 
-export type TSpeciesRelations = {};
+export type TSpeciesCommonActivities = {
+  trade: boolean;
+  routeSharing: boolean;
+  research: boolean;
+};
+
+export type TSpeciesRelations = {
+  species: string;
+  relations: number;
+  activities: TSpeciesCommonActivities;
+};
 
 export type TSpecies = {
   id: string;
@@ -8,7 +18,7 @@ export type TSpecies = {
   description: string;
   color: string;
   flag: string;
-  gravitation: number[];
+  gravity: number[];
   defyGravity: boolean;
   atmosphere: number[];
   anaerobic: boolean;
@@ -24,6 +34,6 @@ export type TSpecies = {
   leadOfPopulation: TGovernor;
   research: number;
   leadOfResearch: TGovernor;
-  relations: TSpeciesRelations;
+  relations: TSpeciesRelations[];
   player: boolean;
 };

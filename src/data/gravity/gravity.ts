@@ -11,3 +11,8 @@ export const gravityTypes = [
   gravityTypeNormal,
   gravityTypeHigh,
 ];
+
+// reference values
+// defy gravity / high gravity 7,8,9
+// normal gravity              4,5,6
+// low gravity                 1,2,3

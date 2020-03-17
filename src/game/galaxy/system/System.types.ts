@@ -5,11 +5,11 @@ import { TPlanet } from './planet/Planet.types';
 import { TStar } from './star/Star.types';
 
 export type TSystemSpecies = {
-  species: TSpecies;
+  data: TSpecies;
   governor: TGovernor;
   discovered: boolean;
-  observable: boolean;
-  populated: boolean;
+  canObserve: boolean;
+  isHabitant: boolean;
   homeSystem: boolean;
 };
 

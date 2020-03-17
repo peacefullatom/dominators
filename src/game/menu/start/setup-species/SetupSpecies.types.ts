@@ -3,7 +3,7 @@ import { TMultiSelect } from './multi-select/MultiSelect.types';
 export type TSetupSpecies = {};
 
 export type TMultiSelectResult = {
-  gravitation?: Partial<TMultiSelect>;
+  gravity?: Partial<TMultiSelect>;
   atmosphere?: Partial<TMultiSelect>;
   temperature?: Partial<TMultiSelect>;
 };

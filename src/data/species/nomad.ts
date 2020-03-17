@@ -9,7 +9,7 @@ export const speciesNomad: Partial<TSpecies> = {
   description: `nomad`,
   color: `blue`,
   flag: ``,
-  gravitation: [],
+  gravity: [],
   defyGravity: true,
   atmosphere: [
     atmosphereTypeNitrogenOxygen,
@@ -23,5 +23,5 @@ export const speciesNomad: Partial<TSpecies> = {
   fleet: skillTypeVeryHigh,
   population: skillTypeNormal,
   research: skillTypeNormal,
-  relations: {},
+  relations: [],
 };

@@ -10,7 +10,7 @@ export const speciesScientist: Partial<TSpecies> = {
   description: `scientist`,
   color: `magenta`,
   flag: ``,
-  gravitation: [gravityTypeHigh],
+  gravity: [gravityTypeHigh],
   defyGravity: false,
   atmosphere: [atmosphereTypeNitrogenOxygen, atmosphereTypeNitrogenMethane],
   anaerobic: false,
@@ -21,5 +21,5 @@ export const speciesScientist: Partial<TSpecies> = {
   fleet: skillTypeNormal,
   population: skillTypeNormal,
   research: skillTypeVeryHigh,
-  relations: {},
+  relations: [],
 };

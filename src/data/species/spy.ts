@@ -14,7 +14,7 @@ export const speciesSpy: Partial<TSpecies> = {
   description: `spy`,
   color: `yellow`,
   flag: ``,
-  gravitation: [gravityTypeLow, gravityTypeNormal],
+  gravity: [gravityTypeLow, gravityTypeNormal],
   defyGravity: false,
   atmosphere: [
     atmosphereTypeNitrogenOxygen,
@@ -29,5 +29,5 @@ export const speciesSpy: Partial<TSpecies> = {
   fleet: skillTypeNormal,
   population: skillTypeNormal,
   research: skillTypeNormal,
-  relations: {},
+  relations: [],
 };

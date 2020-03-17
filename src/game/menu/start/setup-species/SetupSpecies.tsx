@@ -30,7 +30,7 @@ const SetupSpecies: React.FC<TSetupSpecies> = () => {
   const { player } = galaxy;
   const gravity = player.defyGravity
     ? scoreParam(gravityTypes) - 1
-    : scoreParam(player.gravitation);
+    : scoreParam(player.gravity);
   const atmosphere = player.anaerobic
     ? scoreParam(atmosphereTypes) - 1
     : scoreParam(player.atmosphere);
@@ -59,8 +59,8 @@ const SetupSpecies: React.FC<TSetupSpecies> = () => {
       ...galaxy,
       player: {
         ...galaxy.player,
-        gravitation: updateControl(data.gravitation) || player.gravitation,
-        defyGravity: updateFactor(!!player.defyGravity, data.gravitation),
+        gravity: updateControl(data.gravity) || player.gravity,
+        defyGravity: updateFactor(!!player.defyGravity, data.gravity),
         atmosphere: updateControl(data.atmosphere) || player.atmosphere,
         anaerobic: updateFactor(!!player.anaerobic, data.atmosphere),
         temperature: updateControl(data.temperature) || player.temperature,
@@ -112,12 +112,12 @@ const SetupSpecies: React.FC<TSetupSpecies> = () => {
                 values={gravityTypes.map(v => ({
                   value: v,
                   label: gravityLabel(v),
-                  selected: player.gravitation.indexOf(v) !== -1 ?? false,
+                  selected: player.gravity.indexOf(v) !== -1 ?? false,
                 }))}
                 factor={player.defyGravity}
                 factorName={'Defy gravity'}
                 remainingPoints={remainingPoints}
-                update={(data): void => update({ gravitation: data })}
+                update={(data): void => update({ gravity: data })}
               />
             </div>
             <div className='row_cell'>
